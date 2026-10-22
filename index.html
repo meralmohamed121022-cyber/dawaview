@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>دواء ماستر فيو - Aldawaa Master View</title>
+
+  <!-- Google Fonts: Cairo, Montserrat, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900;1000&family=Montserrat:wght@700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- SheetJS (for Excel/CSV parsing) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- PDF.js (for client-side PDF code extraction) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-dark: #131d31;
+      --primary: #00c853;
+      --primary-hover: #00e676;
+      --accent: #ffd600;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --font-ar: 'Cairo', sans-serif;
+      --font-en: 'Outfit', 'Montserrat', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-ar);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================ */
+    /* 🌟 TOP CONTROL & STATUS BAR (البار العلوي للطباعة السريعة) */
+    /* ============================================================ */
+    .top-action-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 2px solid rgba(255, 214, 0, 0.25);
+      padding: 12px 24px;
+      z-index: 10000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      background: linear-gradient(135deg, #00c853 0%, #009624 100%);
+      color: #fff;
+      font-weight: 1000;
+      font-size: 13pt;
+      padding: 6px 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 200, 83, 0.35);
+    }
+
+    .brand-names {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-names h1 {
+      font-size: 16pt;
+      font-weight: 1000;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-names span {
+      font-size: 9pt;
+      color: var(--text-muted);
+      font-family: var(--font-en);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .actions-center-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-fast-print {
+      background: linear-gradient(135deg, #00c853 0%, #00a844 100%);
+      color: #ffffff;
+      border: none;
+      padding: 10px 32px;
+      border-radius: 10px;
+      font-size: 14pt;
+      font-weight: 1000;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0, 200, 83, 0.45);
+      transition: all 0.25s ease;
+    }
+
+    .btn-fast-print:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 200, 83, 0.6);
+      background: linear-gradient(135deg, #00e676 0%, #00c853 100%);
+    }
+
+    .status-text-sub {
+      font-size: 10pt;
+      color: #cbd5e1;
+      font-weight: 800;
+    }
+
+    .stats-info-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 12px;
+    }
+
+    .stat-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-badge .val {
+      font-size: 13pt;
+      font-weight: 1000;
+      color: var(--accent);
+      font-family: var(--font-en);
+    }
+
+    .stat-badge .lbl {
+      font-size: 7.5pt;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    /* ============================================================ */
+    /* 📥 UPLOAD & INPUT CONTAINER (منطقة إرفاق الملفات والإدخال) */
+    /* ============================================================ */
+    .input-section-wrapper {
+      max-width: 1300px;
+      margin: 25px auto 15px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .input-glass-card {
+      background: var(--card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .input-tabs-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-ar);
+      font-size: 12pt;
+      font-weight: 900;
+      padding: 8px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 200, 83, 0.15);
+      color: #00e676;
+      border: 1.5px solid rgba(0, 200, 83, 0.3);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .drop-zone {
+      border: 2.5px dashed rgba(0, 200, 83, 0.35);
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(0, 200, 83, 0.02);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: #00e676;
+      background: rgba(0, 200, 83, 0.08);
+      transform: scale(1.005);
+    }
+
+    .drop-icon {
+      font-size: 36pt;
+      color: #00e676;
+      margin-bottom: 4px;
+    }
+
+    .drop-title {
+      font-size: 14pt;
+      font-weight: 1000;
+      color: #ffffff;
+    }
+
+    .drop-subtitle {
+      font-size: 9.5pt;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .supported-pill-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .format-pill {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 8pt;
+      font-family: var(--font-en);
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .manual-textarea-container {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .manual-textarea {
+      width: 100%;
+      height: 110px;
+      background: #090e1a;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-family: var(--font-en), monospace;
+      font-size: 11pt;
+      font-weight: 700;
+      resize: vertical;
+      direction: ltr;
+      outline: none;
+    }
+
+    .manual-textarea:focus {
+      border-color: #00e676;
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
+    }
+
+    .btn-apply-codes {
+      align-self: flex-start;
+      background: #ffd600;
+      color: #000;
+      border: none;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-size: 11pt;
+      font-weight: 1000;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .db-status-bar {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 9pt;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00c853, #00e676);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* ============================================================ */
+    /* 🏛️ SUPERVISOR & BRAND MAGAZINE PRINT HEADER (هيدر المشرف واللوجو) */
+    /* ============================================================ */
+    .magazine-print-header {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px 20px 28px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      border-radius: 14px;
+      border-bottom: 3.5px solid #00235B;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      break-inside: avoid;
+    }
+
+    .supervisor-info {
+      flex: 1;
+      font-size: 20px;
+      font-weight: 900;
+      color: #00235B;
+      text-transform: capitalize;
+      text-align: right;
+      direction: ltr;
+      line-height: 1.2;
+    }
+
+    .supervisor-title {
+      color: #f59e0b;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 900;
+    }
+
+    .center-logo-area {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .center-logo-area img {
+      max-height: 75px;
+      max-width: 260px;
+      object-fit: contain;
+    }
+
+    .right-logo-area {
+      flex: 1;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+      direction: ltr;
+    }
+
+    .right-logo-area img {
+      max-height: 80px;
+      max-width: 220px;
+      object-fit: contain;
+    }
+
+    .website-link-badge {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      direction: ltr;
+      text-decoration: none;
+    }
+
+    /* ============================================================ */
+    /* 📖 ROW PACKER & DYNAMIC INLINE CATEGORY BANNERS */
+    /* ============================================================ */
+    .magazine-display-area {
+      max-width: 1300px;
+      margin: 15px auto 40px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* الصف الكامل المكون من 3 كروت بالضبط مهما تنوعت الفئات */
+    .packed-magazine-row {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 20px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    /* كتلة الفئة داخل الصف (تتسع لكارت واحد أو كارتين أو ثلاثة كروت حسب توفرها) */
+    .cat-group-segment {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* بانر الفئة الملون الخاص بالأصناف التي تليه في نفس الصف */
+    .cat-segment-banner {
+      width: 100%;
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-family: var(--font-en);
+      font-weight: 1000;
+      font-size: 11pt;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* شبكة الكروت داخل الفئة */
+    .cat-cards-subgrid {
+      display: grid;
+      gap: 12px;
+      height: 100%;
+    }
+
+    /* كارت الصنف الفردي (كود واحد = كارت واحد مستقل بصورته وبياناته) */
+    .magazine-product-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 14px 10px 12px 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      height: 275px;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .magazine-product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* حاوية صورة الصنف */
+    .prod-img-box {
+      width: 100%;
+      height: 155px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prod-img-box img {
+      max-width: 92%;
+      max-height: 92%;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
+    }
+
+    /* بيانات الصنف */
+    .prod-info-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .prod-info-box .brand-name {
+      font-family: var(--font-en);
+      font-weight: 900;
+      font-size: 9.5pt;
+      color: #1e293b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+      max-width: 96%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .prod-info-box .item-desc {
+      font-family: var(--font-en);
+      font-weight: 800;
+      font-size: 8pt;
+      color: #0f172a;
+      line-height: 1.2;
+      max-width: 96%;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 19px;
+    }
+
+    /* كود الصنف REF */
+    .code-badge-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-family: var(--font-en), monospace;
+      font-size: 7.5pt;
+      font-weight: 900;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* شارة الماركة الخاصة */
+    .own-brand-tag {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #0f2744;
+      color: #ff8c00;
+      border: 1px solid #f97316;
+      font-family: var(--font-en);
+      font-size: 6.5pt;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* Empty state */
+    .empty-state-box {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================ */
+    /* 🖨️ PRINT RULES (طباعة A4 احترافية بدون فراغات مهدورة) */
+    /* ============================================================ */
+    @page {
+      size: A4 portrait;
+      margin: 8mm 6mm;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .top-action-bar,
+      .input-section-wrapper,
+      #dragDropInputSection {
+        display: none !important;
+      }
+
+      .magazine-display-area {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .magazine-print-header {
+        border-bottom: 3.5px solid #00235B !important;
+        box-shadow: none !important;
+        padding: 10px 18px 16px 18px !important;
+        margin-bottom: 14px !important;
+        page-break-after: avoid !important;
+      }
+
+      .packed-magazine-row {
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .cat-segment-banner {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        padding: 5px 8px !important;
+        font-size: 10pt !important;
+      }
+
+      .magazine-product-card {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        height: 255px !important;
+        page-break-inside: avoid !important;
+      }
+
+      .prod-img-box {
+        height: 140px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 🌟 البار العلوي الثابت للطباعة السريعة -->
+  <!-- ============================================================ -->
+  <header class="top-action-bar">
+    <div class="brand-title-group">
+      <div class="brand-logo-badge">ALDAWAA</div>
+      <div class="brand-names">
+        <h1>دواء ماستر فيو</h1>
+        <span>INDIVIDUAL MASTER CATALOG & MAGAZINE VIEW</span>
+      </div>
+    </div>
+
+    <!-- الزر الأخضر الرئيسي: ⚡ ضغط وطباعة (سريع) -->
+    <div class="actions-center-group">
+      <button class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn">
+        <span>⚡</span> ضغط وطباعة (سريع)
+      </button>
+      <div class="status-text-sub" id="status-display">اضغط الزر للبدء</div>
+    </div>
+
+    <div class="stats-info-box">
+      <div class="stat-badge">
+        <span class="val" id="totalLoadedBadge">0</span>
+        <span class="lbl">أكواد معروضة</span>
+      </div>
+      <div style="width:1px; height:24px; background:rgba(255,255,255,0.1);"></div>
+      <div class="stat-badge">
+        <span class="val" id="totalDbBadge">0</span>
+        <span class="lbl">أصناف الماستر</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- 📥 منطقة إرفاق الملفات والإدخال (PDF / Excel / JSON / Text) -->
+  <!-- ============================================================ -->
+  <section class="input-section-wrapper" id="dragDropInputSection">
+    <div class="input-glass-card">
+      
+      <!-- تبويبات الاختيار -->
+      <div class="input-tabs-header">
+        <button class="tab-btn active" onclick="switchInputTab('file')" id="tabBtnFile">
+          <span>📁</span> إرفاق ملف (PDF / Excel / JSON / Text)
+        </button>
+        <button class="tab-btn" onclick="switchInputTab('manual')" id="tabBtnManual">
+          <span>✏️</span> إدخال ولصق يدوي للأكواد
+        </button>
+        <button class="tab-btn" onclick="showAllDatabaseItems()" id="tabBtnAll">
+          <span>🌐</span> عرض أصناف الماستر المتاحة
+        </button>
+      </div>
+
+      <!-- منطقة السحب والإفلات -->
+      <div class="drop-zone" id="fileDropZone" onclick="document.getElementById('hiddenFileInput').click()">
+        <input type="file" id="hiddenFileInput" style="display:none;" accept=".pdf,.xlsx,.xls,.csv,.json,.txt" onchange="handleIncomingFiles(this.files)" />
+        <div class="drop-icon">📤</div>
+        <div class="drop-title">اضغط هنا أو اسحب الملف وأفلته مباشرة</div>
+        <div class="drop-subtitle">يدعم استخراج وتصفية الأكواد تلقائياً وبسرعة فائقة من كافة الصيغ التالية:</div>
+        <div class="supported-pill-tags">
+          <span class="format-pill">PDF Document</span>
+          <span class="format-pill">Excel (.XLSX / .XLS)</span>
+          <span class="format-pill">CSV Sheet</span>
+          <span class="format-pill">JSON File</span>
+          <span class="format-pill">Text (.TXT)</span>
+        </div>
+      </div>
+
+      <!-- خانة الإدخال اليدوي -->
+      <div class="manual-textarea-container" id="manualInputContainer">
+        <textarea class="manual-textarea" id="manualCodesTextarea" placeholder="أدخل أو الصق الأكواد هنا (مفصولة بمسافات، فواصل، أو أسطر جديدة) مثال:&#10;210452, 511411, 102340 102341"></textarea>
+        <button class="btn-apply-codes" onclick="applyManualCodes()">
+          <span>⚡</span> تفعيل وعرض الكروت
+        </button>
+      </div>
+
+      <!-- شريط تحميل قاعدة البيانات الماستر -->
+      <div class="db-status-bar">
+        <span id="dbStatusLabel">جاري تهيئة قاعدة بيانات الدواء الماستر...</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="dbProgressFill"></div>
+        </div>
+        <span id="dbPercentLabel">0%</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 📖 منطقة عرض كروت الميجازين (مع هيدر المشرف والصفوف المرصوصة) -->
+  <!-- ============================================================ -->
+  <main class="magazine-display-area" id="magazineDisplayArea">
+    
+    <!-- 🏛️ هيدر المشرف واللوجو المعتمد (الذي كان يظهر في طباعة الميجازين) -->
+    <div class="magazine-print-header" id="masterMagazineHeader">
+      <div class="supervisor-info">
+        <span class="supervisor-title">Supervisor:</span><br/>
+        Dr-Mostafa Sallam
+      </div>
+      <div class="center-logo-area">
+        <img src="ex-offers.jpg" alt="Offers" onerror="this.outerHTML='<span style=\'font-size:20px;font-weight:1000;color:#00235B;letter-spacing:1px;\'>ALDAWAA PHARMACY</span>'" />
+      </div>
+      <div class="right-logo-area">
+        <img src="my logo.png" alt="Logo" onerror="this.outerHTML='<span style=\'font-size:18px;font-weight:900;color:#00c853;\'>MONO SYSTEM</span>'" />
+      </div>
+      <a href="https://monosystem.vercel.app/" target="_blank" class="website-link-badge">
+        MONOSYSTEM.VERCEL.APP
+      </a>
+    </div>
+
+    <!-- رسالة الحالة عند عدم وجود أصناف -->
+    <div class="empty-state-box" id="emptyStatePlaceholder">
+      <h3 style="font-size: 15pt; font-weight: 900; color: #fff; margin-bottom: 6px;">لا توجد أصناف معروضة حالياً</h3>
+      <p style="font-size: 10pt;">قم بإرفاق ملف يحتوي على أكواد المنتجات، أو الصق الأكواد يدوياً لعرضها وتنسيقها فوراً في صفوف ثلاثية متصلة.</p>
+    </div>
+    
+    <!-- حاوية الصفوف المرصوصة بذكاء -->
+    <div id="magazineRowsContainer"></div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 JAVASCRIPT: ADVANCED ROW PACKER & DATA LOGIC -->
+  <!-- ============================================================ -->
+  <script>
+    window.masterProductsDB = [];
+    window.masterProductsMap = new Map();
+    window.currentFilteredProducts = [];
+
+    const MASTER_URLS = [
+      "https://raw.githubusercontent.com/meralmohamed121022-cyber/updatedmaster/refs/heads/main/UPDATED%20MASTER%201.json",
+      "https://raw.githubusercontent.com/meralmohamed121022-cyber/updatedmaster/refs/heads/main/UPDATED%20MASTER%202.json",
+      "https://raw.githubusercontent.com/meralmohamed121022-cyber/updatedmaster/refs/heads/main/UPDATED%20MASTER%203.json"
+    ];
+
+    const CATEGORY_COLORS = [
+      '#10b981', '#3b82f6', '#ec4899', '#f59e0b', '#8b5cf6',
+      '#06b6d4', '#ef4444', '#14b8a6', '#f97316', '#a855f7',
+      '#0ea5e9', '#22c55e', '#fb923c', '#6366f1', '#84cc16'
+    ];
+
+    function getCategoryColor(catName) {
+      if (!catName) return CATEGORY_COLORS[0];
+      let hash = 0;
+      for (let i = 0; i < catName.length; i++) {
+        hash = catName.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+      }
+      return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
+    }
+
+    // 1️⃣ Database Initializer
+    async function initMasterDatabase() {
+      const statusLabel = document.getElementById('dbStatusLabel');
+      const progressFill = document.getElementById('dbProgressFill');
+      const percentLabel = document.getElementById('dbPercentLabel');
+
+      const updateProgress = (pct, text) => {
+        if (progressFill) progressFill.style.width = pct + '%';
+        if (percentLabel) percentLabel.innerText = Math.round(pct) + '%';
+        if (statusLabel) statusLabel.innerText = text;
+      };
+
+      try {
+        updateProgress(15, "تحميل قاعدة بيانات الماستر 1/3...");
+        const fetchPart = async (url) => {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const raw = await res.text();
+          const b1 = raw.indexOf('[');
+          const b2 = raw.lastIndexOf(']');
+          if (b1 !== -1 && b2 !== -1 && b1 < b2) {
+            return JSON.parse(raw.slice(b1, b2 + 1));
+          }
+          return JSON.parse(raw);
+        };
+
+        const [part1, part2, part3] = await Promise.all([
+          fetchPart(MASTER_URLS[0]).then(d => { updateProgress(45, "تحميل قاعدة بيانات الماستر 2/3..."); return d; }),
+          fetchPart(MASTER_URLS[1]).then(d => { updateProgress(75, "تحميل قاعدة بيانات الماستر 3/3..."); return d; }),
+          fetchPart(MASTER_URLS[2]).then(d => { updateProgress(90, "فهرسة الأصناف..."); return d; })
+        ]);
+
+        const combined = [...part1, ...part2, ...part3];
+        window.masterProductsDB = combined.map(p => {
+          const code = String(p.Code || p.code || p.ItemCode || "").trim();
+          return {
+            Code: code,
+            "Item Description": p["Item Description"] || p.item_description || p["وصف الصنف"] || "",
+            Brand: p.Brand || p.brand || "GENERIC",
+            Manufacture: p.Manufacture || p.manufacture || "",
+            "Category Level A": p["Category Level A"] || p.category_level_a || "General",
+            "Category Level C": p["Category Level C"] || p.category_level_c || p["Category Level D"] || "Uncategorized",
+            "Category Level D": p["Category Level D"] || p.category_level_d || p["Category Level C"] || "Uncategorized",
+            image_url: p.image_url || p.Image || p.itemurl || ""
+          };
+        }).filter(p => p.Code);
+
+        window.masterProductsMap.clear();
+        window.masterProductsDB.forEach(p => {
+          window.masterProductsMap.set(p.Code, p);
+        });
+
+        document.getElementById('totalDbBadge').innerText = window.masterProductsDB.length.toLocaleString();
+        updateProgress(100, `جاهز! تم تحميل ${window.masterProductsDB.length.toLocaleString()} صنف ماستر بنجاح`);
+      } catch (err) {
+        console.error("Master DB Load Error:", err);
+        updateProgress(100, "تنبيه: يمكنك استخدام استيراد الملفات وسيتم استخراج الأصناف تلقائياً");
+      }
+    }
+
+    // 2️⃣ File Extraction
+    async function handleIncomingFiles(files) {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      const fileName = file.name.toLowerCase();
+      const statusDisp = document.getElementById('status-display');
+      if (statusDisp) statusDisp.innerText = `جاري قراءة: ${file.name}...`;
+
+      try {
+        let extractedCodes = [];
+        if (fileName.endsWith('.pdf')) {
+          extractedCodes = await extractCodesFromPDF(file);
+        } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls') || fileName.endsWith('.csv')) {
+          extractedCodes = await extractCodesFromExcel(file);
+        } else if (fileName.endsWith('.json')) {
+          const text = await file.text();
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(item => {
+              if (typeof item === 'string' || typeof item === 'number') extractedCodes.push(String(item).trim());
+              else if (typeof item === 'object' && item !== null) {
+                const code = item.Code || item.code || item.ItemCode || item.item_code || item.id;
+                if (code) extractedCodes.push(String(code).trim());
+              }
+            });
+          }
+        } else {
+          const text = await file.text();
+          const matches = text.match(/\b\d{5,7}\b/g) || [];
+          extractedCodes = matches;
+        }
+
+        const uniqueCodes = Array.from(new Set(extractedCodes.map(c => String(c).trim()).filter(c => /^\d{4,8}$/.test(c))));
+        
+        if (uniqueCodes.length === 0) {
+          alert("لم يتم العثور على أكواد أصناف صالحة في الملف المرفق.");
+          if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
+          return;
+        }
+
+        renderIndividualMagazineRows(uniqueCodes);
+        if (statusDisp) statusDisp.innerText = `تم استخراج وعرض ${uniqueCodes.length} كود صنف بنجاح!`;
+      } catch (err) {
+        console.error("Error processing file:", err);
+        alert("حدث خطأ أثناء قراءة الملف: " + err.message);
+        if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
+      }
+    }
+
+    async function extractCodesFromPDF(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = "";
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        fullText += textContent.items.map(item => item.str).join(" ") + " ";
+      }
+      return fullText.match(/\b\d{5,7}\b/g) || [];
+    }
+
+    async function extractCodesFromExcel(file) {
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data, { type: 'array' });
+      const codes = [];
+      workbook.SheetNames.forEach(sheetName => {
+        const worksheet = workbook.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        json.forEach(row => {
+          if (Array.isArray(row)) {
+            row.forEach(cell => {
+              const str = String(cell).trim();
+              if (/^\d{5,7}$/.test(str)) codes.push(str);
+            });
+          }
+        });
+      });
+      return codes;
+    }
+
+    function applyManualCodes() {
+      const text = document.getElementById('manualCodesTextarea').value;
+      const matches = text.match(/\b\d{4,8}\b/g) || [];
+      const unique = Array.from(new Set(matches));
+      if (unique.length === 0) {
+        alert("يرجى إدخال أو لصق أكواد أصناف صالحة.");
+        return;
+      }
+      renderIndividualMagazineRows(unique);
+      document.getElementById('status-display').innerText = `تم عرض ${unique.length} صنف يدوي بنجاح`;
+    }
+
+    function showAllDatabaseItems() {
+      if (!window.masterProductsDB || window.masterProductsDB.length === 0) {
+        alert("قاعدة البيانات ما زالت قيد التحميل، يرجى الانتظار بضع ثوانٍ...");
+        return;
+      }
+      const sample = window.masterProductsDB.slice(0, 150).map(p => p.Code);
+      renderIndividualMagazineRows(sample);
+      document.getElementById('status-display').innerText = `تم عرض نموذج 150 صنف من الماستر داتابيز`;
+    }
+
+    // ============================================================
+    // 3️⃣ SMART ROW PACKER (رص الكروت 3 في الصف الواحد بدون هدر)
+    // ============================================================
+    function renderIndividualMagazineRows(codeList) {
+      const container = document.getElementById('magazineRowsContainer');
+      const placeholder = document.getElementById('emptyStatePlaceholder');
+
+      document.getElementById('totalLoadedBadge').innerText = codeList.length;
+
+      // 1. Resolve every single code to its own product (NO brand aggregation)
+      const individualProducts = [];
+      codeList.forEach(code => {
+        const clean = String(code).trim();
+        const p = window.masterProductsMap.get(clean) || {
+          Code: clean,
+          "Item Description": "صنف رقم " + clean,
+          Brand: "GENERIC",
+          "Category Level A": "General",
+          "Category Level C": "منتجات متنوعة",
+          "Category Level D": "منتجات متنوعة",
+          image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
+        };
+        individualProducts.push(p);
+      });
+
+      window.currentFilteredProducts = individualProducts;
+
+      if (individualProducts.length === 0) {
+        placeholder.style.display = 'block';
+        container.innerHTML = '';
+        return;
+      }
+      placeholder.style.display = 'none';
+
+      // 2. Sort by Category (Level C or D) so items of the same category are grouped together
+      individualProducts.sort((a, b) => {
+        const catA = (a["Category Level C"] || a["Category Level D"] || "").toUpperCase();
+        const catB = (b["Category Level C"] || b["Category Level D"] || "").toUpperCase();
+        if (catA !== catB) return catA.localeCompare(catB);
+        return (a.Brand || "").localeCompare(b.Brand || "");
+      });
+
+      // 3. Queue up items by Category
+      const categoryQueues = [];
+      let currentQueue = null;
+
+      individualProducts.forEach(prod => {
+        const catName = prod["Category Level C"] || prod["Category Level D"] || "GENERAL PRODUCTS";
+        if (!currentQueue || currentQueue.category !== catName) {
+          currentQueue = { category: catName, items: [] };
+          categoryQueues.push(currentQueue);
+        }
+        currentQueue.items.push(prod);
+      });
+
+      // 4. Advanced Row Packing: Pack exactly 3 cards per row across categories
+      const packedRows = []; // Each row has an array of category segments: [{ category, items: [...] }]
+      let currentRow = [];
+      let slotsInCurrentRow = 3;
+
+      for (let q = 0; q < categoryQueues.length; q++) {
+        const catObj = categoryQueues[q];
+        
+        while (catObj.items.length > 0) {
+          const takeCount = Math.min(catObj.items.length, slotsInCurrentRow);
+          const takenItems = catObj.items.splice(0, takeCount);
+
+          currentRow.push({
+            category: catObj.category,
+            items: takenItems
+          });
+
+          slotsInCurrentRow -= takeCount;
+
+          // If row is full (3 items reached), close row and start new one
+          if (slotsInCurrentRow === 0) {
+            packedRows.push(currentRow);
+            currentRow = [];
+            slotsInCurrentRow = 3;
+          }
+        }
+      }
+
+      // If trailing row has leftover items (1 or 2 items), push it
+      if (currentRow.length > 0) {
+        packedRows.push(currentRow);
+      }
+
+      // 5. Generate HTML for the packed rows
+      let fullRowsHTML = '';
+
+      packedRows.forEach(rowSegments => {
+        fullRowsHTML += `<div class="packed-magazine-row">`;
+
+        rowSegments.forEach(seg => {
+          const catCount = seg.items.length;
+          // Calculate exact flex basis based on slots (1 slot = 33.3%, 2 slots = 66.6%, 3 slots = 100%)
+          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
+          const catColor = getCategoryColor(seg.category);
+
+          fullRowsHTML += `
+            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
+              
+              <!-- بانر الفئة الملون الخاص بأصناف هذه الفئة فقط في هذا الصف -->
+              <div class="cat-segment-banner" style="background: ${catColor};">
+                ${seg.category}
+              </div>
+
+              <!-- شبكة كروت هذه الفئة داخل الصف (1 أو 2 أو 3 كروت بجوار بعض) -->
+              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
+          `;
+
+          // Generate each individual product card
+          seg.items.forEach(p => {
+            const imgSrc = p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+            const isOwnB = p.Manufacture && p.Manufacture.toLowerCase().startsWith('pv-');
+            const ownBadge = isOwnB ? `<span class="own-brand-tag">Own Brand</span>` : '';
+
+            fullRowsHTML += `
+              <div class="magazine-product-card">
+                <span class="code-badge-tag">REF: ${p.Code}</span>
+                ${ownBadge}
+
+                <div class="prod-img-box">
+                  <img src="${imgSrc}" alt="${p.Code}" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/meralmohamed121022-cyber/photos/refs/heads/main/placeholder.png'" />
+                </div>
+
+                <div class="prod-info-box">
+                  <div class="brand-name">${p.Brand || 'GENERIC'}</div>
+                  <div class="item-desc">${p["Item Description"] || ''}</div>
+                </div>
+              </div>
+            `;
+          });
+
+          fullRowsHTML += `
+              </div>
+            </div>
+          `;
+        });
+
+        fullRowsHTML += `</div>`;
+      });
+
+      container.innerHTML = fullRowsHTML;
+    }
+
+    // 4️⃣ Tab Switching
+    function switchInputTab(tab) {
+      const tabBtnFile = document.getElementById('tabBtnFile');
+      const tabBtnManual = document.getElementById('tabBtnManual');
+      const dropZone = document.getElementById('fileDropZone');
+      const manualContainer = document.getElementById('manualInputContainer');
+
+      if (tab === 'file') {
+        tabBtnFile.classList.add('active');
+        tabBtnManual.classList.remove('active');
+        dropZone.style.display = 'flex';
+        manualContainer.style.display = 'none';
+      } else {
+        tabBtnFile.classList.remove('active');
+        tabBtnManual.classList.add('active');
+        dropZone.style.display = 'none';
+        manualContainer.style.display = 'flex';
+      }
+    }
+
+    // Drag-Drop Event Handlers
+    const dropZoneEl = document.getElementById('fileDropZone');
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZoneEl.addEventListener(eventName, e => {
+        e.preventDefault();
+        dropZoneEl.classList.add('dragover');
+      }, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZoneEl.addEventListener(eventName, e => {
+        e.preventDefault();
+        dropZoneEl.classList.remove('dragover');
+      }, false);
+    });
+    dropZoneEl.addEventListener('drop', e => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleIncomingFiles(files);
+    }, false);
+
+    // 5️⃣ Fast Print Execution
+    function startFastPrintProcess() {
+      if (!window.currentFilteredProducts || window.currentFilteredProducts.length === 0) {
+        alert("يرجى إرفاق ملف أو إدخال أكواد أولاً لعرض الكروت قبل الطباعة.");
+        return;
+      }
+
+      const statusDisp = document.getElementById('status-display');
+      const btn = document.getElementById('fastPrintBtn');
+
+      if (statusDisp) statusDisp.innerText = "جاري تحسين جودة وتجهيز الصفحات للطباعة...";
+      if (btn) btn.disabled = true;
+
+      setTimeout(() => {
+        if (statusDisp) statusDisp.innerText = "جاهز للطباعة!";
+        window.print();
+        setTimeout(() => {
+          if (btn) btn.disabled = false;
+          if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
+        }, 1000);
+      }, 400);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initMasterDatabase();
+    });
+  </script>
+
+</body>
+
+</html>
