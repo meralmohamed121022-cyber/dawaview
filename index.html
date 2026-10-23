@@ -606,6 +606,268 @@
     }
 
     /* ============================================================ */
+    /* 🏷️ NO-IMAGE BRAND BOX & IMAGE EDITING CONTROLS */
+    /* ============================================================ */
+    .no-image-brand-box {
+      width: 94%;
+      height: 94%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 8px;
+      background: #f8fafc;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      text-align: center;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .no-image-brand-box:hover {
+      background: #f1f5f9;
+      border-color: #00c853;
+      transform: scale(1.01);
+    }
+
+    .no-image-brand-box .fallback-brand-name {
+      font-family: var(--font-en), sans-serif;
+      font-weight: 1000;
+      font-size: 13pt;
+      color: #00235B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      word-break: break-word;
+      max-width: 96%;
+    }
+
+    .no-image-brand-box .fallback-sub-code {
+      font-family: var(--font-en), monospace;
+      font-size: 7.5pt;
+      font-weight: 800;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .btn-add-img-badge {
+      margin-top: 8px;
+      background: rgba(0, 200, 83, 0.12);
+      color: #008a36;
+      border: 1px dashed #00c853;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 7.5pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .no-image-brand-box:hover .btn-add-img-badge {
+      background: #00c853;
+      color: #ffffff;
+      border-style: solid;
+    }
+
+    /* زر التعديل على صورة الصنف عند وجودها */
+    .btn-card-edit-img {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 7pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 5;
+    }
+
+    .prod-img-box:hover .btn-card-edit-img {
+      opacity: 1;
+    }
+
+    .btn-card-edit-img:hover {
+      background: #00c853;
+      border-color: #00e676;
+      transform: scale(1.05);
+    }
+
+    /* Modal Styling */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .custom-modal-card {
+      background: #131d31;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      animation: modalPopIn 0.2s ease;
+    }
+
+    @keyframes modalPopIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .custom-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 11pt;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close-btn:hover {
+      background: #ef4444;
+    }
+
+    .modal-text-input {
+      width: 100%;
+      background: #090e1a;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: #fff;
+      font-family: var(--font-en), monospace;
+      font-size: 10pt;
+      direction: ltr;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .modal-text-input:focus {
+      border-color: #00e676;
+    }
+
+    .modal-textarea {
+      width: 100%;
+      height: 140px;
+      background: #090e1a;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #fff;
+      font-family: var(--font-en), monospace;
+      font-size: 9.5pt;
+      direction: ltr;
+      outline: none;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .modal-textarea:focus {
+      border-color: #00e676;
+    }
+
+    .modal-preview-box {
+      width: 100%;
+      height: 145px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #000;
+    }
+
+    .custom-modal-footer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      justify-content: flex-end;
+    }
+
+    .btn-modal-save {
+      background: #00c853;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 9.5pt;
+      font-weight: 900;
+      font-family: var(--font-ar);
+      cursor: pointer;
+    }
+    .btn-modal-save:hover {
+      background: #00e676;
+    }
+
+    .btn-modal-clear {
+      background: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 8.5pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+    }
+    .btn-modal-clear:hover {
+      background: #f59e0b;
+      color: #000;
+      border-color: #f59e0b;
+    }
+
+    .btn-modal-cancel {
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 9pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+    }
+    .btn-modal-cancel:hover {
+      color: #fff;
+    }
+
+    /* ============================================================ */
     /* 🖨️ PRINT RULES (طباعة A4 احترافية بدون فراغات مهدورة) */
     /* ============================================================ */
     @page {
@@ -623,7 +885,10 @@
 
       .top-action-bar,
       .input-section-wrapper,
-      #dragDropInputSection {
+      #dragDropInputSection,
+      .custom-modal-overlay,
+      .btn-card-edit-img,
+      .btn-add-img-badge {
         display: none !important;
       }
 
@@ -665,6 +930,35 @@
       .prod-img-box {
         height: 140px !important;
       }
+
+      /* تنسيق طباعة اسم البراند مكان الصورة عند غياب الصورة */
+      .no-image-brand-box {
+        background: #ffffff !important;
+        border: 2px solid #00235B !important;
+        border-radius: 6px !important;
+        box-shadow: none !important;
+        cursor: default !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-image-brand-box .fallback-brand-name {
+        color: #00235B !important;
+        font-size: 13.5pt !important;
+        font-weight: 1000 !important;
+        font-family: 'Outfit', 'Montserrat', 'Cairo', sans-serif !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        line-height: 1.2 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-image-brand-box .fallback-sub-code {
+        color: #475569 !important;
+        font-size: 7.5pt !important;
+        font-weight: 900 !important;
+      }
     }
   </style>
 </head>
@@ -683,11 +977,16 @@
       </div>
     </div>
 
-    <!-- الزر الأخضر الرئيسي: ⚡ ضغط وطباعة (سريع) -->
+    <!-- الزر الأخضر الرئيسي: ⚡ ضغط وطباعة (سريع) وزر إضافة روابط صور -->
     <div class="actions-center-group">
-      <button class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn">
-        <span>⚡</span> ضغط وطباعة (سريع)
-      </button>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn">
+          <span>⚡</span> ضغط وطباعة (سريع)
+        </button>
+        <button type="button" class="btn-fast-print" style="background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow:0 4px 14px rgba(37,99,235,0.4); font-size:11pt; padding:10px 16px;" onclick="openBulkImageModal()">
+          <span>📷</span> إضافة روابط صور
+        </button>
+      </div>
       <div class="status-text-sub" id="status-display">اضغط الزر للبدء</div>
     </div>
 
@@ -763,7 +1062,7 @@
   <!-- ============================================================ -->
   <main class="magazine-display-area" id="magazineDisplayArea">
     
-    <!-- 🏛️ هيدر المشرف واللوجو المعتمد (الذي كان يظهر في طباعة الميجازين) -->
+    <!-- 🏛️ هيدر المشرف واللوجو المعتمد (الذي يظهر في طباعة الميجازين) -->
     <div class="magazine-print-header" id="masterMagazineHeader">
       <div class="supervisor-info">
         <span class="supervisor-title">Supervisor:</span><br/>
@@ -773,11 +1072,8 @@
         <img src="ex-offers.jpg" alt="Offers" onerror="this.outerHTML='<span style=\'font-size:20px;font-weight:1000;color:#00235B;letter-spacing:1px;\'>ALDAWAA PHARMACY</span>'" />
       </div>
       <div class="right-logo-area">
-        <img src="my logo.png" alt="Logo" onerror="this.outerHTML='<span style=\'font-size:18px;font-weight:900;color:#00c853;\'>MONO SYSTEM</span>'" />
+        <img src="my logo.png" alt="Logo" onerror="this.onerror=null; this.src='../my logo.png';" />
       </div>
-      <a href="https://monosystem.vercel.app/" target="_blank" class="website-link-badge">
-        MONOSYSTEM.VERCEL.APP
-      </a>
     </div>
 
     <!-- رسالة الحالة عند عدم وجود أصناف -->
@@ -789,6 +1085,65 @@
     <!-- حاوية الصفوف المرصوصة بذكاء -->
     <div id="magazineRowsContainer"></div>
   </main>
+
+  <!-- ============================================================ -->
+  <!-- 🖼️ MODAL: تعديل رابط صورة الصنف أو الاعتماد على اسم البراند -->
+  <!-- ============================================================ -->
+  <div id="imageEditModalOverlay" class="custom-modal-overlay" style="display:none;" onclick="if(event.target===this) closeImageModal()">
+    <div class="custom-modal-card">
+      <div class="custom-modal-header">
+        <h3 id="modalProductTitle" style="font-size:13pt; font-weight:900; color:#fff;">تعديل صورة الصنف</h3>
+        <button type="button" class="modal-close-btn" onclick="closeImageModal()">✕</button>
+      </div>
+      <div id="modalProductDesc" style="font-size:9pt; color:#94a3b8; margin-bottom:12px; line-height:1.3;"></div>
+
+      <div class="modal-body-section">
+        <label style="font-size:9.5pt; font-weight:800; color:#cbd5e1; display:block; margin-bottom:6px;">
+          رابط الصورة (URL مباشر):
+        </label>
+        <input type="text" id="modalImageUrlInput" class="modal-text-input" placeholder="https://example.com/product-image.jpg" oninput="onModalInputUrlChange(this.value)" />
+        
+        <div style="font-size:8pt; color:#64748b; margin-top:4px;">
+          💡 الصق رابط الصورة لتظهر في الطباعة، أو اضغط "اعتماد اسم البراند" لعرض اسم البراند فقط في الطباعة.
+        </div>
+
+        <div style="margin-top:14px; text-align:center;">
+          <div style="font-size:8.5pt; color:#94a3b8; font-weight:700; margin-bottom:6px;">معاينة المظهر:</div>
+          <div id="modalImagePreviewBox" class="modal-preview-box"></div>
+        </div>
+      </div>
+
+      <div class="custom-modal-footer">
+        <button type="button" class="btn-modal-save" onclick="saveModalImage()">💾 حفظ وتطبيق على الكارت</button>
+        <button type="button" class="btn-modal-clear" onclick="removeModalImageAndUseBrand()">🏷️ اعتماد اسم البراند (بدون صورة)</button>
+        <button type="button" class="btn-modal-cancel" onclick="closeImageModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 📦 MODAL: استيراد وتحديث روابط الصور دفعة واحدة (Bulk) -->
+  <!-- ============================================================ -->
+  <div id="bulkImageModalOverlay" class="custom-modal-overlay" style="display:none;" onclick="if(event.target===this) closeBulkImageModal()">
+    <div class="custom-modal-card" style="max-width:560px;">
+      <div class="custom-modal-header">
+        <h3 style="font-size:13pt; font-weight:900; color:#fff;">📷 إضافة روابط صور دفعة واحدة</h3>
+        <button type="button" class="modal-close-btn" onclick="closeBulkImageModal()">✕</button>
+      </div>
+      
+      <div class="modal-body-section">
+        <div style="font-size:9pt; color:#cbd5e1; margin-bottom:8px; line-height:1.4;">
+          الصق الأكواد مع روابط الصور الخاصة بها. كل سطر يحتوي على: <strong>الكود</strong> ثم مسافة أو فاصلة ثم <strong>رابط الصورة</strong>:
+        </div>
+        <textarea id="bulkImageTextarea" class="modal-textarea" placeholder="مثال:&#10;210452 https://cdn.example.com/210452.jpg&#10;105423, https://cdn.example.com/105423.png"></textarea>
+      </div>
+
+      <div class="custom-modal-footer">
+        <button type="button" class="btn-modal-save" onclick="saveBulkImages()">⚡ تطبيق وحفظ الصور</button>
+        <button type="button" class="btn-modal-cancel" onclick="closeBulkImageModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================================ -->
   <!-- 🧠 JAVASCRIPT: ADVANCED ROW PACKER & DATA LOGIC -->
@@ -1096,21 +1451,43 @@
 
           // Generate each individual product card
           seg.items.forEach(p => {
-            const imgSrc = p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+            const savedCustom = getCustomImageUrl(p.Code);
+            const effectiveImg = savedCustom !== undefined ? savedCustom : (p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`);
             const isOwnB = p.Manufacture && p.Manufacture.toLowerCase().startsWith('pv-');
             const ownBadge = isOwnB ? `<span class="own-brand-tag">Own Brand</span>` : '';
+            const brandDisplay = p.Brand || 'GENERIC';
+
+            let imgBoxContent = '';
+            if (effectiveImg && effectiveImg.trim() !== '') {
+              imgBoxContent = `
+                <img src="${effectiveImg}" alt="${p.Code}" onerror="handleProductImageError(this, '${p.Code}', '${escapeJs(brandDisplay)}')" />
+                <button type="button" class="btn-card-edit-img" onclick="event.stopPropagation(); openImageModal('${p.Code}')" title="تعديل رابط الصورة">
+                  ✏️ تعديل
+                </button>
+              `;
+            } else {
+              imgBoxContent = `
+                <div class="no-image-brand-box" onclick="openImageModal('${p.Code}')" title="اضغط لإضافة رابط صورة">
+                  <div class="fallback-brand-name">${brandDisplay}</div>
+                  <div class="fallback-sub-code">REF: ${p.Code}</div>
+                  <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${p.Code}')">
+                    📷 إضافة رابط صورة
+                  </button>
+                </div>
+              `;
+            }
 
             fullRowsHTML += `
-              <div class="magazine-product-card">
+              <div class="magazine-product-card" id="card-${p.Code}">
                 <span class="code-badge-tag">REF: ${p.Code}</span>
                 ${ownBadge}
 
-                <div class="prod-img-box">
-                  <img src="${imgSrc}" alt="${p.Code}" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/meralmohamed121022-cyber/photos/refs/heads/main/placeholder.png'" />
+                <div class="prod-img-box" id="img-box-${p.Code}">
+                  ${imgBoxContent}
                 </div>
 
                 <div class="prod-info-box">
-                  <div class="brand-name">${p.Brand || 'GENERIC'}</div>
+                  <div class="brand-name">${brandDisplay}</div>
                   <div class="item-desc">${p["Item Description"] || ''}</div>
                 </div>
               </div>
@@ -1190,6 +1567,202 @@
           if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
         }, 1000);
       }, 400);
+    }
+
+    // ============================================================
+    // 🧠 CUSTOM IMAGES & BRAND FALLBACK LOGIC
+    // ============================================================
+    function escapeJs(str) {
+      return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    function getCustomImagesMap() {
+      try {
+        return JSON.parse(localStorage.getItem('aldawaa_custom_images') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function getCustomImageUrl(code) {
+      const map = getCustomImagesMap();
+      return map[code]; // undefined if not set, string url if set, "" if set to no-image
+    }
+
+    function setCustomImageUrl(code, url) {
+      const map = getCustomImagesMap();
+      if (url === null) {
+        delete map[code];
+      } else {
+        map[code] = (url || '').trim();
+      }
+      localStorage.setItem('aldawaa_custom_images', JSON.stringify(map));
+    }
+
+    function handleProductImageError(imgEl, code, brandDisplay) {
+      const container = imgEl.parentElement;
+      if (!container) return;
+      container.innerHTML = `
+        <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
+          <div class="fallback-brand-name">${brandDisplay || 'GENERIC'}</div>
+          <div class="fallback-sub-code">REF: ${code}</div>
+          <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
+            📷 إضافة رابط صورة
+          </button>
+        </div>
+      `;
+    }
+
+    let currentEditingProductCode = null;
+
+    function openImageModal(code) {
+      currentEditingProductCode = code;
+      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
+      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
+      const desc = prod ? (prod["Item Description"] || '') : '';
+      const saved = getCustomImageUrl(code);
+      const currentImg = saved !== undefined ? saved : (prod ? (prod.image_url || '') : '');
+
+      document.getElementById('modalProductTitle').innerText = `تعديل صورة الصنف: REF ${code}`;
+      document.getElementById('modalProductDesc').innerText = `${brand} - ${desc}`;
+      const inputEl = document.getElementById('modalImageUrlInput');
+      inputEl.value = currentImg;
+      updateModalPreview(currentImg, brand);
+
+      document.getElementById('imageEditModalOverlay').style.display = 'flex';
+      setTimeout(() => inputEl.focus(), 80);
+    }
+
+    function closeImageModal() {
+      document.getElementById('imageEditModalOverlay').style.display = 'none';
+      currentEditingProductCode = null;
+    }
+
+    function onModalInputUrlChange(url) {
+      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(currentEditingProductCode).trim());
+      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
+      updateModalPreview(url, brand);
+    }
+
+    function updateModalPreview(url, brand) {
+      const previewBox = document.getElementById('modalImagePreviewBox');
+      if (url && url.trim()) {
+        previewBox.innerHTML = `<img src="${url.trim()}" style="max-width:92%; max-height:135px; object-fit:contain;" onerror="this.outerHTML='<div style=\'color:#ef4444;font-size:9.5pt;font-weight:bold;padding:10px;\'>❌ الرابط غير صالح أو لا يمكن تحميله</div>'" />`;
+      } else {
+        previewBox.innerHTML = `
+          <div style="padding:15px; border:2px solid #00235B; border-radius:8px; text-align:center; width:85%; background:#fff;">
+            <div style="font-size:13pt; font-weight:1000; color:#00235B; text-transform:uppercase;">${brand || 'GENERIC'}</div>
+            <div style="font-size:8pt; color:#64748b; margin-top:4px;">(سيظهر اسم البراند في الطباعة مكان الصورة)</div>
+          </div>
+        `;
+      }
+    }
+
+    function saveModalImage() {
+      if (!currentEditingProductCode) return;
+      const code = currentEditingProductCode;
+      const url = document.getElementById('modalImageUrlInput').value.trim();
+      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
+      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
+
+      if (url) {
+        setCustomImageUrl(code, url);
+        if (prod) prod.image_url = url;
+      } else {
+        setCustomImageUrl(code, ""); // empty means brand fallback
+        if (prod) prod.image_url = "";
+      }
+
+      const imgBox = document.getElementById(`img-box-${code}`);
+      if (imgBox) {
+        if (url) {
+          imgBox.innerHTML = `
+            <img src="${url}" alt="${code}" onerror="handleProductImageError(this, '${code}', '${escapeJs(brand)}')" />
+            <button type="button" class="btn-card-edit-img" onclick="event.stopPropagation(); openImageModal('${code}')" title="تعديل رابط الصورة">
+              ✏️ تعديل
+            </button>
+          `;
+        } else {
+          imgBox.innerHTML = `
+            <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
+              <div class="fallback-brand-name">${brand}</div>
+              <div class="fallback-sub-code">REF: ${code}</div>
+              <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
+                📷 إضافة رابط صورة
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      closeImageModal();
+    }
+
+    function removeModalImageAndUseBrand() {
+      if (!currentEditingProductCode) return;
+      const code = currentEditingProductCode;
+      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
+      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
+
+      setCustomImageUrl(code, ""); // mark as empty = brand only
+      if (prod) prod.image_url = "";
+
+      const imgBox = document.getElementById(`img-box-${code}`);
+      if (imgBox) {
+        imgBox.innerHTML = `
+          <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
+            <div class="fallback-brand-name">${brand}</div>
+            <div class="fallback-sub-code">REF: ${code}</div>
+            <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
+              📷 إضافة رابط صورة
+            </button>
+          </div>
+        `;
+      }
+      closeImageModal();
+    }
+
+    // Bulk Image Modal
+    function openBulkImageModal() {
+      document.getElementById('bulkImageModalOverlay').style.display = 'flex';
+    }
+
+    function closeBulkImageModal() {
+      document.getElementById('bulkImageModalOverlay').style.display = 'none';
+    }
+
+    function saveBulkImages() {
+      const text = document.getElementById('bulkImageTextarea').value;
+      if (!text || !text.trim()) {
+        closeBulkImageModal();
+        return;
+      }
+
+      const lines = text.split(/\r?\n/);
+      let count = 0;
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        const parts = trimmed.split(/[\s,]+/);
+        if (parts.length >= 2) {
+          const code = parts[0].trim();
+          const url = parts.slice(1).join(' ').trim();
+          if (/^\d{4,8}$/.test(code) && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:'))) {
+            setCustomImageUrl(code, url);
+            count++;
+          }
+        }
+      });
+
+      alert(`تم حفظ وتحديث ${count} رابط صورة بنجاح!`);
+      closeBulkImageModal();
+      document.getElementById('bulkImageTextarea').value = '';
+
+      // If cards are currently displayed, re-render them with new images
+      if (window.currentFilteredProducts && window.currentFilteredProducts.length > 0) {
+        const codes = window.currentFilteredProducts.map(p => p.Code);
+        renderIndividualMagazineRows(codes);
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
