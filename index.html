@@ -20,6 +20,8 @@
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
   </script>
+  <!-- Html5Qrcode (Advanced Camera & Barcode/QR/GS1 Scanner) -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <style>
     :root {
@@ -53,21 +55,20 @@
     }
 
     /* ============================================================ */
-    /* 🌟 TOP CONTROL & STATUS BAR (البار العلوي للطباعة السريعة) */
+    /* 🌟 TOP CONTROL & STATUS BAR (غير مثبت لعدم حجب الشاشة في الموبايل) */
     /* ============================================================ */
     .top-action-bar {
-      position: sticky;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 23, 42, 0.95);
+      position: relative; /* تم إلغاء sticky لعدم حجب شاشة الموبايل عند التمرير */
+      width: 100%;
+      background: #0f172a;
       border-bottom: 2px solid rgba(255, 214, 0, 0.25);
-      padding: 12px 24px;
-      z-index: 10000;
+      padding: 16px 20px;
+      z-index: 100;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(12px);
+      gap: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
@@ -101,7 +102,7 @@
     }
 
     .brand-names span {
-      font-size: 9pt;
+      font-size: 8.5pt;
       color: var(--text-muted);
       font-family: var(--font-en);
       font-weight: 700;
@@ -110,18 +111,18 @@
 
     .actions-center-group {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .btn-fast-print {
       background: linear-gradient(135deg, #00c853 0%, #00a844 100%);
       color: #ffffff;
       border: none;
-      padding: 10px 32px;
+      padding: 10px 24px;
       border-radius: 10px;
-      font-size: 14pt;
+      font-size: 12pt;
       font-weight: 1000;
       font-family: var(--font-ar);
       cursor: pointer;
@@ -138,10 +139,48 @@
       background: linear-gradient(135deg, #00e676 0%, #00c853 100%);
     }
 
-    .status-text-sub {
-      font-size: 10pt;
-      color: #cbd5e1;
-      font-weight: 800;
+    /* زر فتح كاميرا الاسكانر الاحترافي */
+    .btn-scanner-toggle {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 12pt;
+      font-weight: 1000;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .btn-scanner-toggle:hover {
+      background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+      transform: translateY(-2px);
+    }
+
+    /* زر مسح القائمة الحالية */
+    .btn-clear-items {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 10.5pt;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-clear-items:hover {
+      background: #ef4444;
+      color: #ffffff;
     }
 
     .stats-info-box {
@@ -174,11 +213,290 @@
     }
 
     /* ============================================================ */
-    /* 📥 UPLOAD & INPUT CONTAINER (منطقة إرفاق الملفات والإدخال) */
+    /* 🔍 ADVANCED FILTER TOOLBAR (شريط الفلاتر الذكي الاحترافي الشامل) */
+    /* ============================================================ */
+    .filter-toolbar-card {
+      max-width: 1300px;
+      margin: 15px auto 8px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .filter-inner-box {
+      background: var(--card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-input-wrapper {
+      grid-column: 1 / -1;
+      position: relative;
+      width: 100%;
+    }
+
+    .filter-search-input {
+      width: 100%;
+      background: #090e1a;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 12px 16px 12px 42px;
+      color: #ffffff;
+      font-family: var(--font-ar);
+      font-size: 11pt;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .filter-search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(0, 200, 83, 0.3);
+      background: #0d1527;
+    }
+
+    .search-icon-fixed {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13pt;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .filter-select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .filter-select-label {
+      font-size: 8pt;
+      font-weight: 800;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .filter-select {
+      width: 100%;
+      background: #090e1a;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 9px 10px;
+      color: #ffffff;
+      font-family: var(--font-ar);
+      font-size: 9pt;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      text-overflow: ellipsis;
+      transition: all 0.2s;
+    }
+
+    .filter-select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .filter-select option {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 9pt;
+    }
+
+    .filter-pills-bar {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 4px;
+    }
+
+    .pills-left-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-pill-btn {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 9pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .quick-pill-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .quick-pill-btn.active {
+      background: #f59e0b;
+      color: #000000;
+      border-color: #ffd600;
+      font-weight: 900;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-reset-filters {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 9pt;
+      font-weight: 800;
+      font-family: var(--font-ar);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-reset-filters:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .filter-count-badge {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-size: 9pt;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ============================================================ */
+    /* 📷 CAMERA SCANNER MODAL & GS1 OVERLAY (نافذة الاسكانر الاحترافية) */
+    /* ============================================================ */
+    .scanner-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      backdrop-filter: blur(8px);
+    }
+
+    .scanner-modal-card {
+      background: #0f172a;
+      border: 2px solid #3b82f6;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 520px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .scanner-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .scanner-modal-header h2 {
+      font-size: 13pt;
+      font-weight: 1000;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-close-scanner {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 14pt;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close-scanner:hover {
+      background: #ef4444;
+    }
+
+    #cameraReaderView {
+      width: 100%;
+      height: 280px;
+      background: #000000;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .scanner-feedback-banner {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #34d399;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 10pt;
+      font-weight: 800;
+      text-align: center;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scanner-format-tips {
+      font-size: 8pt;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ============================================================ */
+    /* 📥 UPLOAD & INPUT CONTAINER */
     /* ============================================================ */
     .input-section-wrapper {
       max-width: 1300px;
-      margin: 25px auto 15px auto;
+      margin: 10px auto 10px auto;
       padding: 0 20px;
       width: 100%;
     }
@@ -186,18 +504,18 @@
     .input-glass-card {
       background: var(--card-dark);
       border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      position: relative;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     }
 
     .input-tabs-header {
       display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 14px;
       border-bottom: 2px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 12px;
+      padding-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -205,14 +523,14 @@
       border: none;
       color: var(--text-muted);
       font-family: var(--font-ar);
-      font-size: 12pt;
+      font-size: 10.5pt;
       font-weight: 900;
-      padding: 8px 18px;
-      border-radius: 10px;
+      padding: 6px 14px;
+      border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
     }
 
@@ -222,95 +540,61 @@
       border: 1.5px solid rgba(0, 200, 83, 0.3);
     }
 
-    .tab-btn:hover:not(.active) {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
     .drop-zone {
-      border: 2.5px dashed rgba(0, 200, 83, 0.35);
-      border-radius: 16px;
-      padding: 30px 20px;
+      border: 2px dashed rgba(0, 200, 83, 0.35);
+      border-radius: 14px;
+      padding: 22px 16px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s ease;
       background: rgba(0, 200, 83, 0.02);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .drop-zone:hover,
-    .drop-zone.dragover {
+    .drop-zone:hover {
       border-color: #00e676;
-      background: rgba(0, 200, 83, 0.08);
-      transform: scale(1.005);
+      background: rgba(0, 200, 83, 0.06);
     }
 
     .drop-icon {
-      font-size: 36pt;
+      font-size: 28pt;
       color: #00e676;
-      margin-bottom: 4px;
     }
 
     .drop-title {
-      font-size: 14pt;
+      font-size: 12pt;
       font-weight: 1000;
       color: #ffffff;
     }
 
     .drop-subtitle {
-      font-size: 9.5pt;
+      font-size: 8.5pt;
       color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .supported-pill-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .format-pill {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-size: 8pt;
-      font-family: var(--font-en);
-      font-weight: 800;
-      color: var(--accent);
     }
 
     .manual-textarea-container {
       display: none;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .manual-textarea {
       width: 100%;
-      height: 110px;
+      height: 90px;
       background: #090e1a;
       border: 1.5px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 12px 16px;
+      border-radius: 10px;
+      padding: 10px 14px;
       color: #ffffff;
       font-family: var(--font-en), monospace;
-      font-size: 11pt;
+      font-size: 10.5pt;
       font-weight: 700;
       resize: vertical;
       direction: ltr;
       outline: none;
-    }
-
-    .manual-textarea:focus {
-      border-color: #00e676;
-      box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
     }
 
     .btn-apply-codes {
@@ -318,38 +602,32 @@
       background: #ffd600;
       color: #000;
       border: none;
-      padding: 8px 24px;
+      padding: 8px 20px;
       border-radius: 8px;
-      font-size: 11pt;
+      font-size: 10.5pt;
       font-weight: 1000;
-      font-family: var(--font-ar);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .db-status-bar {
-      margin-top: 15px;
+      margin-top: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      gap: 12px;
       background: rgba(15, 23, 42, 0.6);
-      padding: 8px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 9pt;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 8.5pt;
       color: var(--text-muted);
     }
 
     .progress-track {
       flex: 1;
-      height: 6px;
+      height: 5px;
       background: #1e293b;
       border-radius: 4px;
       overflow: hidden;
-      position: relative;
     }
 
     .progress-fill {
@@ -360,7 +638,7 @@
     }
 
     /* ============================================================ */
-    /* 🏛️ SUPERVISOR & BRAND MAGAZINE PRINT HEADER (هيدر المشرف واللوجو) */
+    /* 🏛️ SUPERVISOR & BRAND MAGAZINE PRINT HEADER */
     /* ============================================================ */
     .magazine-print-header {
       position: relative;
@@ -379,7 +657,7 @@
 
     .supervisor-info {
       flex: 1;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       color: #00235B;
       text-transform: capitalize;
@@ -390,7 +668,7 @@
 
     .supervisor-title {
       color: #f59e0b;
-      font-size: 13px;
+      font-size: 12.5px;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 900;
@@ -459,14 +737,14 @@
       page-break-inside: avoid;
     }
 
-    /* كتلة الفئة داخل الصف (تتسع لكارت واحد أو كارتين أو ثلاثة كروت حسب توفرها) */
+    /* كتلة الفئة داخل الصف */
     .cat-group-segment {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    /* بانر الفئة الملون الخاص بالأصناف التي تليه في نفس الصف */
+    /* بانر الفئة الملون الخاص بأصناف هذه الفئة فقط في هذا الصف */
     .cat-segment-banner {
       width: 100%;
       color: #ffffff;
@@ -495,7 +773,7 @@
     .magazine-product-card {
       background: #ffffff;
       border-radius: 12px;
-      padding: 6px 8px 10px 8px;
+      padding: 14px 10px 12px 10px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
@@ -503,7 +781,7 @@
       text-align: center;
       position: relative;
       border: 1px solid rgba(0, 0, 0, 0.08);
-      height: 290px;
+      height: 275px;
       justify-content: space-between;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -513,33 +791,23 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* حاوية صورة الصنف: مكبرة لتأخذ أكبر مساحة وبدون أي حدود أو ظلال */
     .prod-img-box {
       width: 100%;
-      height: 205px;
+      height: 155px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      background: #ffffff;
-      border: none !important;
-      box-shadow: none !important;
     }
 
     .prod-img-box img {
-      max-width: 98%;
-      max-height: 98%;
-      width: auto;
-      height: 100%;
+      max-width: 92%;
+      max-height: 92%;
       object-fit: contain;
-      filter: none !important;
-      box-shadow: none !important;
-      border: none !important;
-      background: #ffffff;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
     }
 
-    /* بيانات الصنف */
     .prod-info-box {
       width: 100%;
       display: flex;
@@ -576,7 +844,6 @@
       min-height: 19px;
     }
 
-    /* كود الصنف REF */
     .code-badge-tag {
       position: absolute;
       top: 6px;
@@ -591,7 +858,6 @@
       border-radius: 4px;
     }
 
-    /* شارة الماركة الخاصة */
     .own-brand-tag {
       position: absolute;
       top: 6px;
@@ -606,281 +872,179 @@
       border-radius: 4px;
     }
 
-    /* Empty state */
     .empty-state-box {
       text-align: center;
       padding: 60px 20px;
       color: var(--text-muted);
     }
 
+    
     /* ============================================================ */
-    /* 🏷️ NO-IMAGE BRAND BOX & IMAGE EDITING CONTROLS */
+    /* 📱 COMPREHENSIVE MOBILE RESPONSIVENESS (متجاوب 100% مع الموبايل) */
     /* ============================================================ */
-    .no-image-brand-box {
-      width: 94%;
-      height: 94%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 8px;
-      background: #f8fafc;
-      border: 1.5px dashed #94a3b8;
-      border-radius: 8px;
-      text-align: center;
-      box-sizing: border-box;
-      transition: all 0.2s ease;
-      cursor: pointer;
+    @media screen and (max-width: 900px) {
+      .top-action-bar {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .brand-title-group {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .actions-center-group {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .btn-fast-print, .btn-scanner-toggle, .btn-clear-items {
+        flex: 1 1 auto;
+        justify-content: center;
+        font-size: 10pt;
+        padding: 9px 12px;
+      }
+
+      .stats-info-box {
+        justify-content: space-around;
+        width: 100%;
+      }
+
+      .filter-toolbar-card, .input-section-wrapper, .magazine-display-area {
+        padding: 0 10px;
+      }
+
+      .filter-inner-box {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 12px;
+        gap: 8px;
+      }
+
+      .search-input-wrapper {
+        grid-column: 1 / -1;
+      }
+
+      .filter-pills-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .pills-left-group {
+        justify-content: center;
+      }
+
+      .filter-count-badge {
+        justify-content: center;
+      }
+
+      /* 🌟 الكروت على الموبايل: عرض مريح ومنظم بدون ضغط أو قص */
+      .packed-magazine-row {
+        flex-direction: column !important;
+        gap: 14px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .cat-group-segment {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+      .cat-segment-banner {
+        font-size: 10pt !important;
+        padding: 6px 10px !important;
+      }
+
+      .cat-cards-subgrid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .magazine-product-card {
+        height: auto !important;
+        min-height: 255px !important;
+        padding: 12px 8px !important;
+      }
+
+      .prod-img-box {
+        height: 130px !important;
+      }
+
+      .magazine-print-header {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 14px;
+        text-align: center;
+      }
+
+      .supervisor-info, .right-logo-area, .center-logo-area {
+        text-align: center;
+        width: 100%;
+      }
+
+      .supervisor-info {
+        font-size: 15px;
+      }
+
+      .center-logo-area img, .right-logo-area img {
+        max-height: 50px;
+      }
     }
 
-    .no-image-brand-box:hover {
-      background: #f1f5f9;
-      border-color: #00c853;
-      transform: scale(1.01);
+    @media screen and (max-width: 520px) {
+      .filter-inner-box {
+        grid-template-columns: 1fr;
+      }
+
+      .cat-cards-subgrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+
+      .magazine-product-card {
+        min-height: 240px !important;
+        padding: 10px 6px !important;
+      }
+
+      .prod-img-box {
+        height: 115px !important;
+      }
+
+      .prod-info-box .brand-name {
+        font-size: 8.5pt !important;
+      }
+
+      .prod-info-box .item-desc {
+        font-size: 7.5pt !important;
+      }
+
+      .brand-names h1 {
+        font-size: 13pt;
+      }
+
+      .drop-zone {
+        padding: 16px 10px;
+      }
+
+      .drop-icon {
+        font-size: 22pt;
+      }
+
+      .drop-title {
+        font-size: 10.5pt;
+      }
     }
 
-    .no-image-brand-box .fallback-brand-name {
-      font-family: var(--font-en), sans-serif;
-      font-weight: 1000;
-      font-size: 13pt;
-      color: #00235B;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      line-height: 1.2;
-      word-break: break-word;
-      max-width: 96%;
-    }
-
-    .no-image-brand-box .fallback-sub-code {
-      font-family: var(--font-en), monospace;
-      font-size: 7.5pt;
-      font-weight: 800;
-      color: #64748b;
-      margin-top: 4px;
-    }
-
-    .btn-add-img-badge {
-      margin-top: 8px;
-      background: rgba(0, 200, 83, 0.12);
-      color: #008a36;
-      border: 1px dashed #00c853;
-      border-radius: 6px;
-      padding: 3px 10px;
-      font-size: 7.5pt;
-      font-weight: 800;
-      font-family: var(--font-ar);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      transition: all 0.2s ease;
-    }
-
-    .no-image-brand-box:hover .btn-add-img-badge {
-      background: #00c853;
-      color: #ffffff;
-      border-style: solid;
-    }
-
-    /* زر التعديل على صورة الصنف عند وجودها */
-    .btn-card-edit-img {
-      position: absolute;
-      bottom: 4px;
-      right: 4px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 7pt;
-      font-weight: 800;
-      font-family: var(--font-ar);
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 5;
-    }
-
-    .prod-img-box:hover .btn-card-edit-img {
-      opacity: 1;
-    }
-
-    .btn-card-edit-img:hover {
-      background: #00c853;
-      border-color: #00e676;
-      transform: scale(1.05);
-    }
-
-    /* Modal Styling */
-    .custom-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .custom-modal-card {
-      background: #131d31;
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 480px;
-      padding: 22px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      animation: modalPopIn 0.2s ease;
-    }
-
-    @keyframes modalPopIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .custom-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .modal-close-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: #fff;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 11pt;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-close-btn:hover {
-      background: #ef4444;
-    }
-
-    .modal-text-input {
-      width: 100%;
-      background: #090e1a;
-      border: 1.5px solid rgba(255, 255, 255, 0.18);
-      border-radius: 8px;
-      padding: 9px 12px;
-      color: #fff;
-      font-family: var(--font-en), monospace;
-      font-size: 10pt;
-      direction: ltr;
-      outline: none;
-      box-sizing: border-box;
-    }
-    .modal-text-input:focus {
-      border-color: #00e676;
-    }
-
-    .modal-textarea {
-      width: 100%;
-      height: 140px;
-      background: #090e1a;
-      border: 1.5px solid rgba(255, 255, 255, 0.18);
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: #fff;
-      font-family: var(--font-en), monospace;
-      font-size: 9.5pt;
-      direction: ltr;
-      outline: none;
-      resize: vertical;
-      box-sizing: border-box;
-    }
-    .modal-textarea:focus {
-      border-color: #00e676;
-    }
-
-    .modal-preview-box {
-      width: 100%;
-      height: 145px;
-      background: #ffffff;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #000;
-    }
-
-    .custom-modal-footer {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-      justify-content: flex-end;
-    }
-
-    .btn-modal-save {
-      background: #00c853;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 9.5pt;
-      font-weight: 900;
-      font-family: var(--font-ar);
-      cursor: pointer;
-    }
-    .btn-modal-save:hover {
-      background: #00e676;
-    }
-
-    .btn-modal-clear {
-      background: rgba(255, 255, 255, 0.1);
-      color: #cbd5e1;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 8.5pt;
-      font-weight: 800;
-      font-family: var(--font-ar);
-      cursor: pointer;
-    }
-    .btn-modal-clear:hover {
-      background: #f59e0b;
-      color: #000;
-      border-color: #f59e0b;
-    }
-
-    .btn-modal-cancel {
-      background: transparent;
-      color: #94a3b8;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 9pt;
-      font-weight: 800;
-      font-family: var(--font-ar);
-      cursor: pointer;
-    }
-    .btn-modal-cancel:hover {
-      color: #fff;
-    }
-
-    /* ============================================================ */
-    /* 🖨️ PRINT RULES (طباعة A4 احترافية: 3 صفوف كاملة تملأ الصفحة بالكامل) */
+/* ============================================================ */
+    /* 🖨️ PRINT RULES (طباعة A4 بدون أي أدوات أو هدر) */
     /* ============================================================ */
     @page {
       size: A4 portrait;
-      margin: 5mm 5mm;
+      margin: 8mm 6mm;
     }
 
     @media print {
@@ -892,11 +1056,10 @@
       }
 
       .top-action-bar,
+      .filter-toolbar-card,
       .input-section-wrapper,
-      #dragDropInputSection,
-      .custom-modal-overlay,
-      .btn-card-edit-img,
-      .btn-add-img-badge {
+      .scanner-modal-backdrop,
+      #dragDropInputSection {
         display: none !important;
       }
 
@@ -906,158 +1069,37 @@
         padding: 0 !important;
       }
 
-      /* 🏛️ هيدر المشرف في الصفحة الأولى فقط */
       .magazine-print-header {
-        border-bottom: 3px solid #00235B !important;
+        border-bottom: 3.5px solid #00235B !important;
         box-shadow: none !important;
-        padding: 5px 12px 6px 12px !important;
-        margin-bottom: 6px !important;
+        padding: 10px 18px 16px 18px !important;
+        margin-bottom: 14px !important;
         page-break-after: avoid !important;
-        break-after: avoid !important;
       }
 
-      .supervisor-info {
-        font-size: 14px !important;
-        line-height: 1.15 !important;
-      }
-
-      .supervisor-title {
-        font-size: 10.5px !important;
-      }
-
-      .center-logo-area img {
-        max-height: 44px !important;
-      }
-
-      .right-logo-area img {
-        max-height: 48px !important;
-        max-width: 170px !important;
-      }
-
-      /* 📐 الصفوف العامة (الصفحة 2 وما بعدها بدون هيدر: تملأ الصفحة بالكامل بدون أي فراغ مهدور) */
       .packed-magazine-row {
-        gap: 8px !important;
+        gap: 10px !important;
         margin-bottom: 12px !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
 
-      /* إجبار كل صفحة على احتواء 3 صفوف بالضبط (9 كروت في كل صفحة) */
-      .packed-magazine-row:nth-child(3n) {
-        page-break-after: always !important;
-        break-after: page !important;
-      }
-
-      .packed-magazine-row:last-child {
-        page-break-after: auto !important;
-        break-after: auto !important;
-      }
-
-      .cat-group-segment {
-        gap: 3px !important;
-      }
-
       .cat-segment-banner {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        padding: 4px 8px !important;
-        font-size: 9pt !important;
+        padding: 5px 8px !important;
+        font-size: 10pt !important;
       }
 
-      /* الكروت في الصفحات التالية (تملأ الصفحة 310px) */
       .magazine-product-card {
         box-shadow: none !important;
         border: 1px solid #cbd5e1 !important;
-        height: 310px !important;
-        padding: 6px 8px 8px 8px !important;
+        height: 255px !important;
         page-break-inside: avoid !important;
-        break-inside: avoid !important;
       }
 
       .prod-img-box {
-        height: 232px !important;
-        min-height: 232px !important;
-        background: #ffffff !important;
-        border: none !important;
-        box-shadow: none !important;
-      }
-
-      .prod-img-box img {
-        max-width: 98% !important;
-        max-height: 98% !important;
-        width: auto !important;
-        height: 100% !important;
-        object-fit: contain !important;
-        filter: none !important;
-        box-shadow: none !important;
-        border: none !important;
-        background: #ffffff !important;
-      }
-
-      .prod-info-box .brand-name {
-        font-size: 9.5pt !important;
-        margin-bottom: 2px !important;
-      }
-
-      .prod-info-box .item-desc {
-        font-size: 8pt !important;
-        line-height: 1.2 !important;
-        max-height: 32px !important;
-      }
-
-      /* 🌟 معايرة خاصة للصفوف الثلاثة الأولى في الصفحة الأولى فقط (لتتسع مع الهيدر بدون فراغ) */
-      .packed-magazine-row:nth-child(-n+3) {
-        margin-bottom: 8px !important;
-      }
-
-      .packed-magazine-row:nth-child(-n+3) .magazine-product-card {
-        height: 275px !important;
-        padding: 5px 6px 6px 6px !important;
-      }
-
-      .packed-magazine-row:nth-child(-n+3) .prod-img-box {
-        height: 202px !important;
-        min-height: 202px !important;
-      }
-
-      .packed-magazine-row:nth-child(-n+3) .prod-info-box .brand-name {
-        font-size: 8.5pt !important;
-      }
-
-      .packed-magazine-row:nth-child(-n+3) .prod-info-box .item-desc {
-        font-size: 7.5pt !important;
-        line-height: 1.15 !important;
-      }
-
-      /* تنسيق طباعة اسم البراند مكان الصورة عند غياب الصورة */
-      .no-image-brand-box {
-        background: #ffffff !important;
-        border: 1.5px solid #00235B !important;
-        border-radius: 6px !important;
-        box-shadow: none !important;
-        cursor: default !important;
-        width: 96% !important;
-        height: 96% !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
-      .no-image-brand-box .fallback-brand-name {
-        color: #00235B !important;
-        font-size: 13pt !important;
-        font-weight: 1000 !important;
-        font-family: 'Outfit', 'Montserrat', 'Cairo', sans-serif !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.5px !important;
-        line-height: 1.2 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
-      .no-image-brand-box .fallback-sub-code {
-        color: #475569 !important;
-        font-size: 7.5pt !important;
-        font-weight: 900 !important;
+        height: 140px !important;
       }
     }
   </style>
@@ -1066,34 +1108,39 @@
 <body>
 
   <!-- ============================================================ -->
-  <!-- 🌟 البار العلوي الثابت للطباعة السريعة -->
+  <!-- 🌟 البار العلوي (غير ثابت لعدم حجب الشاشة في الموبايل) -->
   <!-- ============================================================ -->
   <header class="top-action-bar">
     <div class="brand-title-group">
       <div class="brand-logo-badge">ALDAWAA</div>
       <div class="brand-names">
         <h1>دواء ماستر فيو</h1>
-        <span>INDIVIDUAL MASTER CATALOG & MAGAZINE VIEW</span>
+        <span>INDIVIDUAL MASTER CATALOG & GS1 SCANNER VIEW</span>
       </div>
     </div>
 
-    <!-- الزر الأخضر الرئيسي: ⚡ ضغط وطباعة (سريع) وزر إضافة روابط صور -->
+    <!-- أزرار العمليات الرئيسية -->
     <div class="actions-center-group">
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn">
-          <span>⚡</span> ضغط وطباعة (سريع)
-        </button>
-        <button type="button" class="btn-fast-print" style="background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow:0 4px 14px rgba(37,99,235,0.4); font-size:11pt; padding:10px 16px;" onclick="openBulkImageModal()">
-          <span>📷</span> إضافة روابط صور
-        </button>
-      </div>
-      <div class="status-text-sub" id="status-display">اضغط الزر للبدء</div>
+      <!-- زر فتح كاميرا الاسكانر -->
+      <button class="btn-scanner-toggle" onclick="openCameraScannerModal()">
+        <span>📷</span> تشغيل الاسكانر (GS1 / Barcode)
+      </button>
+
+      <!-- زر الطباعة السريعة -->
+      <button class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn">
+        <span>⚡</span> ضغط وطباعة (سريع)
+      </button>
+
+      <!-- زر مسح الكل لتفريغ القائمة -->
+      <button class="btn-clear-items" onclick="clearAccumulatedCatalog()" title="تفريغ القائمة المعروضة">
+        <span>🗑️</span> مسح الكل
+      </button>
     </div>
 
     <div class="stats-info-box">
       <div class="stat-badge">
         <span class="val" id="totalLoadedBadge">0</span>
-        <span class="lbl">أكواد معروضة</span>
+        <span class="lbl">أكواد بالقائمة</span>
       </div>
       <div style="width:1px; height:24px; background:rgba(255,255,255,0.1);"></div>
       <div class="stat-badge">
@@ -1104,12 +1151,137 @@
   </header>
 
   <!-- ============================================================ -->
-  <!-- 📥 منطقة إرفاق الملفات والإدخال (PDF / Excel / JSON / Text) -->
+  <!-- 🔍 شريط الفلاتر الذكي (فلترة حية بالبحث، الفئة، والبراند) -->
+  <!-- ============================================================ -->
+    <!-- ============================================================ -->
+  <!-- 🔍 شريط الفلاتر الذكي الشامل (Category A, B, C, D, E, Brand, Own Brand, Manufacture) -->
+  <!-- ============================================================ -->
+  <section class="filter-toolbar-card">
+    <div class="filter-inner-box">
+      <!-- البحث المباشر بالكود أو الاسم أو البراند أو المصنع أو الباركود -->
+      <div class="search-input-wrapper">
+        <input type="text" id="liveSearchInput" class="filter-search-input" placeholder="🔍 بحث فوري بالكود، اسم الصنف، البراند، المصنع، أو الباركود..." oninput="applyActiveFilters()" />
+        <span class="search-icon-fixed">⚡</span>
+      </div>
+
+      <!-- فلتر الفئة الرئيسية Level A -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">🏷️ القسم الرئيسي (Category A)</label>
+        <select id="catAFilterSelect" class="filter-select" onchange="onCategoryAChanged()">
+          <option value="">جميع الأقسام الرئيسية (All A)</option>
+        </select>
+      </div>
+
+      <!-- فلتر الفئة الفرعية Level B -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">📂 الفئة الفرعية (Category B)</label>
+        <select id="catBFilterSelect" class="filter-select" onchange="onCategoryBChanged()">
+          <option value="">جميع الفئات الفرعية (All B)</option>
+        </select>
+      </div>
+
+      <!-- فلتر التصنيف Level C -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">📁 التصنيف (Category C)</label>
+        <select id="catCFilterSelect" class="filter-select" onchange="onCategoryCChanged()">
+          <option value="">جميع التصنيفات (All C)</option>
+        </select>
+      </div>
+
+      <!-- فلتر المجموعة Level D -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">📑 المجموعة (Category D)</label>
+        <select id="catDFilterSelect" class="filter-select" onchange="applyActiveFilters()">
+          <option value="">جميع المجموعات (All D)</option>
+        </select>
+      </div>
+
+      <!-- فلتر التصنيف الفرعي Level E -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">🔖 التصنيف الدقيق (Category E)</label>
+        <select id="catEFilterSelect" class="filter-select" onchange="applyActiveFilters()">
+          <option value="">جميع الفئات الدقيقة (All E)</option>
+        </select>
+      </div>
+
+      <!-- فلتر البراند Brand -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">💎 الماركة (Brand)</label>
+        <select id="brandFilterSelect" class="filter-select" onchange="applyActiveFilters()">
+          <option value="">جميع الماركات (All Brands)</option>
+        </select>
+      </div>
+
+      <!-- فلتر المصنع Manufacture -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">🏭 المصنع (Manufacture)</label>
+        <select id="manufactureFilterSelect" class="filter-select" onchange="applyActiveFilters()">
+          <option value="">جميع المصانع (All Manufacturers)</option>
+        </select>
+      </div>
+
+      <!-- فلتر ماركات الدواء الخاصة Own Brand -->
+      <div class="filter-select-group">
+        <label class="filter-select-label">⭐ ماركات الدواء (Own Brand)</label>
+        <select id="ownBrandFilterSelect" class="filter-select" onchange="applyActiveFilters()">
+          <option value="">جميع الأصناف (الكل)</option>
+          <option value="__OWN_ONLY__">⭐ جميع منتجات الدواء الخاصة (Own Brand Only)</option>
+        </select>
+      </div>
+
+      <!-- بار أزرار الفلترة السريعة وتصفير الفلاتر وعداد النتائج -->
+      <div class="filter-pills-bar">
+        <div class="pills-left-group">
+          <button type="button" id="btnModeMaster" class="quick-pill-btn active" onclick="setSourceMode('all')">
+            🌐 كامل الماستر (81,579)
+          </button>
+          <button type="button" id="btnModeUploaded" class="quick-pill-btn" onclick="setSourceMode('uploaded')">
+            📋 الأكواد المرفوعة (<span id="uploadedCountSpan">0</span>)
+          </button>
+          <button type="button" id="btnQuickOwnBrand" class="quick-pill-btn" onclick="toggleQuickOwnBrand()">
+            ⭐ أصناف الدواء فقط (Own Brand)
+          </button>
+          <button type="button" class="btn-reset-filters" onclick="resetActiveFilters()" title="إعادة ضبط كافة الفلاتر والبحث">
+            🔄 تصفير الفلاتر
+          </button>
+        </div>
+        <div class="filter-count-badge" id="filterResultsCountBadge">
+          <span>📊</span> المطابق: <strong id="activeVisibleCount" style="margin: 0 4px; color: #ffd600;">0</strong> صنف
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 📷 نافذة الاسكانر المنبثقة (تدعم الكود السداسي والباركود و GS1 QR) -->
+  <!-- ============================================================ -->
+  <div class="scanner-modal-backdrop" id="scannerModalBackdrop">
+    <div class="scanner-modal-card">
+      <div class="scanner-modal-header">
+        <h2><span>📷</span> قارئ الباركود والـ GS1 الذكي</h2>
+        <button class="btn-close-scanner" onclick="closeCameraScannerModal()">✕</button>
+      </div>
+
+      <!-- حاوية كاميرا Html5Qrcode -->
+      <div id="cameraReaderView"></div>
+
+      <!-- إشعار حالة القراءة الفورية -->
+      <div class="scanner-feedback-banner" id="scannerFeedbackBanner">
+        وجّه الكاميرا نحو باركود الصنف أو كود GS1 QR...
+      </div>
+
+      <div class="scanner-format-tips">
+        ✓ يتعرف فورياً على: الأكواد السداسية، باركود EAN-13، وأكواد GS1 QR / DataMatrix الطبية.<br>
+        ✓ القراءة التراكمية مفعلة: كل صنف يمسح يضاف مباشرة للقائمة دون حذف الأصناف السابقة!
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 📥 منطقة إرفاق الملفات والإدخال اليدوي -->
   <!-- ============================================================ -->
   <section class="input-section-wrapper" id="dragDropInputSection">
     <div class="input-glass-card">
-      
-      <!-- تبويبات الاختيار -->
       <div class="input-tabs-header">
         <button class="tab-btn active" onclick="switchInputTab('file')" id="tabBtnFile">
           <span>📁</span> إرفاق ملف (PDF / Excel / JSON / Text)
@@ -1118,34 +1290,27 @@
           <span>✏️</span> إدخال ولصق يدوي للأكواد
         </button>
         <button class="tab-btn" onclick="showAllDatabaseItems()" id="tabBtnAll">
-          <span>🌐</span> عرض أصناف الماستر المتاحة
+          <span>🌐</span> استعراض 150 صنف من الماستر
         </button>
       </div>
 
-      <!-- منطقة السحب والإفلات -->
+      <!-- السحب والإفلات -->
       <div class="drop-zone" id="fileDropZone" onclick="document.getElementById('hiddenFileInput').click()">
         <input type="file" id="hiddenFileInput" style="display:none;" accept=".pdf,.xlsx,.xls,.csv,.json,.txt" onchange="handleIncomingFiles(this.files)" />
         <div class="drop-icon">📤</div>
         <div class="drop-title">اضغط هنا أو اسحب الملف وأفلته مباشرة</div>
-        <div class="drop-subtitle">يدعم استخراج وتصفية الأكواد تلقائياً وبسرعة فائقة من كافة الصيغ التالية:</div>
-        <div class="supported-pill-tags">
-          <span class="format-pill">PDF Document</span>
-          <span class="format-pill">Excel (.XLSX / .XLS)</span>
-          <span class="format-pill">CSV Sheet</span>
-          <span class="format-pill">JSON File</span>
-          <span class="format-pill">Text (.TXT)</span>
-        </div>
+        <div class="drop-subtitle">استخراج فوري للأكواد من PDF، إكسيل، CSV، جيسون وتكست مع إضافتها للقائمة تراكمياً</div>
       </div>
 
-      <!-- خانة الإدخال اليدوي -->
+      <!-- الإدخال اليدوي -->
       <div class="manual-textarea-container" id="manualInputContainer">
-        <textarea class="manual-textarea" id="manualCodesTextarea" placeholder="أدخل أو الصق الأكواد هنا (مفصولة بمسافات، فواصل، أو أسطر جديدة) مثال:&#10;210452, 511411, 102340 102341"></textarea>
+        <textarea class="manual-textarea" id="manualCodesTextarea" placeholder="أدخل أو الصق الأكواد هنا (مفصولة بمسافات، فواصل، أو أسطر) مثال: 210452, 511411 100050"></textarea>
         <button class="btn-apply-codes" onclick="applyManualCodes()">
-          <span>⚡</span> تفعيل وعرض الكروت
+          <span>⚡</span> إضافة للقائمة وعرض الكروت
         </button>
       </div>
 
-      <!-- شريط تحميل قاعدة البيانات الماستر -->
+      <!-- حالة الداتابيز -->
       <div class="db-status-bar">
         <span id="dbStatusLabel">جاري تهيئة قاعدة بيانات الدواء الماستر...</span>
         <div class="progress-track">
@@ -1153,7 +1318,6 @@
         </div>
         <span id="dbPercentLabel">0%</span>
       </div>
-
     </div>
   </section>
 
@@ -1162,7 +1326,7 @@
   <!-- ============================================================ -->
   <main class="magazine-display-area" id="magazineDisplayArea">
     
-    <!-- 🏛️ هيدر المشرف واللوجو المعتمد (الذي يظهر في طباعة الميجازين) -->
+    <!-- 🏛️ هيدر المشرف واللوجو المعتمد -->
     <div class="magazine-print-header" id="masterMagazineHeader">
       <div class="supervisor-info">
         <span class="supervisor-title">Supervisor:</span><br/>
@@ -1172,86 +1336,36 @@
         <img src="ex-offers.jpg" alt="Offers" onerror="this.outerHTML='<span style=\'font-size:20px;font-weight:1000;color:#00235B;letter-spacing:1px;\'>ALDAWAA PHARMACY</span>'" />
       </div>
       <div class="right-logo-area">
-        <img src="my logo.png" alt="Logo" onerror="this.onerror=null; this.src='../my logo.png';" />
+        <img src="my logo.png" alt="Logo" onerror="this.outerHTML='<span style=\'font-size:18px;font-weight:900;color:#00c853;\'>MONO SYSTEM</span>'" />
       </div>
+      <a href="https://monosystem.vercel.app/" target="_blank" class="website-link-badge">
+        MONOSYSTEM.VERCEL.APP
+      </a>
     </div>
 
-    <!-- رسالة الحالة عند عدم وجود أصناف -->
+    <!-- رسالة عند فراغ القائمة -->
     <div class="empty-state-box" id="emptyStatePlaceholder">
-      <h3 style="font-size: 15pt; font-weight: 900; color: #fff; margin-bottom: 6px;">لا توجد أصناف معروضة حالياً</h3>
-      <p style="font-size: 10pt;">قم بإرفاق ملف يحتوي على أكواد المنتجات، أو الصق الأكواد يدوياً لعرضها وتنسيقها فوراً في صفوف ثلاثية متصلة.</p>
+      <h3 style="font-size: 15pt; font-weight: 900; color: #fff; margin-bottom: 6px;">القائمة فارغة حالياً</h3>
+      <p style="font-size: 10pt;">استخدم كاميرا الاسكانر 📷 لقراءة الباركود و GS1 فوراً، أو ارفع ملف أكواد، أو الصق الأكواد يدوياً.</p>
     </div>
     
-    <!-- حاوية الصفوف المرصوصة بذكاء -->
+    <!-- حاوية الصفوف المرصوصة -->
     <div id="magazineRowsContainer"></div>
   </main>
 
   <!-- ============================================================ -->
-  <!-- 🖼️ MODAL: تعديل رابط صورة الصنف أو الاعتماد على اسم البراند -->
-  <!-- ============================================================ -->
-  <div id="imageEditModalOverlay" class="custom-modal-overlay" style="display:none;" onclick="if(event.target===this) closeImageModal()">
-    <div class="custom-modal-card">
-      <div class="custom-modal-header">
-        <h3 id="modalProductTitle" style="font-size:13pt; font-weight:900; color:#fff;">تعديل صورة الصنف</h3>
-        <button type="button" class="modal-close-btn" onclick="closeImageModal()">✕</button>
-      </div>
-      <div id="modalProductDesc" style="font-size:9pt; color:#94a3b8; margin-bottom:12px; line-height:1.3;"></div>
-
-      <div class="modal-body-section">
-        <label style="font-size:9.5pt; font-weight:800; color:#cbd5e1; display:block; margin-bottom:6px;">
-          رابط الصورة (URL مباشر):
-        </label>
-        <input type="text" id="modalImageUrlInput" class="modal-text-input" placeholder="https://example.com/product-image.jpg" oninput="onModalInputUrlChange(this.value)" />
-        
-        <div style="font-size:8pt; color:#64748b; margin-top:4px;">
-          💡 الصق رابط الصورة لتظهر في الطباعة، أو اضغط "اعتماد اسم البراند" لعرض اسم البراند فقط في الطباعة.
-        </div>
-
-        <div style="margin-top:14px; text-align:center;">
-          <div style="font-size:8.5pt; color:#94a3b8; font-weight:700; margin-bottom:6px;">معاينة المظهر:</div>
-          <div id="modalImagePreviewBox" class="modal-preview-box"></div>
-        </div>
-      </div>
-
-      <div class="custom-modal-footer">
-        <button type="button" class="btn-modal-save" onclick="saveModalImage()">💾 حفظ وتطبيق على الكارت</button>
-        <button type="button" class="btn-modal-clear" onclick="removeModalImageAndUseBrand()">🏷️ اعتماد اسم البراند (بدون صورة)</button>
-        <button type="button" class="btn-modal-cancel" onclick="closeImageModal()">إلغاء</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- 📦 MODAL: استيراد وتحديث روابط الصور دفعة واحدة (Bulk) -->
-  <!-- ============================================================ -->
-  <div id="bulkImageModalOverlay" class="custom-modal-overlay" style="display:none;" onclick="if(event.target===this) closeBulkImageModal()">
-    <div class="custom-modal-card" style="max-width:560px;">
-      <div class="custom-modal-header">
-        <h3 style="font-size:13pt; font-weight:900; color:#fff;">📷 إضافة روابط صور دفعة واحدة</h3>
-        <button type="button" class="modal-close-btn" onclick="closeBulkImageModal()">✕</button>
-      </div>
-      
-      <div class="modal-body-section">
-        <div style="font-size:9pt; color:#cbd5e1; margin-bottom:8px; line-height:1.4;">
-          الصق الأكواد مع روابط الصور الخاصة بها. كل سطر يحتوي على: <strong>الكود</strong> ثم مسافة أو فاصلة ثم <strong>رابط الصورة</strong>:
-        </div>
-        <textarea id="bulkImageTextarea" class="modal-textarea" placeholder="مثال:&#10;210452 https://cdn.example.com/210452.jpg&#10;105423, https://cdn.example.com/105423.png"></textarea>
-      </div>
-
-      <div class="custom-modal-footer">
-        <button type="button" class="btn-modal-save" onclick="saveBulkImages()">⚡ تطبيق وحفظ الصور</button>
-        <button type="button" class="btn-modal-cancel" onclick="closeBulkImageModal()">إلغاء</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- 🧠 JAVASCRIPT: ADVANCED ROW PACKER & DATA LOGIC -->
+  <!-- 🧠 JAVASCRIPT: ADVANCED SCANNER & ROW PACKER ENGINE -->
   <!-- ============================================================ -->
   <script>
     window.masterProductsDB = [];
     window.masterProductsMap = new Map();
-    window.currentFilteredProducts = [];
+    window.accumulatedProductCodes = new Set(); // القائمة المرفوعة أو الممسوحة
+    window.displayMode = 'all'; // 'all' (Master Database) أو 'uploaded' (الأكواد المرفوعة فقط)
+    window.renderLimit = 150; // عدد الكروت المعروضة أولياً لمنع تجمد المتصفح
+
+    let html5QrScannerInstance = null;
+    let lastScannedCode = "";
+    let lastScanTime = 0;
 
     const MASTER_URLS = [
       "https://raw.githubusercontent.com/meralmohamed121022-cyber/updatedmaster/refs/heads/main/UPDATED%20MASTER%201.json",
@@ -1275,7 +1389,201 @@
       return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
     }
 
-    // 1️⃣ Database Initializer
+    // Audio Beep Generator
+    function playBeepSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 1400;
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      } catch (e) {}
+
+      if (navigator.vibrate) {
+        navigator.vibrate(80);
+      }
+    }
+
+    // ============================================================
+    // 1️⃣ GS1 & BARCODE PARSER
+    // ============================================================
+    function parseBarcodeGS1(rawText) {
+      if (!rawText) return "";
+      let code = String(rawText).trim();
+
+      if (code.startsWith("]C1") || code.startsWith("]d2") || code.startsWith("]e0")) {
+        code = code.substring(3);
+      }
+
+      let digitsOnly = code.replace(/\D/g, "");
+
+      if (digitsOnly.length >= 15) {
+        let gtin14 = digitsOnly.substring(2, 16);
+        if (gtin14.startsWith("0")) {
+          return gtin14.substring(1);
+        } else {
+          return gtin14.substring(0, 13);
+        }
+      }
+
+      if (digitsOnly.length === 15 && digitsOnly.startsWith("0")) {
+        return digitsOnly.substring(1);
+      }
+
+      return digitsOnly || code;
+    }
+
+    function findProductInMaster(scannedInput) {
+      if (!scannedInput) return null;
+      const parsed = parseBarcodeGS1(scannedInput);
+      const clean = String(parsed).trim().toLowerCase();
+      const rawClean = String(scannedInput).replace(/\D/g, '').toLowerCase();
+      const cleanNoZeros = clean.replace(/^0+/, '');
+
+      if (window.masterProductsMap.has(clean)) {
+        return window.masterProductsMap.get(clean);
+      }
+
+      let match = window.masterProductsDB.find(p => {
+        const pCode = String(p.Code || '').trim().toLowerCase();
+        if (pCode === clean || (cleanNoZeros && pCode.replace(/^0+/, '') === cleanNoZeros)) {
+          return true;
+        }
+
+        const gtin = String(p.GTIN || p.gtin || p.Barcode || p.barcode || '').trim().toLowerCase();
+        if (gtin && (gtin === clean || gtin === rawClean || (cleanNoZeros && gtin.replace(/^0+/, '') === cleanNoZeros))) {
+          return true;
+        }
+
+        return false;
+      });
+
+      return match || null;
+    }
+
+    // ============================================================
+    // 2️⃣ CAMERA SCANNER IMPLEMENTATION
+    // ============================================================
+    function openCameraScannerModal() {
+      const modal = document.getElementById('scannerModalBackdrop');
+      modal.style.display = 'flex';
+
+      const feedback = document.getElementById('scannerFeedbackBanner');
+      feedback.style.color = '#34d399';
+      feedback.style.borderColor = '#10b981';
+      feedback.innerText = 'جاري تشغيل الكاميرا...';
+
+      if (!html5QrScannerInstance) {
+        html5QrScannerInstance = new Html5Qrcode("cameraReaderView");
+      }
+
+      const config = {
+        fps: 25,
+        qrbox: { width: 260, height: 180 },
+        aspectRatio: 1.333,
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.QR_CODE,
+          Html5QrcodeSupportedFormats.DATA_MATRIX,
+          Html5QrcodeSupportedFormats.EAN_13,
+          Html5QrcodeSupportedFormats.EAN_8,
+          Html5QrcodeSupportedFormats.CODE_128,
+          Html5QrcodeSupportedFormats.CODE_39
+        ]
+      };
+
+      const onScanSuccess = (decodedText) => {
+        const now = Date.now();
+        if (decodedText === lastScannedCode && (now - lastScanTime) < 1500) {
+          return;
+        }
+        lastScannedCode = decodedText;
+        lastScanTime = now;
+
+        handleScannedCodeEvent(decodedText);
+      };
+
+      html5QrScannerInstance.start(
+        { facingMode: "environment" },
+        config,
+        onScanSuccess,
+        () => {}
+      ).then(() => {
+        feedback.innerText = 'الكاميرا نشطة ✓ وجّه نحو باركود الصنف أو كود GS1...';
+      }).catch(err => {
+        console.error("Camera start error:", err);
+        feedback.style.color = '#f87171';
+        feedback.style.borderColor = '#ef4444';
+        feedback.innerText = 'تعذر الوصول للكاميرا. تأكد من إعطاء الصلاحية في المتصفح.';
+      });
+    }
+
+    function closeCameraScannerModal() {
+      const modal = document.getElementById('scannerModalBackdrop');
+      modal.style.display = 'none';
+
+      if (html5QrScannerInstance) {
+        html5QrScannerInstance.stop().then(() => {
+          html5QrScannerInstance.clear();
+        }).catch(() => {});
+      }
+    }
+
+    function handleScannedCodeEvent(rawScanned) {
+      const feedback = document.getElementById('scannerFeedbackBanner');
+      const product = findProductInMaster(rawScanned);
+      playBeepSound();
+
+      let targetCode = "";
+      if (product) {
+        targetCode = product.Code;
+        feedback.style.color = '#34d399';
+        feedback.style.borderColor = '#10b981';
+        feedback.innerText = `✓ تم التعرف بنجاح: ${product.Brand} - ${product.Code}`;
+      } else {
+        const parsed = parseBarcodeGS1(rawScanned);
+        targetCode = parsed || rawScanned;
+        feedback.style.color = '#fbbf24';
+        feedback.style.borderColor = '#f59e0b';
+        feedback.innerText = `تمت إضافة الكود: ${targetCode} (غير متطابق مع قاعدة البيانات)`;
+      }
+
+      window.accumulatedProductCodes.add(targetCode);
+      setSourceMode('uploaded');
+    }
+
+    function clearAccumulatedCatalog() {
+      if (confirm("هل تريد بالتأكيد مسح كافة الأصناف المرفوعة والعودة لعرض الماستر الشامل؟")) {
+        window.accumulatedProductCodes.clear();
+        setSourceMode('all');
+      }
+    }
+
+    // ============================================================
+    // ⭐ OWN BRAND RECOGNITION (كشف أصناف ماركات الدواء الخاصة PV)
+    // ============================================================
+    window.isOwnBrandToggleActive = false;
+
+    function isProductOwnBrand(product) {
+      if (!product) return false;
+      const p = product.product || product;
+      const m = String(p.Manufacture || p.manufacture || '').trim().toUpperCase();
+      if (m.startsWith('PV-')) return true;
+      const ob = String(p['Own Brand'] || p.ownBrand || p.own_brand || '').trim().toUpperCase();
+      if (ob === 'YES' || ob === 'TRUE' || ob === 'Y' || ob.startsWith('PV-')) return true;
+      const hb = String(p['House Brand'] || p.houseBrand || '').trim().toUpperCase();
+      if (hb === 'YES' || hb === 'TRUE' || hb === 'Y') return true;
+      return false;
+    }
+
+    // ============================================================
+    // 3️⃣ DATABASE INITIALIZATION & FILTER POPULATION
+    // ============================================================
     async function initMasterDatabase() {
       const statusLabel = document.getElementById('dbStatusLabel');
       const progressFill = document.getElementById('dbProgressFill');
@@ -1304,7 +1612,7 @@
         const [part1, part2, part3] = await Promise.all([
           fetchPart(MASTER_URLS[0]).then(d => { updateProgress(45, "تحميل قاعدة بيانات الماستر 2/3..."); return d; }),
           fetchPart(MASTER_URLS[1]).then(d => { updateProgress(75, "تحميل قاعدة بيانات الماستر 3/3..."); return d; }),
-          fetchPart(MASTER_URLS[2]).then(d => { updateProgress(90, "فهرسة الأصناف..."); return d; })
+          fetchPart(MASTER_URLS[2]).then(d => { updateProgress(90, "فهرسة الأصناف وتجهيز الفلاتر..."); return d; })
         ]);
 
         const combined = [...part1, ...part2, ...part3];
@@ -1313,11 +1621,19 @@
           return {
             Code: code,
             "Item Description": p["Item Description"] || p.item_description || p["وصف الصنف"] || "",
+            "Arabic Name": p["أسم المنتج"] || p.arabic_name || p["اسم المنتج"] || "",
             Brand: p.Brand || p.brand || "GENERIC",
             Manufacture: p.Manufacture || p.manufacture || "",
             "Category Level A": p["Category Level A"] || p.category_level_a || "General",
+            "Category Level B": p["Category Level B"] || p.category_level_b || "",
             "Category Level C": p["Category Level C"] || p.category_level_c || p["Category Level D"] || "Uncategorized",
             "Category Level D": p["Category Level D"] || p.category_level_d || p["Category Level C"] || "Uncategorized",
+            "Category Level E": p["Category Level E"] || p.category_level_e || p["Item Class"] || "",
+            "Item Class": p["Item Class"] || p.item_class || "",
+            "Own Brand": p["Own Brand"] || p.ownBrand || "",
+            "Unit Price": parseFloat(p["Unit Price"] || p.unit_price || 0) || 0,
+            Barcode: p.Barcode || p.barcode || (Array.isArray(p.GTIN) ? p.GTIN[0] : (p.GTIN || p.gtin || "")),
+            GTIN: p.GTIN || p.gtin || "",
             image_url: p.image_url || p.Image || p.itemurl || ""
           };
         }).filter(p => p.Code);
@@ -1328,20 +1644,467 @@
         });
 
         document.getElementById('totalDbBadge').innerText = window.masterProductsDB.length.toLocaleString();
+        populateFilterDropdowns();
         updateProgress(100, `جاهز! تم تحميل ${window.masterProductsDB.length.toLocaleString()} صنف ماستر بنجاح`);
+        refreshCatalogDisplay(); // عرض المنتجات تلقائياً عند اكتمال التحميل
       } catch (err) {
         console.error("Master DB Load Error:", err);
-        updateProgress(100, "تنبيه: يمكنك استخدام استيراد الملفات وسيتم استخراج الأصناف تلقائياً");
+        updateProgress(100, "تنبيه: يمكنك استخدام استيراد الملفات أو الاسكانر وسيتم استخراج الأصناف تلقائياً");
       }
     }
 
-    // 2️⃣ File Extraction
+    function populateFilterDropdowns() {
+      const catASelect = document.getElementById('catAFilterSelect');
+      const catBSelect = document.getElementById('catBFilterSelect');
+      const catCSelect = document.getElementById('catCFilterSelect');
+      const catDSelect = document.getElementById('catDFilterSelect');
+      const catESelect = document.getElementById('catEFilterSelect');
+      const brandSelect = document.getElementById('brandFilterSelect');
+      const mfgSelect = document.getElementById('manufactureFilterSelect');
+      const ownBrandSelect = document.getElementById('ownBrandFilterSelect');
+
+      if (!catASelect) return;
+
+      const catASet = new Set();
+      const catBSet = new Set();
+      const catCSet = new Set();
+      const catDSet = new Set();
+      const catESet = new Set();
+      const brandSet = new Set();
+      const mfgSet = new Set();
+      const ownBrandMfgSet = new Set();
+
+      window.masterProductsDB.forEach(p => {
+        if (p["Category Level A"]) catASet.add(p["Category Level A"].trim());
+        if (p["Category Level B"]) catBSet.add(p["Category Level B"].trim());
+        if (p["Category Level C"]) catCSet.add(p["Category Level C"].trim());
+        if (p["Category Level D"]) catDSet.add(p["Category Level D"].trim());
+        if (p["Category Level E"]) catESet.add(p["Category Level E"].trim());
+        if (p.Brand && p.Brand !== 'GENERIC') brandSet.add(p.Brand.trim());
+        if (p.Manufacture) mfgSet.add(p.Manufacture.trim());
+
+        if (isProductOwnBrand(p) && p.Manufacture) {
+          ownBrandMfgSet.add(p.Manufacture.trim());
+        }
+      });
+
+      catASelect.innerHTML = '<option value="">جميع الأقسام الرئيسية (All A)</option>';
+      catBSelect.innerHTML = '<option value="">جميع الفئات الفرعية (All B)</option>';
+      catCSelect.innerHTML = '<option value="">جميع التصنيفات (All C)</option>';
+      catDSelect.innerHTML = '<option value="">جميع المجموعات (All D)</option>';
+      catESelect.innerHTML = '<option value="">جميع الفئات الدقيقة (All E)</option>';
+      brandSelect.innerHTML = '<option value="">جميع الماركات (All Brands)</option>';
+      mfgSelect.innerHTML = '<option value="">جميع المصانع (All Manufacturers)</option>';
+      ownBrandSelect.innerHTML = `
+        <option value="">جميع الأصناف (الكل)</option>
+        <option value="__OWN_ONLY__">⭐ جميع منتجات الدواء الخاصة (Own Brand Only)</option>
+      `;
+
+      Array.from(catASet).sort().forEach(cat => catASelect.add(new Option(cat, cat)));
+      Array.from(catBSet).sort().forEach(cat => catBSelect.add(new Option(cat, cat)));
+      Array.from(catCSet).sort().forEach(cat => catCSelect.add(new Option(cat, cat)));
+      Array.from(catDSet).sort().forEach(cat => catDSelect.add(new Option(cat, cat)));
+      Array.from(catESelect && catESet).sort().forEach(cat => catESelect.add(new Option(cat, cat)));
+      Array.from(brandSet).sort().forEach(brand => brandSelect.add(new Option(brand, brand)));
+      Array.from(mfgSet).sort().forEach(mfg => mfgSelect.add(new Option(mfg, mfg)));
+
+      Array.from(ownBrandMfgSet).sort().forEach(mfg => {
+        ownBrandSelect.add(new Option(`⭐ مصنع: ${mfg}`, mfg));
+      });
+    }
+
+    function onCategoryAChanged() {
+      const catA = document.getElementById('catAFilterSelect').value;
+      const catBSelect = document.getElementById('catBFilterSelect');
+      const catCSelect = document.getElementById('catCFilterSelect');
+      const catDSelect = document.getElementById('catDFilterSelect');
+      const catESelect = document.getElementById('catEFilterSelect');
+
+      const filteredB = new Set();
+      const filteredC = new Set();
+      const filteredD = new Set();
+      const filteredE = new Set();
+
+      window.masterProductsDB.forEach(p => {
+        if (!catA || p["Category Level A"] === catA) {
+          if (p["Category Level B"]) filteredB.add(p["Category Level B"].trim());
+          if (p["Category Level C"]) filteredC.add(p["Category Level C"].trim());
+          if (p["Category Level D"]) filteredD.add(p["Category Level D"].trim());
+          if (p["Category Level E"]) filteredE.add(p["Category Level E"].trim());
+        }
+      });
+
+      catBSelect.innerHTML = '<option value="">جميع الفئات الفرعية (All B)</option>';
+      catCSelect.innerHTML = '<option value="">جميع التصنيفات (All C)</option>';
+      catDSelect.innerHTML = '<option value="">جميع المجموعات (All D)</option>';
+      catESelect.innerHTML = '<option value="">جميع الفئات الدقيقة (All E)</option>';
+
+      Array.from(filteredB).sort().forEach(v => catBSelect.add(new Option(v, v)));
+      Array.from(filteredC).sort().forEach(v => catCSelect.add(new Option(v, v)));
+      Array.from(filteredD).sort().forEach(v => catDSelect.add(new Option(v, v)));
+      Array.from(filteredE).sort().forEach(v => catESelect.add(new Option(v, v)));
+
+      applyActiveFilters();
+    }
+
+    function onCategoryBChanged() {
+      const catA = document.getElementById('catAFilterSelect').value;
+      const catB = document.getElementById('catBFilterSelect').value;
+      const catCSelect = document.getElementById('catCFilterSelect');
+      const catDSelect = document.getElementById('catDFilterSelect');
+      const catESelect = document.getElementById('catEFilterSelect');
+
+      const filteredC = new Set();
+      const filteredD = new Set();
+      const filteredE = new Set();
+
+      window.masterProductsDB.forEach(p => {
+        if ((!catA || p["Category Level A"] === catA) && (!catB || p["Category Level B"] === catB)) {
+          if (p["Category Level C"]) filteredC.add(p["Category Level C"].trim());
+          if (p["Category Level D"]) filteredD.add(p["Category Level D"].trim());
+          if (p["Category Level E"]) filteredE.add(p["Category Level E"].trim());
+        }
+      });
+
+      catCSelect.innerHTML = '<option value="">جميع التصنيفات (All C)</option>';
+      catDSelect.innerHTML = '<option value="">جميع المجموعات (All D)</option>';
+      catESelect.innerHTML = '<option value="">جميع الفئات الدقيقة (All E)</option>';
+
+      Array.from(filteredC).sort().forEach(v => catCSelect.add(new Option(v, v)));
+      Array.from(filteredD).sort().forEach(v => catDSelect.add(new Option(v, v)));
+      Array.from(filteredE).sort().forEach(v => catESelect.add(new Option(v, v)));
+
+      applyActiveFilters();
+    }
+
+    function onCategoryCChanged() {
+      const catA = document.getElementById('catAFilterSelect').value;
+      const catB = document.getElementById('catBFilterSelect').value;
+      const catC = document.getElementById('catCFilterSelect').value;
+      const catDSelect = document.getElementById('catDFilterSelect');
+      const catESelect = document.getElementById('catEFilterSelect');
+
+      const filteredD = new Set();
+      const filteredE = new Set();
+
+      window.masterProductsDB.forEach(p => {
+        if ((!catA || p["Category Level A"] === catA) && 
+            (!catB || p["Category Level B"] === catB) && 
+            (!catC || p["Category Level C"] === catC)) {
+          if (p["Category Level D"]) filteredD.add(p["Category Level D"].trim());
+          if (p["Category Level E"]) filteredE.add(p["Category Level E"].trim());
+        }
+      });
+
+      catDSelect.innerHTML = '<option value="">جميع المجموعات (All D)</option>';
+      catESelect.innerHTML = '<option value="">جميع الفئات الدقيقة (All E)</option>';
+
+      Array.from(filteredD).sort().forEach(v => catDSelect.add(new Option(v, v)));
+      Array.from(filteredE).sort().forEach(v => catESelect.add(new Option(v, v)));
+
+      applyActiveFilters();
+    }
+
+    function setSourceMode(mode) {
+      window.displayMode = mode;
+      window.renderLimit = 150;
+
+      const btnM = document.getElementById('btnModeMaster');
+      const btnU = document.getElementById('btnModeUploaded');
+      if (mode === 'all') {
+        if (btnM) btnM.classList.add('active');
+        if (btnU) btnU.classList.remove('active');
+      } else {
+        if (btnM) btnM.classList.remove('active');
+        if (btnU) btnU.classList.add('active');
+        if (window.accumulatedProductCodes.size === 0) {
+          alert("تنبيه: لم يتم رفع أو إدخال أي أكواد بعد. يمكنك سحب ملف أو إدخال أكواد، وسنعرض لك الآن عينة من الماستر.");
+        }
+      }
+      refreshCatalogDisplay();
+    }
+
+    function toggleQuickOwnBrand() {
+      window.isOwnBrandToggleActive = !window.isOwnBrandToggleActive;
+      const btn = document.getElementById('btnQuickOwnBrand');
+      if (btn) {
+        if (window.isOwnBrandToggleActive) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+      applyActiveFilters();
+    }
+
+    function resetActiveFilters() {
+      document.getElementById('liveSearchInput').value = '';
+      document.getElementById('catAFilterSelect').value = '';
+      document.getElementById('catBFilterSelect').value = '';
+      document.getElementById('catCFilterSelect').value = '';
+      document.getElementById('catDFilterSelect').value = '';
+      document.getElementById('catEFilterSelect').value = '';
+      document.getElementById('brandFilterSelect').value = '';
+      document.getElementById('manufactureFilterSelect').value = '';
+      document.getElementById('ownBrandFilterSelect').value = '';
+
+      window.isOwnBrandToggleActive = false;
+      const btn = document.getElementById('btnQuickOwnBrand');
+      if (btn) btn.classList.remove('active');
+
+      window.renderLimit = 150;
+      populateFilterDropdowns();
+      applyActiveFilters();
+    }
+
+    function loadMoreCatalogItems() {
+      window.renderLimit += 150;
+      refreshCatalogDisplay();
+    }
+
+    // ============================================================
+    // 4️⃣ SMART ROW PACKER WITH MASTER DATABASE SEARCH & FILTERS
+    // ============================================================
+    function applyActiveFilters() {
+      window.renderLimit = 150; // إعادة ضبط الحد عند أي تغيير في الفلاتر
+      refreshCatalogDisplay();
+    }
+
+    function refreshCatalogDisplay() {
+      const container = document.getElementById('magazineRowsContainer');
+      const placeholder = document.getElementById('emptyStatePlaceholder');
+      const totalLoadedBadge = document.getElementById('totalLoadedBadge');
+      const activeVisibleCount = document.getElementById('activeVisibleCount');
+      const uploadedSpan = document.getElementById('uploadedCountSpan');
+
+      if (uploadedSpan) uploadedSpan.innerText = window.accumulatedProductCodes.size;
+
+      const searchQuery = (document.getElementById('liveSearchInput')?.value || '').trim().toLowerCase();
+      const filterCatA = document.getElementById('catAFilterSelect')?.value || '';
+      const filterCatB = document.getElementById('catBFilterSelect')?.value || '';
+      const filterCatC = document.getElementById('catCFilterSelect')?.value || '';
+      const filterCatD = document.getElementById('catDFilterSelect')?.value || '';
+      const filterCatE = document.getElementById('catEFilterSelect')?.value || '';
+      const filterBrand = document.getElementById('brandFilterSelect')?.value || '';
+      const filterMfg = document.getElementById('manufactureFilterSelect')?.value || '';
+      const filterOwnBrand = document.getElementById('ownBrandFilterSelect')?.value || '';
+
+      // 🌟 تحديد مصدر الأصناف:
+      // إذا كان وضع 'uploaded' ولديه أكواد مرفوعة -> يعرض الأكواد المرفوعة
+      // إذا كان وضع 'all' أو لا توجد أكواد مرفوعة -> يبحث في كامل قاعدة بيانات الماستر (81,579 صنف)!
+      let sourceProducts = [];
+      if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
+        if (totalLoadedBadge) totalLoadedBadge.innerText = `${window.accumulatedProductCodes.size} (مرفوع)`;
+        sourceProducts = Array.from(window.accumulatedProductCodes).map(code => {
+          const clean = String(code).trim();
+          return window.masterProductsMap.get(clean) || {
+            Code: clean,
+            "Item Description": "صنف رقم " + clean,
+            "Arabic Name": "",
+            Brand: "GENERIC",
+            Manufacture: "",
+            "Category Level A": "General",
+            "Category Level B": "",
+            "Category Level C": "منتجات متنوعة",
+            "Category Level D": "منتجات متنوعة",
+            "Category Level E": "",
+            image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
+          };
+        });
+      } else {
+        if (totalLoadedBadge) totalLoadedBadge.innerText = window.masterProductsDB.length.toLocaleString();
+        sourceProducts = window.masterProductsDB;
+      }
+
+      if (!sourceProducts || sourceProducts.length === 0) {
+        placeholder.style.display = 'block';
+        placeholder.querySelector('h3').innerText = 'قاعدة البيانات ما زالت قيد التحميل، يرجى الانتظار بضع ثوانٍ...';
+        container.innerHTML = '';
+        if (activeVisibleCount) activeVisibleCount.innerText = '0';
+        return;
+      }
+
+      // 🔍 تطبيق الفلاتر والبحث المباشر الشامل على كامل القاعدة
+      let activeProducts = sourceProducts.filter(p => {
+        if (filterCatA && p["Category Level A"] !== filterCatA) return false;
+        if (filterCatB && p["Category Level B"] !== filterCatB) return false;
+        if (filterCatC && p["Category Level C"] !== filterCatC && p["Category Level D"] !== filterCatC) return false;
+        if (filterCatD && p["Category Level D"] !== filterCatD && p["Category Level C"] !== filterCatD) return false;
+        if (filterCatE && p["Category Level E"] !== filterCatE && p["Item Class"] !== filterCatE) return false;
+        if (filterBrand && p.Brand !== filterBrand) return false;
+        if (filterMfg && p.Manufacture !== filterMfg) return false;
+
+        // ⭐ فلتر Own Brand
+        if (window.isOwnBrandToggleActive && !isProductOwnBrand(p)) return false;
+
+        if (filterOwnBrand === '__OWN_ONLY__') {
+          if (!isProductOwnBrand(p)) return false;
+        } else if (filterOwnBrand) {
+          if (p.Manufacture !== filterOwnBrand) return false;
+        }
+
+        // 🔎 البحث المباشر الشامل في كافة الحقول (كود، اسم إنجليزي، اسم عربي، براند، مصنع، باركود)
+        if (searchQuery) {
+          const inCode = (p.Code || '').toLowerCase().includes(searchQuery);
+          const inDesc = (p["Item Description"] || '').toLowerCase().includes(searchQuery);
+          const inAr = (p["Arabic Name"] || '').toLowerCase().includes(searchQuery);
+          const inBrand = (p.Brand || '').toLowerCase().includes(searchQuery);
+          const inMfg = (p.Manufacture || '').toLowerCase().includes(searchQuery);
+          const inBarcode = String(p.Barcode || '').toLowerCase().includes(searchQuery) ||
+                            (Array.isArray(p.GTIN) ? p.GTIN.some(g => String(g).toLowerCase().includes(searchQuery)) : String(p.GTIN || '').toLowerCase().includes(searchQuery));
+          const inCat = (p["Category Level A"] || '').toLowerCase().includes(searchQuery) ||
+                        (p["Category Level B"] || '').toLowerCase().includes(searchQuery) ||
+                        (p["Category Level C"] || '').toLowerCase().includes(searchQuery) ||
+                        (p["Category Level D"] || '').toLowerCase().includes(searchQuery) ||
+                        (p["Category Level E"] || '').toLowerCase().includes(searchQuery);
+
+          if (!inCode && !inDesc && !inAr && !inBrand && !inMfg && !inBarcode && !inCat) return false;
+        }
+
+        return true;
+      });
+
+      const totalMatchingCount = activeProducts.length;
+      if (activeVisibleCount) activeVisibleCount.innerText = totalMatchingCount.toLocaleString();
+
+      if (totalMatchingCount === 0) {
+        placeholder.style.display = 'block';
+        placeholder.querySelector('h3').innerText = 'لا توجد أصناف مطابقة للفلاتر أو البحث المحدد في قاعدة البيانات';
+        container.innerHTML = '';
+        return;
+      }
+
+      placeholder.style.display = 'none';
+
+      // ترتيب الأصناف بحسب الفئة ثم البراند
+      activeProducts.sort((a, b) => {
+        const catA = (a["Category Level C"] || a["Category Level D"] || a["Category Level B"] || "").toUpperCase();
+        const catB = (b["Category Level C"] || b["Category Level D"] || b["Category Level B"] || "").toUpperCase();
+        if (catA !== catB) return catA.localeCompare(catB);
+        return (a.Brand || "").localeCompare(b.Brand || "");
+      });
+
+      // أخذ حد العرض (مثلاً 150 صنف) لضمان سرعة فائقة وسلاسة في التصفح
+      const itemsToRender = activeProducts.slice(0, window.renderLimit);
+
+      // تجهيز طوابير الفئات
+      const categoryQueues = [];
+      let currentQueue = null;
+
+      itemsToRender.forEach(prod => {
+        const catName = prod["Category Level C"] || prod["Category Level D"] || prod["Category Level B"] || "GENERAL PRODUCTS";
+        if (!currentQueue || currentQueue.category !== catName) {
+          currentQueue = { category: catName, items: [] };
+          categoryQueues.push(currentQueue);
+        }
+        currentQueue.items.push(prod);
+      });
+
+      // خوارزمية الرص: 3 كروت في كل صف
+      const packedRows = [];
+      let currentRow = [];
+      let slotsInCurrentRow = 3;
+
+      for (let q = 0; q < categoryQueues.length; q++) {
+        const catObj = categoryQueues[q];
+        while (catObj.items.length > 0) {
+          const takeCount = Math.min(catObj.items.length, slotsInCurrentRow);
+          const takenItems = catObj.items.splice(0, takeCount);
+
+          currentRow.push({
+            category: catObj.category,
+            items: takenItems
+          });
+
+          slotsInCurrentRow -= takeCount;
+
+          if (slotsInCurrentRow === 0) {
+            packedRows.push(currentRow);
+            currentRow = [];
+            slotsInCurrentRow = 3;
+          }
+        }
+      }
+
+      if (currentRow.length > 0) {
+        packedRows.push(currentRow);
+      }
+
+      // بناء هيكل الـ HTML للصفوف المرصوصة
+      let fullRowsHTML = '';
+
+      packedRows.forEach(rowSegments => {
+        fullRowsHTML += `<div class="packed-magazine-row">`;
+
+        rowSegments.forEach(seg => {
+          const catCount = seg.items.length;
+          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
+          const catColor = getCategoryColor(seg.category);
+
+          fullRowsHTML += `
+            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
+              <div class="cat-segment-banner" style="background: ${catColor};">
+                ${seg.category}
+              </div>
+
+              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
+          `;
+
+          seg.items.forEach(p => {
+            const imgSrc = p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+            const isOwnB = isProductOwnBrand(p);
+            const ownBadge = isOwnB ? `<span class="own-brand-tag">⭐ Own Brand</span>` : '';
+            const mfgLine = p.Manufacture ? `<div class="item-mfg" style="font-size: 7pt; color: #64748b; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 95%;" title="المصنع: ${p.Manufacture}">🏭 ${p.Manufacture}</div>` : '';
+
+            fullRowsHTML += `
+              <div class="magazine-product-card">
+                <span class="code-badge-tag">REF: ${p.Code}</span>
+                ${ownBadge}
+
+                <div class="prod-img-box">
+                  <img src="${imgSrc}" alt="${p.Code}" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/meralmohamed121022-cyber/photos/refs/heads/main/placeholder.png'" loading="lazy" />
+                </div>
+
+                <div class="prod-info-box">
+                  <div class="brand-name">${p.Brand || 'GENERIC'}</div>
+                  <div class="item-desc">${p["Item Description"] || ''}</div>
+                  ${mfgLine}
+                </div>
+              </div>
+            `;
+          });
+
+          fullRowsHTML += `
+              </div>
+            </div>
+          `;
+        });
+
+        fullRowsHTML += `</div>`;
+      });
+
+      // زر عرض المزيد إذا كانت النتائج تتجاوز 150 صنف
+      if (totalMatchingCount > window.renderLimit) {
+        const remaining = totalMatchingCount - window.renderLimit;
+        fullRowsHTML += `
+          <div style="display: flex; justify-content: center; align-items: center; margin: 30px 0; width: 100%;">
+            <button type="button" class="btn-fast-print" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); font-size: 11pt; padding: 12px 28px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);" onclick="loadMoreCatalogItems()">
+              📥 عرض المزيد (+150 صنف) - متبقي ${remaining.toLocaleString()} صنف
+            </button>
+          </div>
+        `;
+      }
+
+      container.innerHTML = fullRowsHTML;
+    }
+
+    // ============================================================
+    // 5️⃣ FILE & MANUAL INPUT HANDLERS (إضافة الأكواد تراكمياً)
+    // ============================================================
     async function handleIncomingFiles(files) {
       if (!files || files.length === 0) return;
       const file = files[0];
       const fileName = file.name.toLowerCase();
-      const statusDisp = document.getElementById('status-display');
-      if (statusDisp) statusDisp.innerText = `جاري قراءة: ${file.name}...`;
 
       try {
         let extractedCodes = [];
@@ -1367,20 +2130,18 @@
           extractedCodes = matches;
         }
 
-        const uniqueCodes = Array.from(new Set(extractedCodes.map(c => String(c).trim()).filter(c => /^\d{4,8}$/.test(c))));
-        
-        if (uniqueCodes.length === 0) {
+        const validCodes = extractedCodes.map(c => String(c).trim()).filter(c => /^\d{4,8}$/.test(c));
+        if (validCodes.length === 0) {
           alert("لم يتم العثور على أكواد أصناف صالحة في الملف المرفق.");
-          if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
           return;
         }
 
-        renderIndividualMagazineRows(uniqueCodes);
-        if (statusDisp) statusDisp.innerText = `تم استخراج وعرض ${uniqueCodes.length} كود صنف بنجاح!`;
+        // إضافة الأكواد إلى القائمة التراكمية
+        validCodes.forEach(c => window.accumulatedProductCodes.add(c));
+        refreshCatalogDisplay();
+        alert(`تمت إضافة ${validCodes.length} كود صنف إلى القائمة المعروضة بنجاح!`);
       } catch (err) {
-        console.error("Error processing file:", err);
         alert("حدث خطأ أثناء قراءة الملف: " + err.message);
-        if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
       }
     }
 
@@ -1418,195 +2179,20 @@
     function applyManualCodes() {
       const text = document.getElementById('manualCodesTextarea').value;
       const matches = text.match(/\b\d{4,8}\b/g) || [];
-      const unique = Array.from(new Set(matches));
-      if (unique.length === 0) {
+      if (matches.length === 0) {
         alert("يرجى إدخال أو لصق أكواد أصناف صالحة.");
         return;
       }
-      renderIndividualMagazineRows(unique);
-      document.getElementById('status-display').innerText = `تم عرض ${unique.length} صنف يدوي بنجاح`;
+      matches.forEach(c => window.accumulatedProductCodes.add(String(c).trim()));
+      refreshCatalogDisplay();
+      document.getElementById('manualCodesTextarea').value = '';
     }
 
     function showAllDatabaseItems() {
-      if (!window.masterProductsDB || window.masterProductsDB.length === 0) {
-        alert("قاعدة البيانات ما زالت قيد التحميل، يرجى الانتظار بضع ثوانٍ...");
-        return;
-      }
-      const sample = window.masterProductsDB.slice(0, 150).map(p => p.Code);
-      renderIndividualMagazineRows(sample);
-      document.getElementById('status-display').innerText = `تم عرض نموذج 150 صنف من الماستر داتابيز`;
+      setSourceMode('all');
+      resetActiveFilters();
     }
 
-    // ============================================================
-    // 3️⃣ SMART ROW PACKER (رص الكروت 3 في الصف الواحد بدون هدر)
-    // ============================================================
-    function renderIndividualMagazineRows(codeList) {
-      const container = document.getElementById('magazineRowsContainer');
-      const placeholder = document.getElementById('emptyStatePlaceholder');
-
-      document.getElementById('totalLoadedBadge').innerText = codeList.length;
-
-      // 1. Resolve every single code to its own product (NO brand aggregation)
-      const individualProducts = [];
-      codeList.forEach(code => {
-        const clean = String(code).trim();
-        const p = window.masterProductsMap.get(clean) || {
-          Code: clean,
-          "Item Description": "صنف رقم " + clean,
-          Brand: "GENERIC",
-          "Category Level A": "General",
-          "Category Level C": "منتجات متنوعة",
-          "Category Level D": "منتجات متنوعة",
-          image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
-        };
-        individualProducts.push(p);
-      });
-
-      window.currentFilteredProducts = individualProducts;
-
-      if (individualProducts.length === 0) {
-        placeholder.style.display = 'block';
-        container.innerHTML = '';
-        return;
-      }
-      placeholder.style.display = 'none';
-
-      // 2. Sort by Category (Level C or D) so items of the same category are grouped together
-      individualProducts.sort((a, b) => {
-        const catA = (a["Category Level C"] || a["Category Level D"] || "").toUpperCase();
-        const catB = (b["Category Level C"] || b["Category Level D"] || "").toUpperCase();
-        if (catA !== catB) return catA.localeCompare(catB);
-        return (a.Brand || "").localeCompare(b.Brand || "");
-      });
-
-      // 3. Queue up items by Category
-      const categoryQueues = [];
-      let currentQueue = null;
-
-      individualProducts.forEach(prod => {
-        const catName = prod["Category Level C"] || prod["Category Level D"] || "GENERAL PRODUCTS";
-        if (!currentQueue || currentQueue.category !== catName) {
-          currentQueue = { category: catName, items: [] };
-          categoryQueues.push(currentQueue);
-        }
-        currentQueue.items.push(prod);
-      });
-
-      // 4. Advanced Row Packing: Pack exactly 3 cards per row across categories
-      const packedRows = []; // Each row has an array of category segments: [{ category, items: [...] }]
-      let currentRow = [];
-      let slotsInCurrentRow = 3;
-
-      for (let q = 0; q < categoryQueues.length; q++) {
-        const catObj = categoryQueues[q];
-        
-        while (catObj.items.length > 0) {
-          const takeCount = Math.min(catObj.items.length, slotsInCurrentRow);
-          const takenItems = catObj.items.splice(0, takeCount);
-
-          currentRow.push({
-            category: catObj.category,
-            items: takenItems
-          });
-
-          slotsInCurrentRow -= takeCount;
-
-          // If row is full (3 items reached), close row and start new one
-          if (slotsInCurrentRow === 0) {
-            packedRows.push(currentRow);
-            currentRow = [];
-            slotsInCurrentRow = 3;
-          }
-        }
-      }
-
-      // If trailing row has leftover items (1 or 2 items), push it
-      if (currentRow.length > 0) {
-        packedRows.push(currentRow);
-      }
-
-      // 5. Generate HTML for the packed rows
-      let fullRowsHTML = '';
-
-      packedRows.forEach(rowSegments => {
-        fullRowsHTML += `<div class="packed-magazine-row">`;
-
-        rowSegments.forEach(seg => {
-          const catCount = seg.items.length;
-          // Calculate exact flex basis based on slots (1 slot = 33.3%, 2 slots = 66.6%, 3 slots = 100%)
-          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
-          const catColor = getCategoryColor(seg.category);
-
-          fullRowsHTML += `
-            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
-              
-              <!-- بانر الفئة الملون الخاص بأصناف هذه الفئة فقط في هذا الصف -->
-              <div class="cat-segment-banner" style="background: ${catColor};">
-                ${seg.category}
-              </div>
-
-              <!-- شبكة كروت هذه الفئة داخل الصف (1 أو 2 أو 3 كروت بجوار بعض) -->
-              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
-          `;
-
-          // Generate each individual product card
-          seg.items.forEach(p => {
-            const savedCustom = getCustomImageUrl(p.Code);
-            const effectiveImg = savedCustom !== undefined ? savedCustom : (p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`);
-            const isOwnB = p.Manufacture && p.Manufacture.toLowerCase().startsWith('pv-');
-            const ownBadge = isOwnB ? `<span class="own-brand-tag">Own Brand</span>` : '';
-            const brandDisplay = p.Brand || 'GENERIC';
-
-            let imgBoxContent = '';
-            if (effectiveImg && effectiveImg.trim() !== '') {
-              imgBoxContent = `
-                <img src="${effectiveImg}" alt="${p.Code}" onerror="handleProductImageError(this, '${p.Code}', '${escapeJs(brandDisplay)}')" />
-                <button type="button" class="btn-card-edit-img" onclick="event.stopPropagation(); openImageModal('${p.Code}')" title="تعديل رابط الصورة">
-                  ✏️ تعديل
-                </button>
-              `;
-            } else {
-              imgBoxContent = `
-                <div class="no-image-brand-box" onclick="openImageModal('${p.Code}')" title="اضغط لإضافة رابط صورة">
-                  <div class="fallback-brand-name">${brandDisplay}</div>
-                  <div class="fallback-sub-code">REF: ${p.Code}</div>
-                  <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${p.Code}')">
-                    📷 إضافة رابط صورة
-                  </button>
-                </div>
-              `;
-            }
-
-            fullRowsHTML += `
-              <div class="magazine-product-card" id="card-${p.Code}">
-                <span class="code-badge-tag">REF: ${p.Code}</span>
-                ${ownBadge}
-
-                <div class="prod-img-box" id="img-box-${p.Code}">
-                  ${imgBoxContent}
-                </div>
-
-                <div class="prod-info-box">
-                  <div class="brand-name">${brandDisplay}</div>
-                  <div class="item-desc">${p["Item Description"] || ''}</div>
-                </div>
-              </div>
-            `;
-          });
-
-          fullRowsHTML += `
-              </div>
-            </div>
-          `;
-        });
-
-        fullRowsHTML += `</div>`;
-      });
-
-      container.innerHTML = fullRowsHTML;
-    }
-
-    // 4️⃣ Tab Switching
     function switchInputTab(tab) {
       const tabBtnFile = document.getElementById('tabBtnFile');
       const tabBtnManual = document.getElementById('tabBtnManual');
@@ -1626,243 +2212,12 @@
       }
     }
 
-    // Drag-Drop Event Handlers
-    const dropZoneEl = document.getElementById('fileDropZone');
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropZoneEl.addEventListener(eventName, e => {
-        e.preventDefault();
-        dropZoneEl.classList.add('dragover');
-      }, false);
-    });
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropZoneEl.addEventListener(eventName, e => {
-        e.preventDefault();
-        dropZoneEl.classList.remove('dragover');
-      }, false);
-    });
-    dropZoneEl.addEventListener('drop', e => {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      handleIncomingFiles(files);
-    }, false);
-
-    // 5️⃣ Fast Print Execution
     function startFastPrintProcess() {
-      if (!window.currentFilteredProducts || window.currentFilteredProducts.length === 0) {
-        alert("يرجى إرفاق ملف أو إدخال أكواد أولاً لعرض الكروت قبل الطباعة.");
+      if (window.accumulatedProductCodes.size === 0) {
+        alert("يرجى مسح أكواد بالاسكانر أو إرفاق ملف لعرض الكروت أولاً قبل الطباعة.");
         return;
       }
-
-      const statusDisp = document.getElementById('status-display');
-      const btn = document.getElementById('fastPrintBtn');
-
-      if (statusDisp) statusDisp.innerText = "جاري تحسين جودة وتجهيز الصفحات للطباعة...";
-      if (btn) btn.disabled = true;
-
-      setTimeout(() => {
-        if (statusDisp) statusDisp.innerText = "جاهز للطباعة!";
-        window.print();
-        setTimeout(() => {
-          if (btn) btn.disabled = false;
-          if (statusDisp) statusDisp.innerText = "اضغط الزر للبدء";
-        }, 1000);
-      }, 400);
-    }
-
-    // ============================================================
-    // 🧠 CUSTOM IMAGES & BRAND FALLBACK LOGIC
-    // ============================================================
-    function escapeJs(str) {
-      return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    }
-
-    function getCustomImagesMap() {
-      try {
-        return JSON.parse(localStorage.getItem('aldawaa_custom_images') || '{}');
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function getCustomImageUrl(code) {
-      const map = getCustomImagesMap();
-      return map[code]; // undefined if not set, string url if set, "" if set to no-image
-    }
-
-    function setCustomImageUrl(code, url) {
-      const map = getCustomImagesMap();
-      if (url === null) {
-        delete map[code];
-      } else {
-        map[code] = (url || '').trim();
-      }
-      localStorage.setItem('aldawaa_custom_images', JSON.stringify(map));
-    }
-
-    function handleProductImageError(imgEl, code, brandDisplay) {
-      const container = imgEl.parentElement;
-      if (!container) return;
-      container.innerHTML = `
-        <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
-          <div class="fallback-brand-name">${brandDisplay || 'GENERIC'}</div>
-          <div class="fallback-sub-code">REF: ${code}</div>
-          <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
-            📷 إضافة رابط صورة
-          </button>
-        </div>
-      `;
-    }
-
-    let currentEditingProductCode = null;
-
-    function openImageModal(code) {
-      currentEditingProductCode = code;
-      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
-      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
-      const desc = prod ? (prod["Item Description"] || '') : '';
-      const saved = getCustomImageUrl(code);
-      const currentImg = saved !== undefined ? saved : (prod ? (prod.image_url || '') : '');
-
-      document.getElementById('modalProductTitle').innerText = `تعديل صورة الصنف: REF ${code}`;
-      document.getElementById('modalProductDesc').innerText = `${brand} - ${desc}`;
-      const inputEl = document.getElementById('modalImageUrlInput');
-      inputEl.value = currentImg;
-      updateModalPreview(currentImg, brand);
-
-      document.getElementById('imageEditModalOverlay').style.display = 'flex';
-      setTimeout(() => inputEl.focus(), 80);
-    }
-
-    function closeImageModal() {
-      document.getElementById('imageEditModalOverlay').style.display = 'none';
-      currentEditingProductCode = null;
-    }
-
-    function onModalInputUrlChange(url) {
-      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(currentEditingProductCode).trim());
-      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
-      updateModalPreview(url, brand);
-    }
-
-    function updateModalPreview(url, brand) {
-      const previewBox = document.getElementById('modalImagePreviewBox');
-      if (url && url.trim()) {
-        previewBox.innerHTML = `<img src="${url.trim()}" style="max-width:92%; max-height:135px; object-fit:contain;" onerror="this.outerHTML='<div style=\'color:#ef4444;font-size:9.5pt;font-weight:bold;padding:10px;\'>❌ الرابط غير صالح أو لا يمكن تحميله</div>'" />`;
-      } else {
-        previewBox.innerHTML = `
-          <div style="padding:15px; border:2px solid #00235B; border-radius:8px; text-align:center; width:85%; background:#fff;">
-            <div style="font-size:13pt; font-weight:1000; color:#00235B; text-transform:uppercase;">${brand || 'GENERIC'}</div>
-            <div style="font-size:8pt; color:#64748b; margin-top:4px;">(سيظهر اسم البراند في الطباعة مكان الصورة)</div>
-          </div>
-        `;
-      }
-    }
-
-    function saveModalImage() {
-      if (!currentEditingProductCode) return;
-      const code = currentEditingProductCode;
-      const url = document.getElementById('modalImageUrlInput').value.trim();
-      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
-      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
-
-      if (url) {
-        setCustomImageUrl(code, url);
-        if (prod) prod.image_url = url;
-      } else {
-        setCustomImageUrl(code, ""); // empty means brand fallback
-        if (prod) prod.image_url = "";
-      }
-
-      const imgBox = document.getElementById(`img-box-${code}`);
-      if (imgBox) {
-        if (url) {
-          imgBox.innerHTML = `
-            <img src="${url}" alt="${code}" onerror="handleProductImageError(this, '${code}', '${escapeJs(brand)}')" />
-            <button type="button" class="btn-card-edit-img" onclick="event.stopPropagation(); openImageModal('${code}')" title="تعديل رابط الصورة">
-              ✏️ تعديل
-            </button>
-          `;
-        } else {
-          imgBox.innerHTML = `
-            <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
-              <div class="fallback-brand-name">${brand}</div>
-              <div class="fallback-sub-code">REF: ${code}</div>
-              <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
-                📷 إضافة رابط صورة
-              </button>
-            </div>
-          `;
-        }
-      }
-
-      closeImageModal();
-    }
-
-    function removeModalImageAndUseBrand() {
-      if (!currentEditingProductCode) return;
-      const code = currentEditingProductCode;
-      const prod = (window.currentFilteredProducts || []).find(p => String(p.Code).trim() === String(code).trim());
-      const brand = prod ? (prod.Brand || 'GENERIC') : 'GENERIC';
-
-      setCustomImageUrl(code, ""); // mark as empty = brand only
-      if (prod) prod.image_url = "";
-
-      const imgBox = document.getElementById(`img-box-${code}`);
-      if (imgBox) {
-        imgBox.innerHTML = `
-          <div class="no-image-brand-box" onclick="openImageModal('${code}')" title="اضغط لإضافة رابط صورة">
-            <div class="fallback-brand-name">${brand}</div>
-            <div class="fallback-sub-code">REF: ${code}</div>
-            <button type="button" class="btn-add-img-badge" onclick="event.stopPropagation(); openImageModal('${code}')">
-              📷 إضافة رابط صورة
-            </button>
-          </div>
-        `;
-      }
-      closeImageModal();
-    }
-
-    // Bulk Image Modal
-    function openBulkImageModal() {
-      document.getElementById('bulkImageModalOverlay').style.display = 'flex';
-    }
-
-    function closeBulkImageModal() {
-      document.getElementById('bulkImageModalOverlay').style.display = 'none';
-    }
-
-    function saveBulkImages() {
-      const text = document.getElementById('bulkImageTextarea').value;
-      if (!text || !text.trim()) {
-        closeBulkImageModal();
-        return;
-      }
-
-      const lines = text.split(/\r?\n/);
-      let count = 0;
-      lines.forEach(line => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
-        const parts = trimmed.split(/[\s,]+/);
-        if (parts.length >= 2) {
-          const code = parts[0].trim();
-          const url = parts.slice(1).join(' ').trim();
-          if (/^\d{4,8}$/.test(code) && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:'))) {
-            setCustomImageUrl(code, url);
-            count++;
-          }
-        }
-      });
-
-      alert(`تم حفظ وتحديث ${count} رابط صورة بنجاح!`);
-      closeBulkImageModal();
-      document.getElementById('bulkImageTextarea').value = '';
-
-      // If cards are currently displayed, re-render them with new images
-      if (window.currentFilteredProducts && window.currentFilteredProducts.length > 0) {
-        const codes = window.currentFilteredProducts.map(p => p.Code);
-        renderIndividualMagazineRows(codes);
-      }
+      window.print();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
