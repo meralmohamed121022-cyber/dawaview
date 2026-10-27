@@ -20,6 +20,8 @@
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
   </script>
+    <!-- JsBarcode (Linear Barcode Generator for Code-128, EAN, GS1) -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
   <!-- Html5Qrcode (Advanced Camera & Barcode/QR/GS1 Scanner) -->
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
@@ -1259,6 +1261,288 @@
       text-align: center;
     }
 
+    
+    /* ============================================================ */
+    /* 📊 GTIN & BARCODE BADGE & MODAL STYLES */
+    /* ============================================================ */
+    .code-badge-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-card-gtin {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: var(--font-en);
+      font-size: 7pt;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 4px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-card-gtin:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(14, 165, 233, 0.45);
+      border-color: #38bdf8;
+    }
+
+    .gtin-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 20, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 999999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeInZoom 0.2s ease-out;
+    }
+
+    .gtin-modal-backdrop.show {
+      display: flex;
+    }
+
+    .gtin-modal-card {
+      background: #0f172a;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .gtin-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gtin-header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .gtin-modal-icon {
+      font-size: 18pt;
+    }
+
+    .gtin-header-title h3 {
+      margin: 0;
+      font-size: 11pt;
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .gtin-product-subtitle {
+      font-size: 8pt;
+      color: #94a3b8;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 380px;
+    }
+
+    .btn-close-gtin {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 13pt;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .btn-close-gtin:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .gtin-modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #0b1329;
+    }
+
+    .gtin-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .gtin-info-lbl {
+      color: #94a3b8;
+      font-size: 8.5pt;
+      font-weight: 700;
+    }
+
+    .gtin-info-val {
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 10pt;
+      font-weight: 800;
+    }
+
+    /* Barcode Display Box (High-contrast pure white for scannability) */
+    .gtin-barcode-display-box {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 14px 12px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #cbd5e1;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .barcode-svg-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    #barcodeSvgRenderer {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .barcode-scan-hint {
+      margin-top: 8px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Copy Section */
+    .gtin-copy-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .gtin-field-label {
+      font-size: 8pt;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    .gtin-input-copy-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .gtin-text-input {
+      flex: 1;
+      background: #090e1a;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 11pt;
+      font-weight: 800;
+      letter-spacing: 1px;
+      outline: none;
+    }
+
+    .btn-copy-gtin {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 9pt;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-copy-gtin:hover {
+      background: #10b981;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    .gtin-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-print-barcode {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-print-barcode:hover {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-done-gtin {
+      background: #334155;
+      color: #ffffff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 9pt;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-done-gtin:hover {
+      background: #475569;
+    }
+
     /* ============================================================ */
     /* 🔍 INTERACTIVE IMAGE ZOOM LIGHTBOX (TOUCH & MOUSE ZOOM) */
     /* ============================================================ */
@@ -1470,6 +1754,8 @@
       .input-section-wrapper,
       .scanner-modal-backdrop,
       .image-zoom-modal-backdrop,
+      .gtin-modal-backdrop,
+      .btn-card-gtin,
       .zoom-hover-hint,
       #dragDropInputSection {
         display: none !important;
@@ -2705,9 +2991,14 @@
 
             fullRowsHTML += `
               <div class="magazine-product-card">
-                <!-- Dedicated Badges Row (Non-overlapping) -->
+                <!-- Dedicated Badges Row (Non-overlapping with GTIN Button) -->
                 <div class="card-top-badges-header">
-                  <span class="code-badge-tag">REF: ${p.Code}</span>
+                  <div class="code-badge-group">
+                    <span class="code-badge-tag">REF: ${p.Code}</span>
+                    <button type="button" class="btn-card-gtin" onclick="event.stopPropagation(); openGtinModal('${p.Code}')" title="View GTIN & Scannable Barcode">
+                      <span>📊</span> GTIN
+                    </button>
+                  </div>
                   ${ownBadge}
                 </div>
 
@@ -3038,10 +3329,265 @@
       }
     }
 
+    
+    // ============================================================
+    // 📊 GTIN & BARCODE MODAL CONTROLLER
+    // ============================================================
+    let currentGtinProduct = null;
+
+    function openGtinModal(code) {
+      const p = window.masterProductsMap.get(String(code).trim());
+      if (!p) {
+        alert("Product details not found for code #" + code);
+        return;
+      }
+      currentGtinProduct = p;
+
+      const modal = document.getElementById('gtinBarcodeModal');
+      const refEl = document.getElementById('gtinRefCode');
+      const subEl = document.getElementById('gtinProductSubtitle');
+      const inputEl = document.getElementById('gtinNumericValue');
+      const addContainer = document.getElementById('additionalGtinsContainer');
+
+      if (!modal) return;
+
+      if (refEl) refEl.innerText = `REF: ${p.Code}`;
+      if (subEl) subEl.innerText = `${p.Brand || 'PRODUCT'} - ${p['Item Description'] || ''}`;
+
+      // Collect all GTIN / Barcode values
+      const gtinList = [];
+      if (p.Barcode && String(p.Barcode).trim()) gtinList.push(String(p.Barcode).trim());
+      if (Array.isArray(p.GTIN)) {
+        p.GTIN.forEach(g => {
+          const s = String(g).trim();
+          if (s && !gtinList.includes(s)) gtinList.push(s);
+        });
+      } else if (p.GTIN && String(p.GTIN).trim()) {
+        const s = String(p.GTIN).trim();
+        if (!gtinList.includes(s)) gtinList.push(s);
+      }
+      if (gtinList.length === 0) {
+        gtinList.push(p.Code); // Fallback to 6-digit ref
+      }
+
+      const primaryGtin = gtinList[0];
+      if (inputEl) inputEl.value = primaryGtin;
+
+      // Render barcode lines
+      renderGtinBarcodeSvg(primaryGtin);
+
+      // Render additional barcodes list if multiple exist
+      if (addContainer) {
+        if (gtinList.length > 1) {
+          let html = '<div style="font-size: 7.5pt; color: #94a3b8; font-weight: 700; margin-top: 4px;">Other Package GTINs:</div><div style="display: flex; gap: 6px; flex-wrap: wrap;">';
+          gtinList.forEach((gt, idx) => {
+            html += `<button type="button" style="background: ${idx === 0 ? '#0284c7' : '#1e293b'}; color: #ffffff; border: 1px solid #38bdf8; border-radius: 6px; padding: 4px 8px; font-size: 7.5pt; font-family: monospace; cursor: pointer;" onclick="selectGtinVariant('${gt}', this)">${gt}</button>`;
+          });
+          html += '</div>';
+          addContainer.innerHTML = html;
+          addContainer.style.display = 'block';
+        } else {
+          addContainer.innerHTML = '';
+          addContainer.style.display = 'none';
+        }
+      }
+
+      modal.classList.add('show');
+    }
+
+    function selectGtinVariant(gtinVal, btn) {
+      const inputEl = document.getElementById('gtinNumericValue');
+      if (inputEl) inputEl.value = gtinVal;
+      renderGtinBarcodeSvg(gtinVal);
+
+      // Highlight active button
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('button').forEach(b => b.style.background = '#1e293b');
+        btn.style.background = '#0284c7';
+      }
+    }
+
+    function renderGtinBarcodeSvg(val) {
+      const svg = document.getElementById('barcodeSvgRenderer');
+      if (!svg) return;
+
+      const cleanVal = String(val).trim();
+      if (!cleanVal) return;
+
+      if (window.JsBarcode) {
+        try {
+          // Standard Code-128 is universal and scannable by all laser/2D readers
+          JsBarcode(svg, cleanVal, {
+            format: "CODE128",
+            width: 2.3,
+            height: 75,
+            displayValue: true,
+            fontSize: 15,
+            font: "monospace",
+            fontOptions: "bold",
+            textMargin: 5,
+            background: "#ffffff",
+            lineColor: "#000000"
+          });
+        } catch (err) {
+          console.warn("JsBarcode CODE128 failed, fallback:", err);
+          JsBarcode(svg, cleanVal, {
+            displayValue: true,
+            width: 2.0,
+            height: 70
+          });
+        }
+      }
+    }
+
+    function closeGtinModal() {
+      const modal = document.getElementById('gtinBarcodeModal');
+      if (modal) modal.classList.remove('show');
+    }
+
+    function handleGtinBackdropClick(e) {
+      if (e.target.id === 'gtinBarcodeModal') {
+        closeGtinModal();
+      }
+    }
+
+    function copyGtinToClipboard() {
+      const inputEl = document.getElementById('gtinNumericValue');
+      const btn = document.getElementById('copyGtinBtn');
+      if (!inputEl) return;
+
+      const val = inputEl.value;
+      if (!val) return;
+
+      navigator.clipboard.writeText(val).then(() => {
+        if (btn) {
+          const oldHTML = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> Copied!';
+          btn.style.background = '#059669';
+          setTimeout(() => {
+            btn.innerHTML = oldHTML;
+            btn.style.background = '';
+          }, 2000);
+        }
+      }).catch(err => {
+        inputEl.select();
+        document.execCommand('copy');
+        alert("Copied: " + val);
+      });
+    }
+
+    function printSingleBarcodeSticker() {
+      if (!currentGtinProduct) return;
+      const val = document.getElementById('gtinNumericValue')?.value || currentGtinProduct.Barcode || currentGtinProduct.Code;
+      const ref = currentGtinProduct.Code;
+      const name = currentGtinProduct['Item Description'] || currentGtinProduct.Brand || '';
+
+      const win = window.open('', '_blank', 'width=450,height=300');
+      if (!win) {
+        alert("Please allow popups to print barcode sticker.");
+        return;
+      }
+
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Sticker - REF ${ref}</title>
+          <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script>
+          <style>
+            @page { size: 60mm 40mm; margin: 0; }
+            body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; text-align: center; }
+            .ref { font-size: 11pt; font-weight: bold; margin-bottom: 2px; }
+            .name { font-size: 7.5pt; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+            svg { max-width: 100%; height: auto; }
+          </style>
+        </head>
+        <body>
+          <div class="ref">REF: ${ref}</div>
+          <div class="name">${name}</div>
+          <svg id="stickerSvg"></svg>
+          <script>
+            window.onload = function() {
+              JsBarcode("#stickerSvg", "${val}", { format: "CODE128", width: 2.2, height: 60, displayValue: true, fontSize: 13, font: "monospace", fontOptions: "bold" });
+              setTimeout(function() { window.print(); }, 200);
+            };
+          <\/script>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+    // Keyboard support: ESC closes GTIN modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGtinModal();
+      }
+    });
+
+
     window.addEventListener('DOMContentLoaded', () => {
       initMasterDatabase();
     });
   </script>
+
+  
+  <!-- ============================================================ -->
+  <!-- 📊 GTIN & SCANNABLE BARCODE MODAL (POPUP) -->
+  <!-- ============================================================ -->
+  <div class="gtin-modal-backdrop" id="gtinBarcodeModal" onclick="handleGtinBackdropClick(event)">
+    <div class="gtin-modal-card" onclick="event.stopPropagation()">
+      <div class="gtin-modal-header">
+        <div class="gtin-header-title">
+          <span class="gtin-modal-icon">📊</span>
+          <div>
+            <h3>Product GTIN & Barcode</h3>
+            <span class="gtin-product-subtitle" id="gtinProductSubtitle">-</span>
+          </div>
+        </div>
+        <button type="button" class="btn-close-gtin" onclick="closeGtinModal()" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="gtin-modal-body">
+        <!-- REF Code Badge -->
+        <div class="gtin-info-row">
+          <span class="gtin-info-lbl">Internal Ref:</span>
+          <span class="gtin-info-val" id="gtinRefCode">REF: -</span>
+        </div>
+
+        <!-- Linear Barcode Section (Scannable Lines) -->
+        <div class="gtin-barcode-display-box">
+          <div class="barcode-svg-container">
+            <svg id="barcodeSvgRenderer"></svg>
+          </div>
+          <div class="barcode-scan-hint">
+            <span>📷</span> Direct-Screen Scannable with Laser / 2D Barcode Scanners
+          </div>
+        </div>
+
+        <!-- GTIN Numeric Value with Copy Button -->
+        <div class="gtin-copy-section">
+          <label class="gtin-field-label">GTIN / Barcode Number:</label>
+          <div class="gtin-input-copy-group">
+            <input type="text" id="gtinNumericValue" readonly class="gtin-text-input" />
+            <button type="button" class="btn-copy-gtin" onclick="copyGtinToClipboard()" id="copyGtinBtn">
+              <span>📋</span> Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Multiple GTINs list if item has more than 1 barcode -->
+        <div id="additionalGtinsContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
+      </div>
+
+      <div class="gtin-modal-footer">
+        <button type="button" class="btn-print-barcode" onclick="printSingleBarcodeSticker()">
+          <span>🖨️</span> Print Barcode Sticker
+        </button>
+        <button type="button" class="btn-done-gtin" onclick="closeGtinModal()">Done</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================================ -->
   <!-- 🔍 INTERACTIVE IMAGE ZOOM MODAL (TOUCH & MOUSE PINCH/ZOOM) -->
