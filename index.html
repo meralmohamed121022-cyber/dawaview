@@ -1176,12 +1176,12 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       z-index: 99999;
       align-items: center;
       justify-content: center;
       padding: 15px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
     .scanner-modal-backdrop.show {
       display: flex;
@@ -1193,11 +1193,11 @@
       border-radius: 20px;
       width: 100%;
       max-width: 520px;
-      padding: 20px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      padding: 18px 20px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(59, 130, 246, 0.25);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       position: relative;
     }
 
@@ -1207,15 +1207,46 @@
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 10px;
+      gap: 10px;
     }
 
     .scanner-modal-header h2 {
-      font-size: 13pt;
+      font-size: 12.5pt;
       color: #ffffff;
       margin: 0;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .scanner-count-pill {
+      background: rgba(59, 130, 246, 0.25);
+      color: #60a5fa;
+      border: 1px solid #3b82f6;
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .btn-scanner-tool {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .btn-scanner-tool:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
     }
 
     .btn-close-scanner {
@@ -1230,35 +1261,102 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
     }
     .btn-close-scanner:hover {
       background: #ef4444;
       color: #ffffff;
     }
 
-    #cameraReaderView {
+    .camera-viewport-container {
+      position: relative;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
       min-height: 250px;
+    }
+
+    #cameraReaderView {
+      width: 100%;
+      min-height: 250px;
+      background: #000000;
+    }
+
+    #cameraReaderView video {
+      object-fit: cover !important;
+      border-radius: 12px;
+    }
+
+    .scanner-laser-line {
+      position: absolute;
+      top: 15%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00e676, #00c853, transparent);
+      box-shadow: 0 0 12px #00e676, 0 0 20px #00c853;
+      border-radius: 2px;
+      pointer-events: none;
+      animation: scannerLaserScan 2.4s ease-in-out infinite alternate;
+      z-index: 10;
+    }
+
+    @keyframes scannerLaserScan {
+      0% { top: 15%; opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { top: 85%; opacity: 0.8; }
     }
 
     .scanner-feedback-banner {
       background: rgba(59, 130, 246, 0.15);
       border: 1px solid #3b82f6;
       color: #93c5fd;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
       font-size: 9pt;
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.25s ease;
+      unicode-bidi: plaintext;
+    }
+
+    .scanner-modal-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
     }
 
     .scanner-format-tips {
       font-size: 8pt;
       color: #94a3b8;
       text-align: center;
+    }
+
+    .btn-scanner-done {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 9.5pt;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .btn-scanner-done:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-1px);
     }
 
     
@@ -2111,14 +2209,41 @@
   <div class="scanner-modal-backdrop" id="scannerModalBackdrop">
     <div class="scanner-modal-card">
       <div class="scanner-modal-header">
-        <h2><span>📷</span> Smart Barcode & GS1 Scanner</h2>
-        <button class="btn-close-scanner" onclick="closeCameraScannerModal()">✕</button>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <h2><span>📷</span> Smart Barcode & GS1 Scanner</h2>
+          <span class="scanner-count-pill" id="scannerCountBadge">0 item(s) scanned</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button type="button" class="btn-scanner-tool" id="btnScannerTorch" onclick="toggleScannerTorch()" title="Toggle Camera Flashlight" style="display: none;">
+            ⚡ Torch
+          </button>
+          <button type="button" class="btn-scanner-tool" id="btnScannerZoom" onclick="cycleScannerZoom()" title="Cycle Camera Zoom" style="display: none;">
+            🔍 1.0x
+          </button>
+          <button type="button" class="btn-close-scanner" onclick="closeCameraScannerModal()" title="Close Scanner">✕</button>
+        </div>
       </div>
-      <div id="cameraReaderView"></div>
-      <div class="scanner-feedback-banner" id="scannerFeedbackBanner">Point camera at GS1 QR code or barcode...</div>
-      <div class="scanner-format-tips">Supports GS1 DataMatrix, QR Code, EAN-13, EAN-8, Code-128 & Code-39</div>
+
+      <div class="camera-viewport-container">
+        <div id="cameraReaderView"></div>
+        <div class="scanner-laser-line"></div>
+      </div>
+
+      <div class="scanner-feedback-banner" id="scannerFeedbackBanner" dir="auto">
+        Point camera at pharmaceutical GS1 DataMatrix or barcode...
+      </div>
+
+      <div class="scanner-modal-footer">
+        <div class="scanner-format-tips">
+          Supports GS1 DataMatrix (SFDA), QR Code, EAN-13, EAN-8, Code-128 & Code-39
+        </div>
+        <button type="button" class="btn-scanner-done" onclick="closeCameraScannerModal()">
+          ✓ Done (View Catalog)
+        </button>
+      </div>
     </div>
   </div>
+
 
   <!-- ============================================================ -->
   <!-- 🧠 JAVASCRIPT: ADVANCED MULTI-SELECT FILTERING & PRINT ENGINE -->
@@ -2126,6 +2251,7 @@
   <script>
     window.masterProductsDB = [];
     window.masterProductsMap = new Map();
+    window.masterBarcodeMap = new Map();
     window.accumulatedProductCodes = new Set();
     window.displayMode = 'all'; // 'all' (Master DB) or 'uploaded'
     window.renderLimit = 150;
@@ -2207,95 +2333,323 @@
     }
 
     // ============================================================
-    // 1️⃣ GS1 & BARCODE PARSER
+    // 1️⃣ GS1 & BARCODE PARSER (Supports SFDA DataMatrix & Global GS1)
     // ============================================================
-    function parseBarcodeGS1(rawText) {
-      if (!rawText) return "";
-      let code = String(rawText).trim();
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-      if (code.startsWith("]C1") || code.startsWith("]d2") || code.startsWith("]e0")) {
-        code = code.substring(3);
+    function parseBarcodeGS1(rawText) {
+      if (!rawText) return { gtin: "", gtin14: "", gtin13: "", digitsOnly: "", exp: "", lot: "", sn: "", raw: "" };
+      let str = String(rawText).trim();
+
+      // 1. Remove Symbology Identifiers (]d2, ]Q3, ]C1, ]e0, etc.)
+      if (/^\][a-zA-Z0-9]{2}/.test(str)) {
+        str = str.substring(3);
       }
 
-      let digitsOnly = code.replace(/\D/g, "");
+      // Normalize FNC1 / ASCII 29 (Group Separator) into pipe '|'
+      str = str.replace(/[\x1d\x1e\x1f]/g, '|');
 
-      if (digitsOnly.length >= 15) {
-        let gtin14 = digitsOnly.substring(2, 16);
-        if (gtin14.startsWith("0")) {
-          return gtin14.substring(1);
-        } else {
-          return gtin14.substring(0, 13);
+      let gtin14 = "";
+      let exp = "";
+      let lot = "";
+      let sn = "";
+
+      // 2. Check GS1 Digital Link URL: e.g. https://id.gs1.org/01/06285095004681...
+      const urlMatch = str.match(/\/01\/(\d{14})/);
+      if (urlMatch) {
+        gtin14 = urlMatch[1];
+      }
+
+      // 3. Check bracketed AI format: (01)06285095004681(17)290500(10)1016082(21)TTUNDGD431BA8Q3
+      if (!gtin14 && /\(01\)(\d{14})/.test(str)) {
+        const mG = str.match(/\(01\)(\d{14})/);
+        if (mG) gtin14 = mG[1];
+        const mE = str.match(/\(17\)(\d{6})/);
+        if (mE) exp = mE[1];
+        const mL = str.match(/\(10\)([^()|]+)/);
+        if (mL) lot = mL[1].trim();
+        const mS = str.match(/\(21\)([^()|]+)/);
+        if (mS) sn = mS[1].trim();
+      }
+
+      // 4. Check raw GS1 continuous string (Standard SFDA format): starts with "01" + 14 digits
+      if (!gtin14 && str.startsWith("01") && /^\d{16}/.test(str)) {
+        gtin14 = str.substring(2, 16);
+        let rem = str.substring(16);
+
+        while (rem.length > 0) {
+          if (rem.startsWith('|')) {
+            rem = rem.substring(1);
+            continue;
+          }
+          if (rem.startsWith('17') && rem.length >= 8 && /^\d{6}/.test(rem.substring(2, 8))) {
+            exp = rem.substring(2, 8);
+            rem = rem.substring(8);
+          } else if (rem.startsWith('10')) {
+            rem = rem.substring(2);
+            let endIdx = rem.indexOf('|');
+            if (endIdx === -1) {
+              const nextAiMatch = rem.search(/(?:17\d{6}|21[A-Za-z0-9]+)/);
+              if (nextAiMatch > 0) {
+                lot = rem.substring(0, nextAiMatch);
+                rem = rem.substring(nextAiMatch);
+              } else {
+                lot = rem;
+                rem = "";
+              }
+            } else {
+              lot = rem.substring(0, endIdx);
+              rem = rem.substring(endIdx + 1);
+            }
+          } else if (rem.startsWith('21')) {
+            rem = rem.substring(2);
+            let endIdx = rem.indexOf('|');
+            if (endIdx === -1) {
+              sn = rem;
+              rem = "";
+            } else {
+              sn = rem.substring(0, endIdx);
+              rem = rem.substring(endIdx + 1);
+            }
+          } else {
+            break;
+          }
         }
       }
 
-      if (digitsOnly.length === 15 && digitsOnly.startsWith("0")) {
-        return digitsOnly.substring(1);
+      // 5. If still no GTIN, search for any "01" followed by 14 digits
+      if (!gtin14) {
+        const anyG = str.match(/(?:^|\D)01(\d{14})(?:\D|$)/);
+        if (anyG) {
+          gtin14 = anyG[1];
+        }
       }
 
-      return digitsOnly || code;
+      // 6. Check pure digits
+      const digitsOnly = str.replace(/\D/g, "");
+      if (!gtin14) {
+        if (digitsOnly.length === 14) {
+          gtin14 = digitsOnly;
+        } else if (digitsOnly.length === 13) {
+          gtin14 = "0" + digitsOnly;
+        } else if (digitsOnly.length >= 16 && digitsOnly.startsWith("01")) {
+          gtin14 = digitsOnly.substring(2, 16);
+        } else if (digitsOnly.length >= 14) {
+          gtin14 = digitsOnly.substring(0, 14);
+        }
+      }
+
+      // Derive GTIN-13 (EAN-13)
+      let gtin13 = "";
+      if (gtin14) {
+        gtin13 = gtin14.startsWith("0") ? gtin14.substring(1) : gtin14;
+      } else if (digitsOnly.length === 13) {
+        gtin13 = digitsOnly;
+        gtin14 = "0" + digitsOnly;
+      }
+
+      const primaryCode = gtin13 || gtin14 || digitsOnly || str;
+
+      return {
+        gtin: primaryCode,
+        gtin14: gtin14,
+        gtin13: gtin13,
+        digitsOnly: digitsOnly,
+        exp: exp,
+        lot: lot,
+        sn: sn,
+        raw: rawText
+      };
     }
 
     function findProductInMaster(scannedInput) {
       if (!scannedInput) return null;
-      const parsed = parseBarcodeGS1(scannedInput);
-      const clean = String(parsed).trim().toLowerCase();
-      const rawClean = String(scannedInput).replace(/\D/g, '').toLowerCase();
-      const cleanNoZeros = clean.replace(/^0+/, '');
+      const parsed = (typeof scannedInput === 'object' && scannedInput.gtin) ? scannedInput : parseBarcodeGS1(scannedInput);
 
-      if (window.masterProductsMap.has(clean)) {
-        return window.masterProductsMap.get(clean);
+      const candidates = [];
+      if (parsed.gtin13) candidates.push(parsed.gtin13);
+      if (parsed.gtin14) candidates.push(parsed.gtin14);
+      if (parsed.gtin) candidates.push(parsed.gtin);
+      if (parsed.digitsOnly) {
+        candidates.push(parsed.digitsOnly);
+        candidates.push(parsed.digitsOnly.replace(/^0+/, ''));
+      }
+      const rawTrimmed = String(scannedInput.raw || scannedInput).trim();
+      candidates.push(rawTrimmed);
+      candidates.push(rawTrimmed.toLowerCase());
+
+      // 1. O(1) Fast lookup in masterBarcodeMap
+      if (window.masterBarcodeMap) {
+        for (const key of candidates) {
+          if (!key) continue;
+          if (window.masterBarcodeMap.has(key)) {
+            return window.masterBarcodeMap.get(key);
+          }
+          const lower = key.toLowerCase();
+          if (window.masterBarcodeMap.has(lower)) {
+            return window.masterBarcodeMap.get(lower);
+          }
+        }
       }
 
-      let match = window.masterProductsDB.find(p => {
-        const pCode = String(p.Code || '').trim().toLowerCase();
-        if (pCode === clean || (cleanNoZeros && pCode.replace(/^0+/, '') === cleanNoZeros)) {
-          return true;
+      // 2. O(1) Fast lookup in masterProductsMap
+      if (window.masterProductsMap) {
+        for (const key of candidates) {
+          if (!key) continue;
+          if (window.masterProductsMap.has(key)) {
+            return window.masterProductsMap.get(key);
+          }
         }
+      }
 
-        const gtin = String(p.GTIN || p.gtin || p.Barcode || p.barcode || '').trim().toLowerCase();
-        if (gtin && (gtin === clean || gtin === rawClean || (cleanNoZeros && gtin.replace(/^0+/, '') === cleanNoZeros))) {
-          return true;
-        }
+      // 3. Fallback scan through masterProductsDB
+      if (Array.isArray(window.masterProductsDB)) {
+        const cleanNoZeros = (parsed.gtin13 || parsed.digitsOnly || '').replace(/^0+/, '');
+        const match = window.masterProductsDB.find(p => {
+          const pCode = String(p.Code || '').trim();
+          if (candidates.includes(pCode) || (cleanNoZeros && pCode.replace(/^0+/, '') === cleanNoZeros)) {
+            return true;
+          }
 
-        return false;
-      });
+          if (p.Barcode && candidates.includes(String(p.Barcode).trim())) {
+            return true;
+          }
 
-      return match || null;
+          if (Array.isArray(p.GTIN)) {
+            for (const g of p.GTIN) {
+              const gStr = String(g).trim();
+              if (candidates.includes(gStr) || (cleanNoZeros && gStr.replace(/^0+/, '') === cleanNoZeros)) {
+                return true;
+              }
+            }
+          } else if (p.GTIN && candidates.includes(String(p.GTIN).trim())) {
+            return true;
+          }
+
+          return false;
+        });
+
+        if (match) return match;
+      }
+
+      return null;
     }
 
     // ============================================================
-    // 2️⃣ CAMERA SCANNER
+    // 2️⃣ HIGH-ACCURACY CAMERA SCANNER (SFDA GS1 DATAMATRIX + BARCODES)
     // ============================================================
+    let isTorchOn = false;
+    let currentZoom = 1.0;
+
+    async function toggleScannerTorch() {
+      if (!html5QrScannerInstance) return;
+      try {
+        const track = html5QrScannerInstance.getRunningTrack();
+        if (!track) return;
+        isTorchOn = !isTorchOn;
+        await track.applyConstraints({ advanced: [{ torch: isTorchOn }] });
+        const btn = document.getElementById('btnScannerTorch');
+        if (btn) {
+          btn.style.background = isTorchOn ? '#eab308' : 'rgba(255, 255, 255, 0.08)';
+          btn.style.color = isTorchOn ? '#000000' : '#e2e8f0';
+          btn.innerText = isTorchOn ? '⚡ Torch ON' : '⚡ Torch';
+        }
+      } catch (e) {
+        console.warn("Torch toggle not supported on this device/camera:", e);
+      }
+    }
+
+    async function cycleScannerZoom() {
+      if (!html5QrScannerInstance) return;
+      try {
+        const track = html5QrScannerInstance.getRunningTrack();
+        if (!track) return;
+        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+        if (capabilities.zoom) {
+          const min = capabilities.zoom.min || 1.0;
+          const max = Math.min(capabilities.zoom.max || 3.0, 3.0);
+          currentZoom = currentZoom >= 2.0 ? min : 2.0;
+          await track.applyConstraints({ advanced: [{ zoom: currentZoom }] });
+          const btn = document.getElementById('btnScannerZoom');
+          if (btn) {
+            btn.innerText = `🔍 ${currentZoom.toFixed(1)}x`;
+          }
+        }
+      } catch (e) {
+        console.warn("Zoom not supported:", e);
+      }
+    }
+
+    function detectCameraCapabilities() {
+      try {
+        const track = html5QrScannerInstance.getRunningTrack();
+        if (!track) return;
+        const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+        const btnTorch = document.getElementById('btnScannerTorch');
+        const btnZoom = document.getElementById('btnScannerZoom');
+        if (btnTorch && capabilities.torch) {
+          btnTorch.style.display = 'inline-flex';
+        }
+        if (btnZoom && capabilities.zoom) {
+          btnZoom.style.display = 'inline-flex';
+        }
+      } catch (e) {}
+    }
+
     function openCameraScannerModal() {
       const modal = document.getElementById('scannerModalBackdrop');
       modal.style.display = 'flex';
 
       const feedback = document.getElementById('scannerFeedbackBanner');
-      feedback.style.color = '#34d399';
-      feedback.style.borderColor = '#10b981';
-      feedback.innerText = 'Initializing camera...';
+      feedback.style.color = '#38bdf8';
+      feedback.style.borderColor = '#0284c7';
+      feedback.style.background = 'rgba(56, 189, 248, 0.15)';
+      feedback.innerHTML = '⚡ Initializing high-accuracy GS1/DataMatrix camera...';
+
+      const countEl = document.getElementById('scannerCountBadge');
+      if (countEl) {
+        countEl.innerText = `${window.accumulatedProductCodes.size} item(s) scanned`;
+      }
 
       if (!html5QrScannerInstance) {
-        html5QrScannerInstance = new Html5Qrcode("cameraReaderView");
+        html5QrScannerInstance = new Html5Qrcode("cameraReaderView", {
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true
+          },
+          verbose: false
+        });
       }
 
       const config = {
         fps: 25,
-        qrbox: { width: 260, height: 180 },
-        aspectRatio: 1.333,
+        qrbox: (viewfinderWidth, viewfinderHeight) => {
+          const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78);
+          return { width: edge, height: edge };
+        },
         formatsToSupport: [
-          Html5QrcodeSupportedFormats.QR_CODE,
           Html5QrcodeSupportedFormats.DATA_MATRIX,
+          Html5QrcodeSupportedFormats.QR_CODE,
           Html5QrcodeSupportedFormats.EAN_13,
           Html5QrcodeSupportedFormats.EAN_8,
           Html5QrcodeSupportedFormats.CODE_128,
-          Html5QrcodeSupportedFormats.CODE_39
+          Html5QrcodeSupportedFormats.CODE_39,
+          Html5QrcodeSupportedFormats.UPC_A,
+          Html5QrcodeSupportedFormats.UPC_E,
+          Html5QrcodeSupportedFormats.ITF
         ]
       };
 
       const onScanSuccess = (decodedText) => {
         const now = Date.now();
-        if (decodedText === lastScannedCode && (now - lastScanTime) < 1500) {
+        if (decodedText === lastScannedCode && (now - lastScanTime) < 1800) {
           return;
         }
         lastScannedCode = decodedText;
@@ -2304,24 +2658,50 @@
         handleScannedCodeEvent(decodedText);
       };
 
-      html5QrScannerInstance.start(
-        { facingMode: "environment" },
-        config,
-        onScanSuccess,
-        () => {}
-      ).then(() => {
-        feedback.innerText = 'Camera active ✓ Point at barcode or GS1 QR...';
+      const startWithConstraints = (videoConstraints) => {
+        return html5QrScannerInstance.start(
+          videoConstraints,
+          config,
+          onScanSuccess,
+          () => {}
+        );
+      };
+
+      // Try 1080p high definition first (essential for resolving small 2D DataMatrix dots)
+      startWithConstraints({
+        facingMode: "environment",
+        width: { ideal: 1920, min: 1280 },
+        height: { ideal: 1080, min: 720 },
+        focusMode: "continuous"
+      }).then(() => {
+        feedback.innerHTML = 'Camera active ✓ Point at pharmaceutical GS1 DataMatrix or barcode...';
+        detectCameraCapabilities();
       }).catch(err => {
-        console.error("Camera start error:", err);
-        feedback.style.color = '#f87171';
-        feedback.style.borderColor = '#ef4444';
-        feedback.innerText = 'Cannot access camera. Please check permissions in your browser.';
+        console.warn("1080p camera constraint failed, retrying standard environment camera:", err);
+        startWithConstraints({ facingMode: "environment" }).then(() => {
+          feedback.innerHTML = 'Camera active ✓ Point at pharmaceutical GS1 DataMatrix or barcode...';
+          detectCameraCapabilities();
+        }).catch(err2 => {
+          console.error("Camera start error:", err2);
+          feedback.style.color = '#f87171';
+          feedback.style.borderColor = '#ef4444';
+          feedback.style.background = 'rgba(239, 68, 68, 0.15)';
+          feedback.innerHTML = 'Cannot access camera. Please check camera permissions in your browser.';
+        });
       });
     }
 
     function closeCameraScannerModal() {
       const modal = document.getElementById('scannerModalBackdrop');
       modal.style.display = 'none';
+
+      isTorchOn = false;
+      const btnTorch = document.getElementById('btnScannerTorch');
+      if (btnTorch) {
+        btnTorch.style.background = '';
+        btnTorch.style.color = '';
+        btnTorch.innerText = '⚡ Torch';
+      }
 
       if (html5QrScannerInstance) {
         html5QrScannerInstance.stop().then(() => {
@@ -2331,25 +2711,60 @@
     }
 
     function handleScannedCodeEvent(rawScanned) {
-      const feedback = document.getElementById('scannerFeedbackBanner');
-      const product = findProductInMaster(rawScanned);
+      const parsed = parseBarcodeGS1(rawScanned);
+      const product = findProductInMaster(parsed);
       playBeepSound();
 
+      const banner = document.getElementById('scannerFeedbackBanner');
       let targetCode = "";
+
       if (product) {
-        targetCode = product.Code;
-        feedback.style.color = '#34d399';
-        feedback.style.borderColor = '#10b981';
-        feedback.innerText = `✓ Scanned: ${product.Brand} - ${product.Code}`;
+        targetCode = String(product.Code).trim();
+        const dispGtin = parsed.gtin14 || parsed.gtin13 || product.Barcode || product.Code;
+        let expMeta = "";
+        if (parsed.exp && parsed.exp.length === 6) {
+          expMeta = ` | 📅 EXP: 20${parsed.exp.slice(0, 2)}/${parsed.exp.slice(2, 4)}`;
+        }
+        if (parsed.lot) {
+          expMeta += ` | B.No: ${parsed.lot}`;
+        }
+
+        banner.style.color = '#34d399';
+        banner.style.borderColor = '#10b981';
+        banner.style.background = 'rgba(16, 185, 129, 0.15)';
+        banner.innerHTML = `
+          <div style="font-weight: 800; font-size: 10.5pt; color: #34d399;">
+            ✓ Found: ${escapeHtml(product['Arabic Name'] || product['Item Description'])}
+          </div>
+          <div style="font-size: 8.5pt; color: #cbd5e1; margin-top: 3px;">
+            <strong style="color: #ffd600;">${product['Unit Price'] ? product['Unit Price'].toFixed(2) + ' SAR' : ''}</strong>
+            &bull; REF: <span style="color: #38bdf8; font-weight: 700;">${product.Code}</span>
+            &bull; GTIN: <span style="font-family: monospace;">${dispGtin}</span>
+            ${expMeta ? `<span style="color: #94a3b8;">${expMeta}</span>` : ''}
+          </div>
+        `;
       } else {
-        const parsed = parseBarcodeGS1(rawScanned);
-        targetCode = parsed || rawScanned;
-        feedback.style.color = '#fbbf24';
-        feedback.style.borderColor = '#f59e0b';
-        feedback.innerText = `Added code: ${targetCode} (Not matched in master)`;
+        targetCode = parsed.gtin13 || parsed.gtin14 || parsed.digitsOnly || String(rawScanned).trim();
+        banner.style.color = '#fbbf24';
+        banner.style.borderColor = '#f59e0b';
+        banner.style.background = 'rgba(245, 158, 11, 0.15)';
+        banner.innerHTML = `
+          <div style="font-weight: 800; font-size: 10pt; color: #fbbf24;">
+            ⚠ Scanned Code: <span style="font-family: monospace;">${escapeHtml(targetCode)}</span>
+          </div>
+          <div style="font-size: 8pt; color: #94a3b8; margin-top: 2px;">
+            Not found in Master Catalog — added to uploaded list
+          </div>
+        `;
       }
 
       window.accumulatedProductCodes.add(targetCode);
+
+      const countEl = document.getElementById('scannerCountBadge');
+      if (countEl) {
+        countEl.innerText = `${window.accumulatedProductCodes.size} item(s) scanned`;
+      }
+
       setSourceMode('uploaded');
     }
 
@@ -2361,7 +2776,7 @@
     }
 
     // ============================================================
-    // 3️⃣ DATABASE INITIALIZATION
+    // 3️⃣ DATABASE INITIALIZATION & MULTI-GTIN INDEXING
     // ============================================================
     async function initMasterDatabase() {
       const statusLabel = document.getElementById('dbStatusLabel');
@@ -2397,6 +2812,23 @@
         const combined = [...part1, ...part2, ...part3];
         window.masterProductsDB = combined.map(p => {
           const code = String(p.Code || p.code || p.ItemCode || "").trim();
+
+          // Normalize GTIN into array of clean strings
+          let gtinArr = [];
+          if (Array.isArray(p.GTIN)) {
+            gtinArr = p.GTIN.map(g => String(g || '').trim()).filter(Boolean);
+          } else if (p.GTIN) {
+            gtinArr = String(p.GTIN).split(/[\s,;]+/).map(g => g.trim()).filter(Boolean);
+          }
+          if (p.Barcode && !gtinArr.includes(String(p.Barcode).trim())) {
+            gtinArr.unshift(String(p.Barcode).trim());
+          }
+          if (p.barcode && !gtinArr.includes(String(p.barcode).trim())) {
+            gtinArr.unshift(String(p.barcode).trim());
+          }
+
+          const primaryBarcode = gtinArr.length > 0 ? gtinArr[0] : code;
+
           return {
             Code: code,
             "Item Description": p["Item Description"] || p.item_description || p["وصف الصنف"] || "",
@@ -2411,15 +2843,44 @@
             "Item Class": p["Item Class"] || p.item_class || "",
             "Own Brand": p["Own Brand"] || p.ownBrand || "",
             "Unit Price": parseFloat(p["Unit Price"] || p.unit_price || 0) || 0,
-            Barcode: p.Barcode || p.barcode || (Array.isArray(p.GTIN) ? p.GTIN[0] : (p.GTIN || p.gtin || "")),
-            GTIN: p.GTIN || p.gtin || "",
+            Barcode: primaryBarcode,
+            GTIN: gtinArr,
             image_url: p.image_url || p.Image || p.itemurl || ""
           };
         }).filter(p => p.Code);
 
+        // Build dual ultra-fast lookup maps
         window.masterProductsMap.clear();
+        window.masterBarcodeMap.clear();
+
         window.masterProductsDB.forEach(p => {
-          window.masterProductsMap.set(p.Code, p);
+          const code = String(p.Code).trim();
+          window.masterProductsMap.set(code, p);
+          window.masterProductsMap.set(code.toLowerCase(), p);
+          window.masterBarcodeMap.set(code, p);
+          window.masterBarcodeMap.set(code.toLowerCase(), p);
+          window.masterBarcodeMap.set(code.replace(/^0+/, ''), p);
+
+          // Index every barcode and GTIN variant
+          if (Array.isArray(p.GTIN)) {
+            p.GTIN.forEach(g => {
+              const str = String(g).trim();
+              if (!str) return;
+              const clean = str.toLowerCase();
+              const digits = clean.replace(/\D/g, '');
+
+              window.masterBarcodeMap.set(clean, p);
+              if (digits) {
+                window.masterBarcodeMap.set(digits, p);
+                window.masterBarcodeMap.set(digits.replace(/^0+/, ''), p);
+                if (digits.length === 13) {
+                  window.masterBarcodeMap.set("0" + digits, p);
+                } else if (digits.length === 14 && digits.startsWith("0")) {
+                  window.masterBarcodeMap.set(digits.substring(1), p);
+                }
+              }
+            });
+          }
         });
 
         document.getElementById('totalDbBadge').innerText = window.masterProductsDB.length.toLocaleString();
@@ -2556,7 +3017,7 @@
         if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
           sourceProducts = Array.from(window.accumulatedProductCodes).map(code => {
             const clean = String(code).trim();
-            return window.masterProductsMap.get(clean) || {
+            return window.masterProductsMap.get(clean) || (window.masterBarcodeMap && window.masterBarcodeMap.get(clean)) || findProductInMaster(clean) || {
               Code: clean,
               "Item Description": "Item #" + clean,
               "Arabic Name": "",
