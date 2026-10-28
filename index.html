@@ -938,14 +938,14 @@
     }
 
     /* ============================================================ */
-    /* 📱 COMPREHENSIVE MOBILE RESPONSIVENESS */
+    /* 📱 COMPREHENSIVE MOBILE RESPONSIVENESS (COMPACT & PROPORTIONAL) */
     /* ============================================================ */
     @media screen and (max-width: 900px) {
       .top-action-bar {
-        padding: 12px 14px;
+        padding: 10px 14px;
         flex-direction: column;
         align-items: stretch;
-        gap: 12px;
+        gap: 10px;
       }
 
       .brand-title-group {
@@ -956,52 +956,31 @@
       .actions-center-group {
         justify-content: center;
         width: 100%;
+        gap: 6px;
       }
 
       .btn-fast-print, .btn-scanner-toggle, .btn-clear-items {
         flex: 1 1 auto;
         justify-content: center;
-        font-size: 10pt;
-        padding: 9px 12px;
+        font-size: 9pt;
+        padding: 8px 10px;
       }
 
       .stats-info-box {
         justify-content: space-around;
         width: 100%;
+        padding: 5px 12px;
       }
 
       .filter-toolbar-card, .input-section-wrapper, .magazine-display-area {
-        padding: 0 10px;
-      }
-
-      .filter-inner-box {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 12px;
-        gap: 8px;
-      }
-
-      .search-input-wrapper {
-        grid-column: 1 / -1;
-      }
-
-      .filter-pills-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-
-      .pills-left-group {
-        justify-content: center;
-      }
-
-      .filter-count-badge {
-        justify-content: center;
+        padding: 0 8px;
+        max-width: 100%;
       }
 
       .packed-magazine-row {
         flex-direction: column !important;
-        gap: 14px !important;
-        margin-bottom: 16px !important;
+        gap: 12px !important;
+        margin-bottom: 14px !important;
       }
 
       .cat-group-segment {
@@ -1011,30 +990,30 @@
       }
 
       .cat-segment-banner {
-        font-size: 10pt !important;
-        padding: 6px 10px !important;
+        font-size: 9.5pt !important;
+        padding: 5px 8px !important;
       }
 
       .cat-cards-subgrid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+        gap: 8px !important;
       }
 
       .magazine-product-card {
         height: auto !important;
-        min-height: 255px !important;
-        padding: 12px 8px !important;
+        min-height: 235px !important;
+        padding: 10px 6px !important;
       }
 
       .prod-img-box {
-        height: 130px !important;
+        height: 120px !important;
       }
 
       .magazine-print-header {
         flex-direction: column;
         gap: 8px;
-        padding: 12px 14px;
+        padding: 10px 12px;
         text-align: center;
       }
 
@@ -1044,31 +1023,224 @@
       }
     }
 
-    @media screen and (max-width: 520px) {
+    @media screen and (max-width: 600px) {
+      /* Compact Input Section */
+      .input-tabs-header {
+        display: flex;
+        flex-wrap: nowrap;
+        background: #090e1a;
+        padding: 3px;
+        border-radius: 10px;
+        gap: 3px;
+        margin-bottom: 8px;
+        border-bottom: none;
+      }
+
+      .tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 6px 4px;
+        font-size: 7.5pt;
+        white-space: nowrap;
+        border-radius: 7px;
+        gap: 4px;
+      }
+
+      .tab-btn span {
+        font-size: 8.5pt;
+      }
+
+      .drop-zone {
+        padding: 12px 10px;
+        gap: 3px;
+        border-radius: 10px;
+      }
+
+      .drop-icon {
+        font-size: 18pt;
+      }
+
+      .drop-title {
+        font-size: 9.5pt;
+      }
+
+      .drop-subtitle {
+        font-size: 7pt;
+        line-height: 1.25;
+      }
+
+      .db-status-bar {
+        padding: 4px 8px;
+        font-size: 7pt;
+        margin-top: 6px;
+      }
+
+      /* Compact Filter Toolbar & Grid */
       .filter-inner-box {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr) !important;
+        padding: 10px 8px !important;
+        gap: 6px !important;
+        border-radius: 14px !important;
+      }
+
+      .filter-top-actions-bar {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        padding-bottom: 6px;
+        margin-bottom: 4px;
+      }
+
+      .filter-top-actions-bar .btn-fast-print {
+        grid-column: 1 / -1;
+        padding: 8px 12px;
+        font-size: 9pt;
+        justify-content: center;
+        border-radius: 9px;
+      }
+
+      .filter-top-actions-bar .btn-scanner-toggle,
+      .filter-top-actions-bar .btn-clear-items {
+        padding: 7px 8px;
+        font-size: 7.5pt;
+        justify-content: center;
+        border-radius: 9px;
+      }
+
+      .search-input-wrapper {
+        grid-column: 1 / -1;
+      }
+
+      .filter-search-input {
+        padding: 8px 12px 8px 34px;
+        font-size: 8.5pt;
+        border-radius: 9px;
+      }
+
+      .search-icon-fixed {
+        font-size: 10pt;
+        left: 10px;
+      }
+
+      .multiselect-label {
+        font-size: 6.5pt;
+        gap: 2px;
+      }
+
+      .multiselect-trigger {
+        padding: 6px 6px;
+        font-size: 7.5pt;
+        border-radius: 7px;
+        gap: 3px;
+      }
+
+      .trigger-text {
+        font-size: 7.5pt;
+      }
+
+      .trigger-arrow {
+        font-size: 6.5pt;
+      }
+
+      .filter-pills-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding: 6px 8px;
+      }
+
+      .pills-left-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+      }
+
+      .filter-pill-btn {
+        padding: 5px 8px;
+        font-size: 7.5pt;
       }
 
       .cat-cards-subgrid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important;
+        gap: 6px !important;
       }
 
       .magazine-product-card {
-        min-height: 240px !important;
-        padding: 10px 6px !important;
+        min-height: 215px !important;
+        padding: 8px 5px !important;
+        border-radius: 12px !important;
+      }
+
+      .code-badge-tag {
+        font-size: 6.5pt !important;
+        padding: 2px 4px !important;
+      }
+
+      .btn-card-gtin {
+        font-size: 6.5pt !important;
+        padding: 2px 5px !important;
       }
 
       .prod-img-box {
-        height: 115px !important;
+        height: 100px !important;
       }
 
       .prod-info-box .brand-name {
-        font-size: 9pt !important;
+        font-size: 8pt !important;
       }
 
       .prod-info-box .item-desc {
-        font-size: 7.5pt !important;
+        font-size: 6.8pt !important;
+        line-height: 1.2 !important;
+      }
+
+      .item-mfg {
+        font-size: 6.5pt !important;
+      }
+
+      /* Compact Scanner Modal on Mobile */
+      .scanner-modal-card {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 14px;
+        max-width: 96vw;
+      }
+
+      .camera-viewport-container {
+        min-height: 200px;
+        max-height: 48vh;
+        border-radius: 10px;
+      }
+
+      #cameraReaderView {
+        min-height: 200px;
+      }
+
+      .scanner-modal-header h2 {
+        font-size: 10pt;
+      }
+
+      .scanner-count-pill {
+        font-size: 6.5pt;
+        padding: 2px 5px;
+      }
+
+      .btn-scanner-tool {
+        padding: 4px 6px;
+        font-size: 7pt;
+      }
+
+      .scanner-feedback-banner {
+        padding: 6px 8px;
+        font-size: 7.5pt;
+        min-height: 38px;
+      }
+
+      .btn-scanner-done {
+        padding: 7px 12px;
+        font-size: 8pt;
       }
     }
 
@@ -2604,7 +2776,7 @@
       } catch (e) {}
     }
 
-    function openCameraScannerModal() {
+    async function openCameraScannerModal() {
       const modal = document.getElementById('scannerModalBackdrop');
       modal.style.display = 'flex';
 
@@ -2612,88 +2784,87 @@
       feedback.style.color = '#38bdf8';
       feedback.style.borderColor = '#0284c7';
       feedback.style.background = 'rgba(56, 189, 248, 0.15)';
-      feedback.innerHTML = '⚡ Initializing high-accuracy GS1/DataMatrix camera...';
+      feedback.innerText = 'Initializing camera...';
 
       const countEl = document.getElementById('scannerCountBadge');
       if (countEl) {
         countEl.innerText = `${window.accumulatedProductCodes.size} item(s) scanned`;
       }
 
-      if (!html5QrScannerInstance) {
-        html5QrScannerInstance = new Html5Qrcode("cameraReaderView", {
-          experimentalFeatures: {
-            useBarCodeDetectorIfSupported: true
-          },
-          verbose: false
-        });
-      }
-
-      const config = {
-        fps: 25,
-        qrbox: (viewfinderWidth, viewfinderHeight) => {
-          const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78);
-          return { width: edge, height: edge };
-        },
-        formatsToSupport: [
-          Html5QrcodeSupportedFormats.DATA_MATRIX,
-          Html5QrcodeSupportedFormats.QR_CODE,
-          Html5QrcodeSupportedFormats.EAN_13,
-          Html5QrcodeSupportedFormats.EAN_8,
-          Html5QrcodeSupportedFormats.CODE_128,
-          Html5QrcodeSupportedFormats.CODE_39,
-          Html5QrcodeSupportedFormats.UPC_A,
-          Html5QrcodeSupportedFormats.UPC_E,
-          Html5QrcodeSupportedFormats.ITF
-        ]
-      };
-
-      const onScanSuccess = (decodedText) => {
-        const now = Date.now();
-        if (decodedText === lastScannedCode && (now - lastScanTime) < 1800) {
-          return;
+      const launchCamera = () => {
+        try {
+          const readerEl = document.getElementById('cameraReaderView');
+          if (readerEl) readerEl.innerHTML = '';
+          html5QrScannerInstance = new Html5Qrcode("cameraReaderView");
+        } catch (e) {
+          console.warn("Html5Qrcode instance creation warning:", e);
         }
-        lastScannedCode = decodedText;
-        lastScanTime = now;
 
-        handleScannedCodeEvent(decodedText);
-      };
+        const config = {
+          fps: 20,
+          qrbox: (viewfinderWidth, viewfinderHeight) => {
+            const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78);
+            return { width: edge, height: edge };
+          },
+          aspectRatio: 1.0,
+          formatsToSupport: [
+            Html5QrcodeSupportedFormats.DATA_MATRIX,
+            Html5QrcodeSupportedFormats.QR_CODE,
+            Html5QrcodeSupportedFormats.EAN_13,
+            Html5QrcodeSupportedFormats.EAN_8,
+            Html5QrcodeSupportedFormats.CODE_128,
+            Html5QrcodeSupportedFormats.CODE_39
+          ]
+        };
 
-      const startWithConstraints = (videoConstraints) => {
-        return html5QrScannerInstance.start(
-          videoConstraints,
+        const onScanSuccess = (decodedText) => {
+          const now = Date.now();
+          if (decodedText === lastScannedCode && (now - lastScanTime) < 1800) {
+            return;
+          }
+          lastScannedCode = decodedText;
+          lastScanTime = now;
+
+          handleScannedCodeEvent(decodedText);
+        };
+
+        html5QrScannerInstance.start(
+          { facingMode: "environment" },
           config,
           onScanSuccess,
           () => {}
-        );
-      };
-
-      // Try 1080p high definition first (essential for resolving small 2D DataMatrix dots)
-      startWithConstraints({
-        facingMode: "environment",
-        width: { ideal: 1920, min: 1280 },
-        height: { ideal: 1080, min: 720 },
-        focusMode: "continuous"
-      }).then(() => {
-        feedback.innerHTML = 'Camera active ✓ Point at pharmaceutical GS1 DataMatrix or barcode...';
-        detectCameraCapabilities();
-      }).catch(err => {
-        console.warn("1080p camera constraint failed, retrying standard environment camera:", err);
-        startWithConstraints({ facingMode: "environment" }).then(() => {
-          feedback.innerHTML = 'Camera active ✓ Point at pharmaceutical GS1 DataMatrix or barcode...';
+        ).then(() => {
+          feedback.style.color = '#34d399';
+          feedback.style.borderColor = '#10b981';
+          feedback.style.background = 'rgba(16, 185, 129, 0.15)';
+          feedback.innerText = 'Camera active ✓ Point at barcode or GS1 DataMatrix...';
           detectCameraCapabilities();
-        }).catch(err2 => {
-          console.error("Camera start error:", err2);
+        }).catch(err => {
+          console.error("Camera start error:", err);
           feedback.style.color = '#f87171';
           feedback.style.borderColor = '#ef4444';
           feedback.style.background = 'rgba(239, 68, 68, 0.15)';
-          feedback.innerHTML = 'Cannot access camera. Please check camera permissions in your browser.';
+          feedback.innerText = 'Cannot access camera. Please check camera permissions in your browser.';
         });
-      });
+      };
+
+      if (html5QrScannerInstance) {
+        html5QrScannerInstance.stop().then(() => {
+          try { html5QrScannerInstance.clear(); } catch(e){}
+          html5QrScannerInstance = null;
+          launchCamera();
+        }).catch(() => {
+          html5QrScannerInstance = null;
+          launchCamera();
+        });
+      } else {
+        launchCamera();
+      }
     }
 
     function closeCameraScannerModal() {
       const modal = document.getElementById('scannerModalBackdrop');
-      modal.style.display = 'none';
+      if (modal) modal.style.display = 'none';
 
       isTorchOn = false;
       const btnTorch = document.getElementById('btnScannerTorch');
@@ -2705,8 +2876,11 @@
 
       if (html5QrScannerInstance) {
         html5QrScannerInstance.stop().then(() => {
-          html5QrScannerInstance.clear();
-        }).catch(() => {});
+          try { html5QrScannerInstance.clear(); } catch(e){}
+          html5QrScannerInstance = null;
+        }).catch(() => {
+          html5QrScannerInstance = null;
+        });
       }
     }
 
