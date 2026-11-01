@@ -4930,6 +4930,9 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeImageZoomModal();
+        if (typeof closeGtinModal === 'function') closeGtinModal();
+        if (typeof closeProductEditModal === 'function') closeProductEditModal();
+        if (typeof closeCustomManagerModal === 'function') closeCustomManagerModal();
       }
     });
 
@@ -5233,7 +5236,121 @@
               setTimeout(function() { window.print(); }, 200);
             };
           <\/script>
-          <!-- ============================================================ -->
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+    // Keyboard support: ESC closes GTIN modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGtinModal();
+      }
+    });
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initMasterDatabase();
+    });
+  </script>
+
+  
+  <!-- ============================================================ -->
+  <!-- 📊 GTIN & SCANNABLE BARCODE MODAL (POPUP) -->
+  <!-- ============================================================ -->
+  <div class="gtin-modal-backdrop" id="gtinBarcodeModal" onclick="handleGtinBackdropClick(event)">
+    <div class="gtin-modal-card" onclick="event.stopPropagation()">
+      <div class="gtin-modal-header">
+        <div class="gtin-header-title">
+          <span class="gtin-modal-icon">📊</span>
+          <div>
+            <h3>Product GTIN & Barcode</h3>
+            <span class="gtin-product-subtitle" id="gtinProductSubtitle">-</span>
+          </div>
+        </div>
+        <button type="button" class="btn-close-gtin" onclick="closeGtinModal()" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="gtin-modal-body">
+        <!-- REF Code Badge -->
+        <div class="gtin-info-row">
+          <span class="gtin-info-lbl">Internal Ref:</span>
+          <span class="gtin-info-val" id="gtinRefCode">REF: -</span>
+        </div>
+
+        <!-- Linear Barcode Section (Scannable Lines) -->
+        <div class="gtin-barcode-display-box">
+          <div class="barcode-svg-container">
+            <svg id="barcodeSvgRenderer"></svg>
+          </div>
+          <div class="barcode-scan-hint">
+            <span>📷</span> Direct-Screen Scannable with Laser / 2D Barcode Scanners
+          </div>
+        </div>
+
+        <!-- GTIN Numeric Value with Copy Button -->
+        <div class="gtin-copy-section">
+          <label class="gtin-field-label">GTIN / Barcode Number:</label>
+          <div class="gtin-input-copy-group">
+            <input type="text" id="gtinNumericValue" readonly class="gtin-text-input" />
+            <button type="button" class="btn-copy-gtin" onclick="copyGtinToClipboard()" id="copyGtinBtn">
+              <span>📋</span> Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Multiple GTINs list if item has more than 1 barcode -->
+        <div id="additionalGtinsContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
+      </div>
+
+      <div class="gtin-modal-footer">
+        <button type="button" class="btn-print-barcode" onclick="printSingleBarcodeSticker()">
+          <span>🖨️</span> Print Barcode Sticker
+        </button>
+        <button type="button" class="btn-done-gtin" onclick="closeGtinModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 🔍 INTERACTIVE IMAGE ZOOM MODAL (TOUCH & MOUSE PINCH/ZOOM) -->
+  <!-- ============================================================ -->
+  <div class="image-zoom-modal-backdrop" id="imageZoomModal" onclick="handleZoomBackdropClick(event)">
+    <div class="zoom-modal-container" onclick="event.stopPropagation()">
+      <div class="zoom-modal-header">
+        <div class="zoom-header-info">
+          <span class="zoom-ref-badge" id="zoomRefBadge">REF: -</span>
+          <span class="zoom-brand-title" id="zoomBrandTitle">-</span>
+        </div>
+        <button type="button" class="zoom-close-btn" onclick="closeImageZoomModal()" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="zoom-modal-viewport" id="zoomViewport" 
+           onwheel="handleZoomWheel(event)"
+           onmousedown="handleZoomMouseDown(event)"
+           ontouchstart="handleZoomTouchStart(event)"
+           ontouchmove="handleZoomTouchMove(event)"
+           ontouchend="handleZoomTouchEnd(event)"
+           ondblclick="handleZoomDoubleClick(event)">
+        <img id="zoomModalImg" src="" alt="Product" class="zoom-modal-image" draggable="false" />
+      </div>
+
+      <div class="zoom-modal-toolbar">
+        <button type="button" class="zoom-tool-btn" onclick="applyZoomDelta(-0.35)" title="Zoom Out (-)">
+          <span>➖</span> Zoom Out
+        </button>
+        <span class="zoom-level-badge" id="zoomLevelBadge">100%</span>
+        <button type="button" class="zoom-tool-btn" onclick="applyZoomDelta(0.35)" title="Zoom In (+)">
+          <span>➕</span> Zoom In
+        </button>
+        <button type="button" class="zoom-tool-btn reset-btn" onclick="resetZoomTransform()" title="Reset to original size">
+          <span>↺</span> Reset
+        </button>
+      </div>
+      <div class="zoom-hint-text">💡 Tip: Pinch with 2 fingers or scroll mouse wheel to zoom in/out. Drag to pan. Double-click/tap to toggle zoom.</div>
+    </div>
+<!-- ============================================================ -->
   <!-- ✏️ PRODUCT EDIT & CUSTOM DATA MODAL -->
   <!-- ============================================================ -->
   <div class="gtin-modal-backdrop" id="productEditModal" onclick="handleEditBackdropClick(event)">
@@ -5414,120 +5531,6 @@
     </div>
   </div>
 
-</body>
-        </html>
-      `);
-      win.document.close();
-    }
-
-    // Keyboard support: ESC closes GTIN modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeGtinModal();
-      }
-    });
-
-
-    window.addEventListener('DOMContentLoaded', () => {
-      initMasterDatabase();
-    });
-  </script>
-
-  
-  <!-- ============================================================ -->
-  <!-- 📊 GTIN & SCANNABLE BARCODE MODAL (POPUP) -->
-  <!-- ============================================================ -->
-  <div class="gtin-modal-backdrop" id="gtinBarcodeModal" onclick="handleGtinBackdropClick(event)">
-    <div class="gtin-modal-card" onclick="event.stopPropagation()">
-      <div class="gtin-modal-header">
-        <div class="gtin-header-title">
-          <span class="gtin-modal-icon">📊</span>
-          <div>
-            <h3>Product GTIN & Barcode</h3>
-            <span class="gtin-product-subtitle" id="gtinProductSubtitle">-</span>
-          </div>
-        </div>
-        <button type="button" class="btn-close-gtin" onclick="closeGtinModal()" title="Close (Esc)">✕</button>
-      </div>
-
-      <div class="gtin-modal-body">
-        <!-- REF Code Badge -->
-        <div class="gtin-info-row">
-          <span class="gtin-info-lbl">Internal Ref:</span>
-          <span class="gtin-info-val" id="gtinRefCode">REF: -</span>
-        </div>
-
-        <!-- Linear Barcode Section (Scannable Lines) -->
-        <div class="gtin-barcode-display-box">
-          <div class="barcode-svg-container">
-            <svg id="barcodeSvgRenderer"></svg>
-          </div>
-          <div class="barcode-scan-hint">
-            <span>📷</span> Direct-Screen Scannable with Laser / 2D Barcode Scanners
-          </div>
-        </div>
-
-        <!-- GTIN Numeric Value with Copy Button -->
-        <div class="gtin-copy-section">
-          <label class="gtin-field-label">GTIN / Barcode Number:</label>
-          <div class="gtin-input-copy-group">
-            <input type="text" id="gtinNumericValue" readonly class="gtin-text-input" />
-            <button type="button" class="btn-copy-gtin" onclick="copyGtinToClipboard()" id="copyGtinBtn">
-              <span>📋</span> Copy
-            </button>
-          </div>
-        </div>
-
-        <!-- Multiple GTINs list if item has more than 1 barcode -->
-        <div id="additionalGtinsContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
-      </div>
-
-      <div class="gtin-modal-footer">
-        <button type="button" class="btn-print-barcode" onclick="printSingleBarcodeSticker()">
-          <span>🖨️</span> Print Barcode Sticker
-        </button>
-        <button type="button" class="btn-done-gtin" onclick="closeGtinModal()">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- 🔍 INTERACTIVE IMAGE ZOOM MODAL (TOUCH & MOUSE PINCH/ZOOM) -->
-  <!-- ============================================================ -->
-  <div class="image-zoom-modal-backdrop" id="imageZoomModal" onclick="handleZoomBackdropClick(event)">
-    <div class="zoom-modal-container" onclick="event.stopPropagation()">
-      <div class="zoom-modal-header">
-        <div class="zoom-header-info">
-          <span class="zoom-ref-badge" id="zoomRefBadge">REF: -</span>
-          <span class="zoom-brand-title" id="zoomBrandTitle">-</span>
-        </div>
-        <button type="button" class="zoom-close-btn" onclick="closeImageZoomModal()" title="Close (Esc)">✕</button>
-      </div>
-
-      <div class="zoom-modal-viewport" id="zoomViewport" 
-           onwheel="handleZoomWheel(event)"
-           onmousedown="handleZoomMouseDown(event)"
-           ontouchstart="handleZoomTouchStart(event)"
-           ontouchmove="handleZoomTouchMove(event)"
-           ontouchend="handleZoomTouchEnd(event)"
-           ondblclick="handleZoomDoubleClick(event)">
-        <img id="zoomModalImg" src="" alt="Product" class="zoom-modal-image" draggable="false" />
-      </div>
-
-      <div class="zoom-modal-toolbar">
-        <button type="button" class="zoom-tool-btn" onclick="applyZoomDelta(-0.35)" title="Zoom Out (-)">
-          <span>➖</span> Zoom Out
-        </button>
-        <span class="zoom-level-badge" id="zoomLevelBadge">100%</span>
-        <button type="button" class="zoom-tool-btn" onclick="applyZoomDelta(0.35)" title="Zoom In (+)">
-          <span>➕</span> Zoom In
-        </button>
-        <button type="button" class="zoom-tool-btn reset-btn" onclick="resetZoomTransform()" title="Reset to original size">
-          <span>↺</span> Reset
-        </button>
-      </div>
-      <div class="zoom-hint-text">💡 Tip: Pinch with 2 fingers or scroll mouse wheel to zoom in/out. Drag to pan. Double-click/tap to toggle zoom.</div>
-    </div>
   </div>
 
 
