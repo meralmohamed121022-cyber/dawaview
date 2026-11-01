@@ -2536,6 +2536,11 @@
     window.displayMode = 'all'; // 'all' (Master DB) or 'uploaded'
     window.renderLimit = 150;
     window.isOwnBrandToggleActive = false;
+    window.uploadedProductsMap = new Map();
+    window.repairedImages = {};
+    window.knownBrandsMap = new Map();
+    const WORKER_BASE = "https://online.meralmohamed121022.workers.dev";
+    const API_ENDPOINT = `${WORKER_BASE}/api/product?code=`;
 
     // Multi-Select Sets for all 8 filters
     window.activeMultiFilters = {
@@ -3053,6 +3058,7 @@
     function clearAccumulatedCatalog() {
       if (confirm("Are you sure you want to clear all uploaded items and return to full Master DB view?")) {
         window.accumulatedProductCodes.clear();
+        if (window.uploadedProductsMap) window.uploadedProductsMap.clear();
         setSourceMode('all');
       }
     }
@@ -3165,6 +3171,32 @@
           }
         });
 
+        // Build known brands map with category & image metadata for smart fallback
+        window.knownBrandsMap.clear();
+        window.masterProductsDB.forEach(p => {
+          const b = String(p.Brand || '').trim();
+          if (b && b !== 'GENERIC') {
+            const key = b.toUpperCase();
+            if (!window.knownBrandsMap.has(key)) {
+              window.knownBrandsMap.set(key, {
+                Brand: b,
+                Manufacture: p.Manufacture || '',
+                categoryA: p["Category Level A"] || 'HEALTH & WELLNESS',
+                categoryB: p["Category Level B"] || 'PHARMACY',
+                categoryC: p["Category Level C"] || '',
+                categoryD: p["Category Level D"] || '',
+                categoryE: p["Category Level E"] || '',
+                image_url: p.image_url || ''
+              });
+            } else {
+              const ex = window.knownBrandsMap.get(key);
+              if (!ex.image_url && p.image_url) {
+                ex.image_url = p.image_url;
+              }
+            }
+          }
+        });
+
         document.getElementById('totalDbBadge').innerText = window.masterProductsDB.length.toLocaleString();
         updateProgress(100, `Ready! Successfully loaded ${window.masterProductsDB.length.toLocaleString()} Master items`);
         
@@ -3175,6 +3207,236 @@
         console.error("Master DB Load Error:", err);
         updateProgress(100, "Notice: You can upload files or scan barcodes to extract products.");
       }
+    }
+
+    // ============================================================
+    // 🎨 INTELLIGENT BRAND SVG & WORKER IMAGE REPAIR SYSTEM
+    // ============================================================
+    function getBrandPlaceholderSVG(brandName) {
+      const colors = ['#10b981', '#3b82f6', '#ec4899', '#f59e0b', '#8b5cf6', '#06b6d4', '#ef4444', '#14b8a6', '#0ea5e9', '#6366f1'];
+      const name = String(brandName || 'GENERIC').trim();
+      let hash = 0;
+      for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const color = colors[Math.abs(hash) % colors.length];
+      const shortText = name.substring(0, 14).toUpperCase();
+
+      return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:${color.replace('#', '%23')};stop-opacity:0.18' /%3E%3Cstop offset='100%25' style='stop-color:${color.replace('#', '%23')};stop-opacity:0.06' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23grad)'/%3E%3Crect x='60' y='70' width='280' height='260' rx='28' fill='white' opacity='0.95' stroke='${color.replace('#', '%23')}' stroke-width='3' stroke-opacity='0.25'/%3E%3Ctext x='200' y='170' font-family='Arial,sans-serif' font-size='36' font-weight='900' fill='${color.replace('#', '%23')}' text-anchor='middle' dominant-baseline='middle'%3E${encodeURIComponent(shortText)}%3C/text%3E%3Ctext x='200' y='225' font-family='Arial,sans-serif' font-size='16' font-weight='700' fill='%2364748b' text-anchor='middle' dominant-baseline='middle'%3EPHARMACEUTICAL%3C/text%3E%3C/svg%3E`;
+    }
+
+    function inferBrandAndCategory(desc) {
+      if (!desc) return { Brand: "GENERIC", Category: "Uploaded Items", CategoryA: "HEALTH & WELLNESS", Manufacture: "" };
+      const text = String(desc).trim();
+      const upper = text.toUpperCase();
+
+      if (window.knownBrandsMap && window.knownBrandsMap.size > 0) {
+        for (const [bUpper, bInfo] of window.knownBrandsMap.entries()) {
+          if (bUpper.length >= 3 && (upper.startsWith(bUpper) || upper.includes(' ' + bUpper + ' ') || upper.startsWith(bUpper + ' '))) {
+            return {
+              Brand: bInfo.Brand,
+              Category: bInfo.categoryC || bInfo.categoryD || "Uploaded Items",
+              CategoryA: bInfo.categoryA || "HEALTH & WELLNESS",
+              Manufacture: bInfo.Manufacture || "",
+              image_url: bInfo.image_url || ""
+            };
+          }
+        }
+      }
+
+      const firstWordMatch = text.match(/^[A-Za-z0-9\-]+/);
+      const firstWord = firstWordMatch ? firstWordMatch[0].toUpperCase() : "GENERIC";
+      return {
+        Brand: firstWord,
+        Category: "Uploaded Items",
+        CategoryA: "HEALTH & WELLNESS",
+        Manufacture: ""
+      };
+    }
+
+    function resolveProductRecord(code) {
+      const clean = String(code || '').trim();
+      if (!clean) return null;
+
+      let p = window.masterProductsMap.get(clean) || window.masterProductsMap.get(clean.toLowerCase());
+      if (p) return p;
+
+      if (window.masterBarcodeMap) {
+        p = window.masterBarcodeMap.get(clean) || window.masterBarcodeMap.get(clean.replace(/^0+/, ''));
+        if (p) return p;
+      }
+
+      if (typeof findProductInMaster === 'function') {
+        p = findProductInMaster(clean);
+        if (p) return p;
+      }
+
+      if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+        return window.uploadedProductsMap.get(clean);
+      }
+
+      const inferred = inferBrandAndCategory('');
+      return {
+        Code: clean,
+        "Item Description": "Item #" + clean,
+        "Arabic Name": "",
+        Brand: "GENERIC",
+        Manufacture: "",
+        "Category Level A": "General",
+        "Category Level B": "",
+        "Category Level C": "Uploaded Items",
+        "Category Level D": "Uploaded Items",
+        "Category Level E": "",
+        "Unit Price": 0,
+        Barcode: clean,
+        GTIN: [clean],
+        image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
+      };
+    }
+
+    function handleProductImageError(code, imgElement, brand) {
+      const cleanCode = String(code || '').trim();
+      const brandName = brand || 'GENERIC';
+
+      imgElement.onerror = null;
+      imgElement.src = getBrandPlaceholderSVG(brandName);
+
+      if (imgElement.dataset.repaired === "true") return;
+      imgElement.dataset.repaired = "true";
+
+      autoRepairProductImage(cleanCode, imgElement, brandName);
+    }
+
+    async function autoRepairProductImage(cleanCode, imgElement, brandName) {
+      if (!cleanCode) return;
+
+      if (window.repairedImages && window.repairedImages[cleanCode]) {
+        const cached = window.repairedImages[cleanCode];
+        if (cached !== 'FAILED' && cached.startsWith('http')) {
+          if (imgElement && imgElement.src !== cached) imgElement.src = cached;
+          return;
+        }
+      }
+
+      // 1. Cloudflare worker from offersgit
+      try {
+        const cfUrl = `https://online.meralmohamed121022.workers.dev/api/product?code=${encodeURIComponent(cleanCode)}&t=${Date.now()}`;
+        const res = await fetch(cfUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.image_url && data.image_url.startsWith('http')) {
+            window.repairedImages[cleanCode] = data.image_url;
+            if (imgElement) {
+              imgElement.src = data.image_url;
+              imgElement.style.opacity = '1';
+            }
+            updateProductDetailsFromWorker(cleanCode, data);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn(`[Worker Error for ${cleanCode}]:`, err.message);
+      }
+
+      // 2. Direct Al-Dawaa OCC Staging API
+      try {
+        const occUrl = `https://stgprevapi.al-dawaa.com/occ/v2/aldawaa/products/${encodeURIComponent(cleanCode)}`;
+        const res = await fetch(occUrl);
+        if (res.ok) {
+          const data = await res.json();
+          const images = data.images || [];
+          const formats = ['superZoom', 'zoom', 'product', 'thumbnail'];
+          let foundUrl = null;
+          for (const format of formats) {
+            const imgObj = images.find(img => img.format === format && img.imageType === 'PRIMARY');
+            if (imgObj && imgObj.url) { foundUrl = imgObj.url; break; }
+          }
+          if (!foundUrl) {
+            for (const format of formats) {
+              const imgObj = images.find(img => img.format === format);
+              if (imgObj && imgObj.url) { foundUrl = imgObj.url; break; }
+            }
+          }
+          if (foundUrl) {
+            const fullUrl = foundUrl.startsWith('http') ? foundUrl : `https://stgprevapi.al-dawaa.com${foundUrl}`;
+            window.repairedImages[cleanCode] = fullUrl;
+            if (imgElement) {
+              imgElement.src = fullUrl;
+              imgElement.style.opacity = '1';
+            }
+            updateProductDetailsFromWorker(cleanCode, { image_url: fullUrl, name: data.name });
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn(`[OCC API Error for ${cleanCode}]:`, err.message);
+      }
+
+      // 3. Fallback: Sibling product image from master DB
+      const siblingImg = findSiblingBrandImage(brandName, cleanCode);
+      if (siblingImg) {
+        window.repairedImages[cleanCode] = siblingImg;
+        if (imgElement) {
+          imgElement.src = siblingImg;
+          imgElement.style.opacity = '1';
+        }
+        return;
+      }
+
+      window.repairedImages[cleanCode] = 'FAILED';
+    }
+
+    function findSiblingBrandImage(brand, currentCode) {
+      if (!brand || brand === 'GENERIC' || !window.masterProductsDB) return null;
+      const cleanBrand = brand.trim().toUpperCase();
+      const match = window.masterProductsDB.find(p => {
+        return p.Code !== currentCode &&
+               p.Brand &&
+               p.Brand.trim().toUpperCase() === cleanBrand &&
+               p.image_url &&
+               p.image_url.startsWith('http');
+      });
+      return match ? match.image_url : null;
+    }
+
+    function updateProductDetailsFromWorker(code, data) {
+      const p = resolveProductRecord(code);
+      if (p) {
+        if (data.image_url) p.image_url = data.image_url;
+        if (data.name && (!p["Item Description"] || p["Item Description"].startsWith("Item #") || p.Brand === "GENERIC")) {
+          p["Item Description"] = data.name;
+          const bInfo = inferBrandAndCategory(data.name);
+          if (bInfo && bInfo.Brand !== 'GENERIC') {
+            p.Brand = bInfo.Brand;
+            if (bInfo.Category) {
+              p["Category Level C"] = bInfo.Category;
+              p["Category Level D"] = bInfo.Category;
+            }
+          }
+        }
+        if (data.originalPrice && !p["Unit Price"]) {
+          p["Unit Price"] = parseFloat(data.originalPrice) || 0;
+        }
+      }
+
+      // Live update matching DOM card
+      const cards = document.querySelectorAll('.magazine-product-card');
+      cards.forEach(card => {
+        const tag = card.querySelector('.code-badge-tag');
+        if (tag && tag.innerText.includes(code)) {
+          if (data.name) {
+            const descEl = card.querySelector('.item-desc');
+            if (descEl && descEl.innerText.startsWith('Item #')) {
+              descEl.innerText = data.name;
+            }
+            const brandEl = card.querySelector('.brand-name');
+            if (brandEl && brandEl.innerText === 'GENERIC') {
+              const bInfo = inferBrandAndCategory(data.name);
+              brandEl.innerText = bInfo.Brand || 'PRODUCT';
+            }
+          }
+        }
+      });
     }
 
     // ============================================================
@@ -3297,22 +3559,7 @@
       let sourceProducts = customPool;
       if (!sourceProducts || !Array.isArray(sourceProducts) || sourceProducts.length === 0) {
         if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
-          sourceProducts = Array.from(window.accumulatedProductCodes).map(code => {
-            const clean = String(code).trim();
-            return window.masterProductsMap.get(clean) || (window.masterBarcodeMap && window.masterBarcodeMap.get(clean)) || findProductInMaster(clean) || {
-              Code: clean,
-              "Item Description": "Item #" + clean,
-              "Arabic Name": "",
-              Brand: "GENERIC",
-              Manufacture: "",
-              "Category Level A": "General",
-              "Category Level B": "",
-              "Category Level C": "Miscellaneous",
-              "Category Level D": "Miscellaneous",
-              "Category Level E": "",
-              image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
-            };
-          });
+          sourceProducts = Array.from(window.accumulatedProductCodes).map(code => resolveProductRecord(code)).filter(Boolean);
         } else {
           sourceProducts = window.masterProductsDB || [];
         }
@@ -3538,22 +3785,7 @@
       let sourceProducts = [];
       if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
         if (totalLoadedBadge) totalLoadedBadge.innerText = `${window.accumulatedProductCodes.size} (Uploaded)`;
-        sourceProducts = Array.from(window.accumulatedProductCodes).map(code => {
-          const clean = String(code).trim();
-          return window.masterProductsMap.get(clean) || {
-            Code: clean,
-            "Item Description": "Item #" + clean,
-            "Arabic Name": "",
-            Brand: "GENERIC",
-            Manufacture: "",
-            "Category Level A": "General",
-            "Category Level B": "",
-            "Category Level C": "Miscellaneous",
-            "Category Level D": "Miscellaneous",
-            "Category Level E": "",
-            image_url: `https://cdn.aldawaa.com/media/catalog/product/${clean[0]}/${clean[1]}/${clean}.jpg`
-          };
-        });
+        sourceProducts = Array.from(window.accumulatedProductCodes).map(code => resolveProductRecord(code)).filter(Boolean);
       } else {
         if (totalLoadedBadge) totalLoadedBadge.innerText = window.masterProductsDB.length.toLocaleString();
         sourceProducts = window.masterProductsDB;
@@ -3727,7 +3959,18 @@
           `;
 
           seg.items.forEach(p => {
-            const imgSrc = p.image_url || `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+            let imgSrc = p.image_url;
+            if (!imgSrc || imgSrc === 'No Image' || imgSrc === '1') {
+              if (window.repairedImages && window.repairedImages[p.Code] && window.repairedImages[p.Code] !== 'FAILED') {
+                imgSrc = window.repairedImages[p.Code];
+              } else if (window.repairedImages && window.repairedImages[p.Code] === 'FAILED') {
+                imgSrc = getBrandPlaceholderSVG(p.Brand);
+              } else if (/^\d{5,7}$/.test(p.Code)) {
+                imgSrc = `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+              } else {
+                imgSrc = getBrandPlaceholderSVG(p.Brand);
+              }
+            }
             const isOwnB = isProductOwnBrand(p);
             const ownBadge = isOwnB ? `<span class="own-brand-tag">⭐ Own Brand</span>` : '<span style="flex:1;"></span>';
             const mfgLine = p.Manufacture ? `<div class="item-mfg" title="Manufacture: ${p.Manufacture}">🏭 ${p.Manufacture}</div>` : '';
@@ -3746,8 +3989,13 @@
                 </div>
 
                 <!-- Pure White Seamless Image with Interactive Zoom Lightbox -->
-                <div class="prod-img-box" onclick="openImageZoomModal('${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" title="Click to zoom image (Touch & Mouse supported)">
-                  <img src="${imgSrc}" alt="${p.Code}" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/meralmohamed121022-cyber/photos/refs/heads/main/placeholder.png'" loading="lazy" />
+                <div class="prod-img-box" onclick="openImageZoomModal(this.querySelector('img') ? this.querySelector('img').src : '${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" title="Click to zoom image (Touch & Mouse supported)">
+                  <img src="${imgSrc}"
+                       data-code="${p.Code}"
+                       data-brand="${escapeAttr(p.Brand || 'GENERIC')}"
+                       alt="${p.Code}"
+                       onerror="handleProductImageError('${p.Code}', this, '${escapeAttr(p.Brand || 'GENERIC')}')"
+                       loading="lazy" />
                   <div class="zoom-hover-hint">🔍 Zoom</div>
                 </div>
 
@@ -3805,8 +4053,29 @@
             parsed.forEach(item => {
               if (typeof item === 'string' || typeof item === 'number') extractedCodes.push(String(item).trim());
               else if (typeof item === 'object' && item !== null) {
-                const code = item.Code || item.code || item.ItemCode || item.item_code || item.id;
-                if (code) extractedCodes.push(String(code).trim());
+                const code = String(item.Code || item.code || item.ItemCode || item.item_code || item.id || '').trim();
+                if (code) {
+                  extractedCodes.push(code);
+                  const desc = item["Item Description"] || item.item_description || item.description || item.name || item["أسم المنتج"] || "";
+                  const brand = item.Brand || item.brand || "";
+                  const inferred = inferBrandAndCategory(desc);
+                  window.uploadedProductsMap.set(code, {
+                    Code: code,
+                    "Item Description": desc || ("Item #" + code),
+                    "Arabic Name": item["Arabic Name"] || item.arabic_name || item["اسم المنتج"] || item["أسم المنتج"] || "",
+                    Brand: brand || inferred.Brand || "GENERIC",
+                    Manufacture: item.Manufacture || item.manufacture || inferred.Manufacture || "",
+                    "Category Level A": item["Category Level A"] || inferred.CategoryA || "HEALTH & WELLNESS",
+                    "Category Level B": item["Category Level B"] || "PHARMACY",
+                    "Category Level C": item["Category Level C"] || inferred.Category || "Uploaded Items",
+                    "Category Level D": item["Category Level D"] || inferred.Category || "Uploaded Items",
+                    "Category Level E": item["Category Level E"] || "",
+                    "Unit Price": parseFloat(item["Unit Price"] || item.unit_price || item.price || 0) || 0,
+                    Barcode: item.Barcode || item.barcode || code,
+                    GTIN: Array.isArray(item.GTIN) ? item.GTIN : (item.GTIN ? [item.GTIN] : [code]),
+                    image_url: item.image_url || item.Image || item.itemurl || inferred.image_url || `https://cdn.aldawaa.com/media/catalog/product/${code[0]}/${code[1]}/${code}.jpg`
+                  });
+                }
               }
             });
           }
@@ -3846,18 +4115,142 @@
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data, { type: 'array' });
       const codes = [];
+
       workbook.SheetNames.forEach(sheetName => {
         const worksheet = workbook.Sheets[sheetName];
-        const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-        json.forEach(row => {
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
+        if (!rows || rows.length === 0) return;
+
+        let headerRowIdx = -1;
+        let codeCol = -1;
+        let descCol = -1;
+        let arCol = -1;
+        let brandCol = -1;
+        let priceCol = -1;
+        let catCol = -1;
+        let gtinCol = -1;
+
+        for (let r = 0; r < Math.min(5, rows.length); r++) {
+          const row = rows[r];
           if (Array.isArray(row)) {
-            row.forEach(cell => {
-              const str = String(cell).trim();
-              if (/^\d{5,7}$/.test(str)) codes.push(str);
-            });
+            for (let c = 0; c < row.length; c++) {
+              const val = String(row[c] || '').trim().toLowerCase();
+              if (val === 'code' || val === 'item' || val === 'item code' || val === 'itemcode' || val === 'كود' || val === 'رقم الصنف' || val === 'ref') {
+                codeCol = c;
+                headerRowIdx = r;
+              } else if (val.includes('desc') || val.includes('وصف') || val === 'description' || val === 'اسم الصنف' || val === 'item description') {
+                descCol = c;
+              } else if (val.includes('arabic') || val.includes('عربي') || val === 'اسم المنتج' || val === 'أسم المنتج') {
+                arCol = c;
+              } else if (val.includes('brand') || val.includes('براند') || val.includes('ماركة')) {
+                brandCol = c;
+              } else if (val.includes('price') || val.includes('سعر')) {
+                priceCol = c;
+              } else if (val.includes('cat') || val.includes('قسم') || val.includes('تصنيف') || val.includes('group')) {
+                catCol = c;
+              } else if (val.includes('barcode') || val.includes('gtin') || val.includes('باركود')) {
+                gtinCol = c;
+              }
+            }
+            if (codeCol !== -1) break;
           }
-        });
+        }
+
+        const startRow = headerRowIdx !== -1 ? headerRowIdx + 1 : 0;
+
+        for (let r = startRow; r < rows.length; r++) {
+          const row = rows[r];
+          if (!Array.isArray(row)) continue;
+
+          let rawCode = "";
+          let rawDesc = "";
+          let rawAr = "";
+          let rawBrand = "";
+          let rawPrice = 0;
+          let rawCat = "";
+          let rawGtin = "";
+
+          if (codeCol !== -1 && row[codeCol] !== undefined) {
+            rawCode = String(row[codeCol]).trim().replace(/[^\d]/g, '');
+          }
+
+          if (descCol !== -1 && row[descCol] !== undefined) {
+            rawDesc = String(row[descCol]).trim();
+          }
+
+          if (arCol !== -1 && row[arCol] !== undefined) {
+            rawAr = String(row[arCol]).trim();
+          }
+
+          if (brandCol !== -1 && row[brandCol] !== undefined) {
+            rawBrand = String(row[brandCol]).trim();
+          }
+
+          if (priceCol !== -1 && row[priceCol] !== undefined) {
+            rawPrice = parseFloat(row[priceCol]) || 0;
+          }
+
+          if (catCol !== -1 && row[catCol] !== undefined) {
+            rawCat = String(row[catCol]).trim();
+          }
+
+          if (gtinCol !== -1 && row[gtinCol] !== undefined) {
+            rawGtin = String(row[gtinCol]).trim();
+          }
+
+          if (!rawCode || rawCode.length < 4 || rawCode.length > 8) {
+            for (let c = 0; c < row.length; c++) {
+              const str = String(row[c] || '').trim();
+              const digits = str.replace(/[^\d]/g, '');
+              if (digits.length >= 4 && digits.length <= 8 && digits === str) {
+                rawCode = digits;
+                if (!rawDesc) {
+                  let maxLen = 0;
+                  for (let c2 = 0; c2 < row.length; c2++) {
+                    if (c2 === c) continue;
+                    const txt = String(row[c2] || '').trim();
+                    if (txt.length > maxLen && !/^\d+$/.test(txt)) {
+                      maxLen = txt.length;
+                      rawDesc = txt;
+                    }
+                  }
+                }
+                break;
+              }
+            }
+          }
+
+          if (rawCode && /^\d{4,8}$/.test(rawCode)) {
+            codes.push(rawCode);
+
+            const inferred = inferBrandAndCategory(rawDesc);
+            const finalBrand = rawBrand || inferred.Brand || "GENERIC";
+            const finalCat = rawCat || inferred.Category || "Uploaded Items";
+            const finalCatA = inferred.CategoryA || "HEALTH & WELLNESS";
+            const finalMfg = rawBrand ? "" : inferred.Manufacture;
+
+            const uploadedItem = {
+              Code: rawCode,
+              "Item Description": rawDesc || ("Item #" + rawCode),
+              "Arabic Name": rawAr || "",
+              Brand: finalBrand,
+              Manufacture: finalMfg || "",
+              "Category Level A": finalCatA,
+              "Category Level B": "PHARMACY",
+              "Category Level C": finalCat,
+              "Category Level D": finalCat,
+              "Category Level E": "",
+              "Unit Price": rawPrice,
+              Barcode: rawGtin || rawCode,
+              GTIN: rawGtin ? [rawGtin] : [rawCode],
+              image_url: inferred.image_url || `https://cdn.aldawaa.com/media/catalog/product/${rawCode[0]}/${rawCode[1]}/${rawCode}.jpg`
+            };
+
+            window.uploadedProductsMap.set(rawCode, uploadedItem);
+          }
+        }
       });
+
       return codes;
     }
 
@@ -4079,7 +4472,7 @@
     let currentGtinProduct = null;
 
     function openGtinModal(code) {
-      const p = window.masterProductsMap.get(String(code).trim());
+      const p = resolveProductRecord(code);
       if (!p) {
         alert("Product details not found for code #" + code);
         return;
