@@ -1371,6 +1371,255 @@
       box-shadow: 0 2px 6px rgba(14, 165, 233, 0.4);
     }
 
+    /* ============================================================ */
+    /* 🏷️ IN-CARD DIRECT EDITING & QUICK IMAGE UPLOAD STYLES */
+    /* ============================================================ */
+    .card-img-quick-tools {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(6px);
+      padding: 3px 8px;
+      border-radius: 20px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      z-index: 6;
+      transition: all 0.2s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .prod-img-box:hover .card-img-quick-tools,
+    .prod-img-box.is-missing .card-img-quick-tools {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-card-quick-upload,
+    .btn-card-quick-url {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff !important;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-family: var(--font-ar), system-ui;
+      font-size: 7.5pt;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-card-quick-upload:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-card-quick-url {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+      padding: 3px 8px;
+    }
+
+    .btn-card-quick-url:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .prod-img-box.drag-over {
+      border: 2px dashed #0284c7 !important;
+      background: #f0f9ff !important;
+      transform: scale(1.02);
+    }
+
+    .card-missing-prompt {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1.2px dashed #f59e0b;
+      color: #b45309;
+      font-size: 7pt;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 4px 6px;
+      margin-top: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .card-missing-prompt:hover {
+      background: #fde68a;
+      transform: translateY(-1px);
+    }
+
+    .card-edit-mode {
+      width: 100%;
+      background: #f8fafc;
+      border: 1.5px solid #0284c7;
+      border-radius: 10px;
+      padding: 8px 10px 10px 10px;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+      margin-top: 4px;
+      text-align: left;
+      animation: fadeInZoom 0.15s ease-out;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-sizing: border-box;
+    }
+
+    .card-edit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7.5pt;
+      font-weight: 800;
+      color: #0369a1;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    .card-edit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+
+    .card-edit-field label {
+      font-size: 6.8pt;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+    }
+
+    .card-inline-input {
+      width: 100%;
+      font-size: 8pt;
+      padding: 4px 7px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+      box-sizing: border-box;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card-inline-input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+    }
+
+    .card-edit-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn-card-save {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 7.5pt;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+      transition: all 0.15s ease;
+    }
+
+    .btn-card-save:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-card-cancel {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-card-cancel:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .card-edit-extra-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7pt;
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px dashed #e2e8f0;
+    }
+
+    .card-edit-extra-links a {
+      color: #0284c7;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .card-edit-extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Floating Toast Notification */
+    .global-app-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      border: 1.5px solid #0284c7;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-family: var(--font-ar), system-ui;
+      font-size: 9pt;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(2, 132, 199, 0.3);
+      z-index: 99999999;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      direction: rtl;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .global-app-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
     .gtin-modal-backdrop {
       position: fixed;
       inset: 0;
@@ -4107,8 +4356,10 @@
             const editBtnTitle = isCustom ? 'Custom Data Saved Locally (Click to Edit)' : (isMissingFromMaster ? 'New Item - Click to Add Name, Brand & Image' : 'Edit / Customize Details');
             const customIndicator = isCustom ? `<span class="custom-local-tag" title="Saved Locally">💾 Custom</span>` : '';
 
+            const isPlaceholderImg = !imgSrc || imgSrc.startsWith('data:image/svg+xml') || imgSrc === 'No Image' || imgSrc === '1' || imgSrc.includes('data:image/svg');
+
             fullRowsHTML += `
-              <div class="magazine-product-card">
+              <div class="magazine-product-card" id="card-${p.Code}" data-code="${p.Code}">
                 <!-- Dedicated Badges Row (Non-overlapping with GTIN Button) -->
                 <div class="card-top-badges-header">
                   <div class="code-badge-group">
@@ -4116,7 +4367,7 @@
                     <button type="button" class="btn-card-gtin" onclick="event.stopPropagation(); openGtinModal('${p.Code}')" title="View GTIN & Scannable Barcode">
                       <span>📊</span> GTIN
                     </button>
-                    <button type="button" class="${editBtnClass}" onclick="event.stopPropagation(); openProductEditModal('${p.Code}')" title="${editBtnTitle}">
+                    <button type="button" class="${editBtnClass}" onclick="event.stopPropagation(); toggleCardInlineEdit('${p.Code}')" title="${editBtnTitle}">
                       <span>✏️</span> ${isCustom ? 'Custom' : 'Edit'}
                     </button>
                   </div>
@@ -4126,22 +4377,85 @@
                   </div>
                 </div>
 
-                <!-- Pure White Seamless Image with Interactive Zoom Lightbox -->
-                <div class="prod-img-box" onclick="openImageZoomModal(this.querySelector('img') ? this.querySelector('img').src : '${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" title="Click to zoom image (Touch & Mouse supported)">
-                  <img src="${imgSrc}"
+                <!-- Pure White Seamless Image with Interactive Zoom Lightbox & Quick Direct Upload -->
+                <div class="prod-img-box ${isPlaceholderImg ? 'is-missing' : 'has-image'}" 
+                     id="imgBox-${p.Code}"
+                     ondragover="handleCardDragOver(event)" 
+                     ondragleave="handleCardDragLeave(event)" 
+                     ondrop="handleCardDropImage(event, '${p.Code}')"
+                     onclick="openImageZoomModal(document.getElementById('cardImg-${p.Code}') ? document.getElementById('cardImg-${p.Code}').src : '${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" 
+                     title="Click to zoom image (or drag & drop photo here)">
+                  <img id="cardImg-${p.Code}"
+                       src="${imgSrc}"
                        data-code="${p.Code}"
                        data-brand="${escapeAttr(p.Brand || 'GENERIC')}"
                        alt="${p.Code}"
                        onerror="handleProductImageError('${p.Code}', this, '${escapeAttr(p.Brand || 'GENERIC')}')"
                        loading="lazy" />
                   <div class="zoom-hover-hint">🔍 Zoom</div>
+
+                  <!-- Quick In-Card Direct Upload / Link Overlay -->
+                  <div class="card-img-quick-tools" onclick="event.stopPropagation()">
+                    <label class="btn-card-quick-upload" title="اختر صورة مباشرة من جهازك أو هاتفك">
+                      <span>📷</span> ${isPlaceholderImg ? 'رفع صورة' : 'تغيير صورة'}
+                      <input type="file" accept="image/*" style="display:none;" onchange="handleCardDirectFileUpload('${p.Code}', this)" />
+                    </label>
+                    <button type="button" class="btn-card-quick-url" onclick="handleCardPromptImageUrl('${p.Code}')" title="أو الصق رابط صورة مباشر">
+                      <span>🔗</span> رابط
+                    </button>
+                  </div>
                 </div>
 
-                <!-- Bold High-Contrast Typography (Navy & Dark Slate) -->
-                <div class="prod-info-box">
-                  <div class="brand-name">${p.Brand || 'GENERIC'}</div>
-                  <div class="item-desc">${p["Item Description"] || ''}</div>
-                  ${mfgLine}
+                <!-- Normal Card View Mode -->
+                <div class="card-view-mode" id="cardView-${p.Code}" style="width: 100%;">
+                  <div class="prod-info-box">
+                    <div class="brand-name" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل البراند">${p.Brand || 'GENERIC'}</div>
+                    <div class="item-desc" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل اسم الصنف">${p["Item Description"] || ''}</div>
+                    ${mfgLine}
+                  </div>
+                  ${isMissingFromMaster ? `
+                    <div class="card-missing-prompt" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل الاسم والبراند والصورة">
+                      <span>✏️ صنف غير مسجل - اضغط لتعبئة البيانات</span>
+                    </div>
+                  ` : ''}
+                </div>
+
+                <!-- Direct In-Card Inline Editor Mode -->
+                <div class="card-edit-mode" id="cardEdit-${p.Code}" style="display: none;" onclick="event.stopPropagation()">
+                  <div class="card-edit-header">
+                    <span>✏️ تعديل بيانات الكارت</span>
+                    <span style="font-family: monospace; font-size: 7.5pt; color: #0284c7;">#${p.Code}</span>
+                  </div>
+
+                  <div class="card-edit-field">
+                    <label>اسم الصنف (Description):</label>
+                    <input type="text" id="inlineDesc-${p.Code}" class="card-inline-input" value="${escapeAttr(p['Item Description'] || '')}" placeholder="اسم الصنف (مثل AERIUS 5MG 27TAB)..." />
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                    <div class="card-edit-field">
+                      <label>البراند (Brand):</label>
+                      <input type="text" id="inlineBrand-${p.Code}" class="card-inline-input" value="${escapeAttr((p.Brand && p.Brand !== 'GENERIC') ? p.Brand : '')}" placeholder="البراند..." style="text-transform: uppercase;" />
+                    </div>
+                    <div class="card-edit-field">
+                      <label>القسم (Category):</label>
+                      <input type="text" id="inlineCat-${p.Code}" list="categoryDatalist" class="card-inline-input" value="${escapeAttr(p['Category Level C'] || p['Category Level D'] || '')}" placeholder="القسم..." style="text-transform: uppercase;" />
+                    </div>
+                  </div>
+
+                  <div class="card-edit-actions">
+                    <button type="button" class="btn-card-save" onclick="saveCardInlineEdit('${p.Code}')">
+                      💾 حفظ الكارت
+                    </button>
+                    <button type="button" class="btn-card-cancel" onclick="toggleCardInlineEdit('${p.Code}')">
+                      ✕ إلغاء
+                    </button>
+                  </div>
+
+                  <div class="card-edit-extra-links">
+                    <a href="javascript:void(0)" onclick="openProductEditModal('${p.Code}')">⚙️ نافذة متقدمة (سعر / باركود)</a>
+                    ${isCustom ? `<a href="javascript:void(0)" onclick="deleteCustomProductFromCard('${p.Code}')" style="color: #ef4444;">🗑️ استعادة الافتراضي</a>` : ''}
+                  </div>
                 </div>
               </div>
             `;
@@ -4533,48 +4847,347 @@
     }
 
     // ============================================================
+    // 🏷️ IN-CARD DIRECT EDITING & QUICK IMAGE UPLOAD SYSTEM
+    // ============================================================
+    function showToast(message, duration = 3000) {
+      let toast = document.getElementById('globalAppToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'globalAppToast';
+        toast.className = 'global-app-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = message;
+      toast.classList.add('show');
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    async function handleCardDirectFileUpload(code, input) {
+      const clean = String(code).trim();
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+
+      try {
+        showToast(`⏳ جاري ضغط وحفظ صورة الصنف #${clean}...`, 1800);
+        const base64 = await compressImageFile(file, 600, 600, 0.85);
+
+        // 1. Update memory
+        window.repairedImages[clean] = base64;
+
+        // 2. Update custom record
+        const existing = resolveProductRecord(clean) || { Code: clean };
+        const customRecord = {
+          ...existing,
+          Code: clean,
+          image_url: base64,
+          isCustomSaved: true,
+          lastModified: Date.now()
+        };
+        window.customLocalProductsMap.set(clean, customRecord);
+        if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+          window.uploadedProductsMap.set(clean, customRecord);
+        }
+        saveCustomLocalProductsToStorage();
+
+        // 3. Update DOM image immediately
+        const imgEl = document.getElementById(`cardImg-${clean}`);
+        if (imgEl) {
+          imgEl.src = base64;
+        }
+        const boxEl = document.getElementById(`imgBox-${clean}`);
+        if (boxEl) {
+          boxEl.classList.remove('is-missing');
+          boxEl.classList.add('has-image');
+        }
+
+        showToast(`📸 تم حفظ وتحديث صورة الصنف #${clean} بنجاح!`);
+      } catch (err) {
+        alert("فشل تحميل الصورة: " + err.message);
+      } finally {
+        input.value = "";
+      }
+    }
+
+    function handleCardPromptImageUrl(code) {
+      const clean = String(code).trim();
+      const existing = resolveProductRecord(clean);
+      const currentUrl = (existing?.image_url && !existing.image_url.startsWith('data:') && !existing.image_url.includes('cdn.aldawaa.com')) ? existing.image_url : "";
+      const input = prompt(`أدخل رابط صورة مباشر للصنف REF #${clean}:`, currentUrl);
+      if (input === null) return;
+      const url = input.trim();
+      if (!url) return;
+
+      window.repairedImages[clean] = url;
+      const customRecord = {
+        ...(existing || { Code: clean }),
+        Code: clean,
+        image_url: url,
+        isCustomSaved: true,
+        lastModified: Date.now()
+      };
+      window.customLocalProductsMap.set(clean, customRecord);
+      if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+        window.uploadedProductsMap.set(clean, customRecord);
+      }
+      saveCustomLocalProductsToStorage();
+
+      const imgEl = document.getElementById(`cardImg-${clean}`);
+      if (imgEl) {
+        imgEl.src = url;
+      }
+      const boxEl = document.getElementById(`imgBox-${clean}`);
+      if (boxEl) {
+        boxEl.classList.remove('is-missing');
+        boxEl.classList.add('has-image');
+      }
+      showToast(`🔗 تم تحديث رابط صورة الصنف #${clean}!`);
+    }
+
+    function handleCardDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function handleCardDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    async function handleCardDropImage(e, code) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('drag-over');
+      const clean = String(code).trim();
+
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file.type.startsWith('image/')) {
+          try {
+            showToast(`⏳ جاري معالجة الصورة المسحوبة #${clean}...`, 1800);
+            const base64 = await compressImageFile(file, 600, 600, 0.85);
+            window.repairedImages[clean] = base64;
+            const existing = resolveProductRecord(clean) || { Code: clean };
+            const customRecord = {
+              ...existing,
+              Code: clean,
+              image_url: base64,
+              isCustomSaved: true,
+              lastModified: Date.now()
+            };
+            window.customLocalProductsMap.set(clean, customRecord);
+            if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+              window.uploadedProductsMap.set(clean, customRecord);
+            }
+            saveCustomLocalProductsToStorage();
+            const imgEl = document.getElementById(`cardImg-${clean}`);
+            if (imgEl) imgEl.src = base64;
+            const boxEl = document.getElementById(`imgBox-${clean}`);
+            if (boxEl) {
+              boxEl.classList.remove('is-missing');
+              boxEl.classList.add('has-image');
+            }
+            showToast(`✅ تم حفظ الصورة بنجاح على الكارت #${clean}!`);
+          } catch (err) {
+            alert("خطأ أثناء قراءة الصورة: " + err.message);
+          }
+          return;
+        }
+      }
+
+      const droppedText = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('text/uri-list');
+      if (droppedText && (droppedText.startsWith('http://') || droppedText.startsWith('https://') || droppedText.startsWith('data:image/'))) {
+        const url = droppedText.trim();
+        window.repairedImages[clean] = url;
+        const existing = resolveProductRecord(clean) || { Code: clean };
+        const customRecord = {
+          ...existing,
+          Code: clean,
+          image_url: url,
+          isCustomSaved: true,
+          lastModified: Date.now()
+        };
+        window.customLocalProductsMap.set(clean, customRecord);
+        if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+          window.uploadedProductsMap.set(clean, customRecord);
+        }
+        saveCustomLocalProductsToStorage();
+        const imgEl = document.getElementById(`cardImg-${clean}`);
+        if (imgEl) imgEl.src = url;
+        const boxEl = document.getElementById(`imgBox-${clean}`);
+        if (boxEl) {
+          boxEl.classList.remove('is-missing');
+          boxEl.classList.add('has-image');
+        }
+        showToast(`✅ تم تطبيق رابط الصورة بنجاح على الكارت #${clean}!`);
+      }
+    }
+
+    function toggleCardInlineEdit(code) {
+      const clean = String(code).trim();
+      const card = document.getElementById(`card-${clean}`);
+      const viewMode = document.getElementById(`cardView-${clean}`);
+      const editMode = document.getElementById(`cardEdit-${clean}`);
+
+      if (!card || !viewMode || !editMode) {
+        openProductEditModal(clean);
+        return;
+      }
+
+      const isEditing = editMode.style.display !== 'none';
+      if (isEditing) {
+        editMode.style.display = 'none';
+        viewMode.style.display = 'block';
+      } else {
+        viewMode.style.display = 'none';
+        editMode.style.display = 'flex';
+        const descInput = document.getElementById(`inlineDesc-${clean}`);
+        if (descInput) {
+          descInput.focus();
+          descInput.select();
+        }
+      }
+    }
+
+    function saveCardInlineEdit(code) {
+      const clean = String(code).trim();
+      const descEl = document.getElementById(`inlineDesc-${clean}`);
+      const brandEl = document.getElementById(`inlineBrand-${clean}`);
+      const catEl = document.getElementById(`inlineCat-${clean}`);
+
+      const newDesc = descEl ? descEl.value.trim() : "";
+      const newBrand = brandEl ? brandEl.value.trim().toUpperCase() : "GENERIC";
+      const newCat = catEl ? catEl.value.trim().toUpperCase() : "Uploaded Items";
+
+      const existing = resolveProductRecord(clean) || { Code: clean };
+      const currentImg = window.repairedImages[clean] || existing.image_url || getBrandPlaceholderSVG(newBrand || 'GENERIC');
+
+      const oldCat = (existing["Category Level C"] || existing["Category Level D"] || "").toUpperCase();
+
+      const customRecord = {
+        ...existing,
+        Code: clean,
+        "Item Description": newDesc || ("Item #" + clean),
+        Brand: newBrand || 'GENERIC',
+        "Category Level A": existing["Category Level A"] || "HEALTH & WELLNESS",
+        "Category Level B": existing["Category Level B"] || "PHARMACY",
+        "Category Level C": newCat || "Uploaded Items",
+        "Category Level D": newCat || "Uploaded Items",
+        image_url: currentImg,
+        isCustomSaved: true,
+        lastModified: Date.now()
+      };
+
+      window.customLocalProductsMap.set(clean, customRecord);
+      if (window.uploadedProductsMap && window.uploadedProductsMap.has(clean)) {
+        window.uploadedProductsMap.set(clean, customRecord);
+      }
+      saveCustomLocalProductsToStorage();
+
+      toggleCardInlineEdit(clean);
+
+      if (oldCat && newCat && oldCat !== newCat) {
+        showToast(`✅ تم حفظ الصنف #${clean} ونقله لقسم: ${newCat}`);
+        refreshCatalogDisplay(true);
+      } else {
+        const brandDisplay = document.querySelector(`#cardView-${clean} .brand-name`);
+        if (brandDisplay) brandDisplay.textContent = newBrand || 'GENERIC';
+        
+        const descDisplay = document.querySelector(`#cardView-${clean} .item-desc`);
+        if (descDisplay) descDisplay.textContent = newDesc || ("Item #" + clean);
+
+        const editBtn = document.querySelector(`#card-${clean} .btn-card-edit`);
+        if (editBtn) {
+          editBtn.innerHTML = `<span>✏️</span> Custom`;
+          editBtn.classList.add('highlight-edit');
+        }
+
+        const missingPrompt = document.querySelector(`#cardView-${clean} .card-missing-prompt`);
+        if (missingPrompt) missingPrompt.style.display = 'none';
+
+        showToast(`✅ تم حفظ بيانات الكارت #${clean} بنجاح محلياً!`);
+      }
+    }
+
+    function deleteCustomProductFromCard(code) {
+      const clean = String(code).trim();
+      if (confirm(`هل أنت متأكد من حذف التعديلات المحفوظة محلياً للصنف REF #${clean} واستعادة البيانات الافتراضية؟`)) {
+        window.customLocalProductsMap.delete(clean);
+        delete window.repairedImages[clean];
+        saveCustomLocalProductsToStorage();
+        showToast(`🗑️ تم استعادة البيانات الافتراضية للصنف #${clean}`);
+        refreshCatalogDisplay(true);
+      }
+    }
+
+    // ============================================================
     // ✏️ PRODUCT EDIT MODAL CONTROLLER
     // ============================================================
     let currentEditProductCode = "";
     let currentEditImageBase64 = "";
 
     function openProductEditModal(code) {
-      const clean = String(code).trim();
-      currentEditProductCode = clean;
-      currentEditImageBase64 = "";
+      try {
+        const clean = String(code).trim();
+        currentEditProductCode = clean;
+        currentEditImageBase64 = "";
 
-      const p = resolveProductRecord(clean) || { Code: clean };
-      const modal = document.getElementById('productEditModal');
-      if (!modal) return;
+        const p = resolveProductRecord(clean) || { Code: clean };
+        const modal = document.getElementById('productEditModal');
+        if (!modal) {
+          console.error("productEditModal element not found in DOM!");
+          alert("تعذر فتح النافذة: العنصر غير موجود");
+          return;
+        }
 
-      document.getElementById('editRefCodeDisplay').innerText = `REF: ${clean}`;
-      
-      const rawDesc = p["Item Description"] || "";
-      document.getElementById('editItemDesc').value = rawDesc.startsWith("Item #") ? "" : rawDesc;
-      document.getElementById('editArabicName').value = p["Arabic Name"] || "";
-      document.getElementById('editBrand').value = (p.Brand && p.Brand !== 'GENERIC') ? p.Brand : "";
-      document.getElementById('editCategory').value = p["Category Level C"] || p["Category Level D"] || "";
-      document.getElementById('editPrice').value = p["Unit Price"] ? parseFloat(p["Unit Price"]).toFixed(2) : "";
-      document.getElementById('editBarcode').value = p.Barcode || (Array.isArray(p.GTIN) && p.GTIN[0]) || "";
-      
-      const existingUrl = (p.image_url && p.image_url.startsWith('http') && !p.image_url.includes('cdn.aldawaa.com/media/catalog/product/')) ? p.image_url : "";
-      document.getElementById('editImageUrl').value = existingUrl;
+        const refDisplay = document.getElementById('editRefCodeDisplay');
+        if (refDisplay) refDisplay.innerText = `REF: ${clean}`;
+        
+        const rawDesc = p["Item Description"] || "";
+        const descEl = document.getElementById('editItemDesc');
+        if (descEl) descEl.value = rawDesc.startsWith("Item #") ? "" : rawDesc;
 
-      const fileInput = document.getElementById('editImageFileInput');
-      if (fileInput) fileInput.value = "";
+        const arEl = document.getElementById('editArabicName');
+        if (arEl) arEl.value = p["Arabic Name"] || "";
 
-      const currentImg = p.image_url || getBrandPlaceholderSVG(p.Brand);
-      updateEditModalImagePreview(currentImg);
+        const brandEl = document.getElementById('editBrand');
+        if (brandEl) brandEl.value = (p.Brand && p.Brand !== 'GENERIC') ? p.Brand : "";
 
-      switchEditImageTab('url');
+        const catEl = document.getElementById('editCategory');
+        if (catEl) catEl.value = p["Category Level C"] || p["Category Level D"] || "";
 
-      const deleteBtn = document.getElementById('btnDeleteCustomData');
-      if (deleteBtn) {
-        deleteBtn.style.display = (window.customLocalProductsMap && window.customLocalProductsMap.has(clean)) ? 'inline-flex' : 'none';
+        const priceEl = document.getElementById('editPrice');
+        if (priceEl) priceEl.value = p["Unit Price"] ? parseFloat(p["Unit Price"]).toFixed(2) : "";
+
+        const barEl = document.getElementById('editBarcode');
+        if (barEl) barEl.value = p.Barcode || (Array.isArray(p.GTIN) && p.GTIN[0]) || "";
+        
+        const existingUrl = (p.image_url && p.image_url.startsWith('http') && !p.image_url.includes('cdn.aldawaa.com/media/catalog/product/')) ? p.image_url : "";
+        const urlEl = document.getElementById('editImageUrl');
+        if (urlEl) urlEl.value = existingUrl;
+
+        const fileInput = document.getElementById('editImageFileInput');
+        if (fileInput) fileInput.value = "";
+
+        const currentImg = p.image_url || getBrandPlaceholderSVG(p.Brand);
+        updateEditModalImagePreview(currentImg);
+
+        switchEditImageTab('url');
+
+        const deleteBtn = document.getElementById('btnDeleteCustomData');
+        if (deleteBtn) {
+          deleteBtn.style.display = (window.customLocalProductsMap && window.customLocalProductsMap.has(clean)) ? 'inline-flex' : 'none';
+        }
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      } catch (err) {
+        console.error("Error opening product edit modal:", err);
       }
-
-      modal.classList.add('show');
-      document.body.style.overflow = 'hidden';
     }
 
     function closeProductEditModal() {
@@ -5350,6 +5963,7 @@
       </div>
       <div class="zoom-hint-text">💡 Tip: Pinch with 2 fingers or scroll mouse wheel to zoom in/out. Drag to pan. Double-click/tap to toggle zoom.</div>
     </div>
+  </div>
 <!-- ============================================================ -->
   <!-- ✏️ PRODUCT EDIT & CUSTOM DATA MODAL -->
   <!-- ============================================================ -->
@@ -5529,8 +6143,6 @@
         <button type="button" class="btn-done-gtin" onclick="closeCustomManagerModal()">Done</button>
       </div>
     </div>
-  </div>
-
   </div>
 
 
