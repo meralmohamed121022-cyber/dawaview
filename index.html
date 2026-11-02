@@ -5560,11 +5560,7 @@
     }
 
     function clearAccumulatedCatalog() {
-      if (confirm("Are you sure you want to clear all uploaded items and return to full Master DB view?")) {
-        window.accumulatedProductCodes.clear();
-        if (window.uploadedProductsMap) window.uploadedProductsMap.clear();
-        setSourceMode('all');
-      }
+      promptClearAllTiers();
     }
 
     // ============================================================
@@ -6203,6 +6199,13 @@
       } else {
         if (btnM) btnM.classList.remove('active');
         if (btnU) btnU.classList.add('active');
+        if (window.accumulatedProductCodes.size > 0) {
+          if (!window.selectedActivityTier || window.selectedActivityTier === 'NONE') {
+            window.selectedActivityTier = 'ALL';
+            updateTierSelectorUI();
+            updateMagazineTierBanner();
+          }
+        }
       }
       applyActiveFilters();
     }
@@ -6901,28 +6904,71 @@
           }
         } else {
           const text = await file.text();
-          const matches = text.match(/\b\d{5,7}\b/g) || [];
+          const matches = text.match(/\b\d{4,8}\b/g) || [];
           extractedCodes = matches;
         }
 
         const validCodes = extractedCodes.map(c => String(c).trim()).filter(c => /^\d{4,8}$/.test(c));
         if (validCodes.length === 0) {
-          alert("No valid product codes found in the attached file.");
+          showToast("⚠️ No valid product codes found in attached file.", 3500);
           return;
         }
 
+        // Determine target activity tier
+        let targetTier = window.selectedActivityTier;
+        if (!targetTier || targetTier === 'ALL' || targetTier === 'NONE') {
+          targetTier = 'GOLD';
+          window.selectedActivityTier = 'GOLD';
+          updateTierSelectorUI();
+          updateMagazineTierBanner();
+        }
+
+        if (!window.tierDataStore[targetTier]) {
+          window.tierDataStore[targetTier] = { text: '', codes: [] };
+        }
+
+        // Merge into tierDataStore
+        const curText = window.tierDataStore[targetTier].text || '';
+        const curCodesArr = curText ? curText.trim().split(/\s+/) : [];
+        const mergedSet = new Set([...curCodesArr, ...validCodes]);
+        const mergedArr = Array.from(mergedSet);
+        
+        window.tierDataStore[targetTier].text = mergedArr.join('\n');
+        window.tierDataStore[targetTier].codes = mergedArr;
+
+        // Update manualCodesTextarea if target tier is active
+        const textarea = document.getElementById('manualCodesTextarea');
+        if (textarea && window.selectedActivityTier === targetTier) {
+          textarea.value = window.tierDataStore[targetTier].text;
+        }
+
+        // Resolve products
         validCodes.forEach(c => {
           window.accumulatedProductCodes.add(c);
-          if (window.selectedActivityTier) {
-            window.productTierMap.set(c, window.selectedActivityTier);
-            const up = window.uploadedProductsMap.get(c);
-            if (up) up.activityTier = window.selectedActivityTier;
+          window.productTierMap.set(c, targetTier);
+          const rec = resolveProductRecord(c);
+          if (rec) {
+            rec.activityTier = targetTier;
+            window.uploadedProductsMap.set(c, rec);
           }
         });
-        setSourceMode('uploaded');
-        alert(`Successfully added ${validCodes.length} codes to your list!`);
+
+        // Sync & save
+        syncAllTierCodesFromStore();
+        savePlanogramTierStore();
+
+        // Switch to uploaded display mode and refresh!
+        window.displayMode = 'uploaded';
+        const btnM = document.getElementById('btnModeMaster');
+        const btnU = document.getElementById('btnModeUploaded');
+        if (btnM) btnM.classList.remove('active');
+        if (btnU) btnU.classList.add('active');
+
+        refreshCatalogDisplay(true);
+
+        showToast(`✅ Added ${validCodes.length} codes to ${targetTier}!`, 3500);
       } catch (err) {
-        alert("Error reading file: " + err.message);
+        showToast("⚠️ Error reading file: " + err.message, 4000);
       }
     }
 
@@ -7569,6 +7615,7 @@
       window.tierCodesStore = {};
       window.accumulatedProductCodes.clear();
       if (window.productTierMap) window.productTierMap.clear();
+      if (window.uploadedProductsMap) window.uploadedProductsMap.clear();
 
       // 2. Clear manual codes textarea
       const textarea = document.getElementById('manualCodesTextarea');
@@ -7608,91 +7655,6 @@
       showToast("✅ All activity tiers cleared. Default master catalog (150 items) restored!", 3500);
     }
 
-
-    function updateMagazineTierBanner(items = null) {
-      const banner = document.getElementById('activityTierBanner');
-      if (!banner) return;
-
-      let activeTier = window.selectedActivityTier;
-
-      if (!activeTier || activeTier === 'ALL') {
-        // If ALL, check if items in list have any tier to display summary
-        banner.style.display = 'none';
-        banner.className = 'activity-tier-banner';
-        return;
-      }
-
-      const tierUpper = activeTier.toUpperCase();
-      let iconImg = "diamond_3d.png";
-      let tierTheme = "diamond";
-      let actionText = "ACTIVITY";
-
-      if (tierUpper.startsWith('DIAMOND')) {
-        iconImg = "diamond_3d.png";
-        tierTheme = "diamond";
-      } else if (tierUpper.startsWith('GOLD')) {
-        iconImg = "gold_3d.svg";
-        tierTheme = "gold";
-      } else if (tierUpper.startsWith('SILVER')) {
-        iconImg = "silver_3d.svg";
-        tierTheme = "silver";
-      } else if (tierUpper.startsWith('OUT')) {
-        iconImg = "out_3d.svg";
-        tierTheme = "out";
-      }
-
-      if (tierUpper.includes('UPGRADE')) {
-        actionText = "UPGRADE ⬆️";
-      } else if (tierUpper.includes('DOWNGRADE')) {
-        actionText = "DOWNGRADE ⬇️";
-      } else if (tierUpper.includes('PLANOGRAM') || tierUpper === 'OUT') {
-        actionText = "OUT ❌";
-      } else {
-        actionText = "ALL " + tierUpper;
-      }
-
-      const imgEl = document.getElementById('tierBanner3dImg');
-      const nameEl = document.getElementById('tierBannerName');
-      const pillEl = document.getElementById('tierBannerActionPill');
-
-      if (imgEl) {
-        imgEl.src = iconImg;
-        imgEl.style.display = 'inline-block';
-      }
-      if (nameEl) nameEl.innerText = activeTier;
-      if (pillEl) pillEl.innerText = actionText;
-
-      banner.className = `activity-tier-banner tier-theme-${tierTheme}`;
-      banner.style.display = 'flex';
-    }
-
-    // PWA Install Prompt Handler
-    let deferredPwaPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPwaPrompt = e;
-      const btn = document.getElementById('btnInstallPwaApp');
-      if (btn) btn.classList.add('ready-to-install');
-    });
-
-    function triggerPwaInstallPrompt() {
-      if (deferredPwaPrompt) {
-        deferredPwaPrompt.prompt();
-        deferredPwaPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            showToast("🎉 App shortcut installed successfully!");
-          }
-          deferredPwaPrompt = null;
-        });
-      } else {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-          alert("📱 To install on iOS:\n1. Tap the Share button (⎋) in browser.\n2. Tap 'Add to Home Screen' (➕).");
-        } else {
-          alert("📱 To install as App Shortcut:\n1. Open browser menu (⋮).\n2. Select 'Install App' or 'Add to Home Screen'.");
-        }
-      }
-    }
 
     // ============================================================
     // 🏷️ IN-CARD DIRECT EDITING & QUICK IMAGE UPLOAD SYSTEM
@@ -8673,79 +8635,7 @@
         return;
       }
 
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Sticker - CODE ${ref}</title>
-          <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script>
-          <style>
-            @page { size: 60mm 40mm; margin: 0; }
-            body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; text-align: center; }
-            .ref { font-size: 11pt; font-weight: bold; margin-bottom: 2px; }
-            .name { font-size: 7.5pt; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-            svg { max-width: 100%; height: auto; }
-          
-    .manual-input-actions-bar {
-      display: flex !important;
-      align-items: center !important;
-      gap: 12px !important;
-      margin-top: 10px !important;
-      flex-wrap: wrap !important;
-    }
-
-  <\/style>
-        </head>
-        <body>
-          <div class="ref">CODE: ${ref}</div>
-          <div class="name">${name}</div>
-          <svg id="stickerSvg"></svg>
-          <script>
-            window.onload = function() {
-              JsBarcode("#stickerSvg", "${val}", { format: "CODE128", width: 2.2, height: 60, displayValue: true, fontSize: 13, font: "monospace", fontOptions: "bold" });
-              setTimeout(function() { window.print(); }, 200);
-            };
-          <\/script>
-        
-  <!-- 🛑 CUSTOM CSS ART CONFIRMATION MODAL -->
-  <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
-    <div class="custom-confirm-card" role="dialog" aria-modal="true">
-      <!-- 🎨 CSS Art Animated Warning Shield Emblem -->
-      <div class="cssart-confirm-emblem">
-        <div class="cssart-shield-outer">
-          <div class="cssart-shield-inner">
-            <div class="cssart-warning-sign">
-              <span class="cssart-exclamation-bar"></span>
-              <span class="cssart-exclamation-dot"></span>
-            </div>
-          </div>
-        </div>
-        <div class="cssart-shield-rings"></div>
-      </div>
-
-      <h3 class="confirm-modal-title">Reset & Clear All Tiers?</h3>
-      <p class="confirm-modal-desc">
-        This will permanently clear all item codes across <strong>ALL Activity Tiers</strong> (Diamond, Gold, Silver, Out & all Upgrades/Downgrades) and restore the default master catalog view.
-      </p>
-
-      <div class="confirm-modal-actions">
-        <button type="button" class="btn-confirm-cancel" onclick="closeConfirmModal()">
-          <span>✕</span> Cancel
-        </button>
-        <button type="button" class="btn-confirm-danger" onclick="executeClearAllTiers()">
-          <span class="cssart-clear" style="margin-right:6px;">
-            <span class="cssart-clear-lid"></span>
-            <span class="cssart-clear-can"></span>
-          </span>
-          <span>Reset All Tiers</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-</body>
-        </html>
-      `);
+      win.document.write(`<!DOCTYPE html><html><head><title>Sticker - CODE ${ref}</title><script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script><style>@page{size:60mm 40mm;margin:0;}body{font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;padding:10px;box-sizing:border-box;text-align:center;}.ref{font-size:11pt;font-weight:bold;margin-bottom:2px;}.name{font-size:7.5pt;max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;}svg{max-width:100%;height:auto;}<\/style><\/head><body><div class="ref">CODE: ${ref}</div><div class="name">${name}</div><svg id="stickerSvg"></svg><script>window.onload=function(){JsBarcode("#stickerSvg","${val}",{format:"CODE128",width:2.2,height:60,displayValue:true,fontSize:13,font:"monospace",fontOptions:"bold"});setTimeout(function(){window.print();},200);};<\/script><\/body><\/html>`);
       win.document.close();
     }
 
@@ -9047,6 +8937,43 @@
   </div>
 
 
-    </body>
+    
+  <!-- 🛑 CUSTOM CSS ART CONFIRMATION MODAL -->
+  <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
+    <div class="custom-confirm-card" role="dialog" aria-modal="true">
+      <!-- 🎨 CSS Art Animated Warning Shield Emblem -->
+      <div class="cssart-confirm-emblem">
+        <div class="cssart-shield-outer">
+          <div class="cssart-shield-inner">
+            <div class="cssart-warning-sign">
+              <span class="cssart-exclamation-bar"></span>
+              <span class="cssart-exclamation-dot"></span>
+            </div>
+          </div>
+        </div>
+        <div class="cssart-shield-rings"></div>
+      </div>
+
+      <h3 class="confirm-modal-title">Reset & Clear All Tiers?</h3>
+      <p class="confirm-modal-desc">
+        This will permanently clear all item codes across <strong>ALL Activity Tiers</strong> (Diamond, Gold, Silver, Out & all Upgrades/Downgrades) and restore the default master catalog view.
+      </p>
+
+      <div class="confirm-modal-actions">
+        <button type="button" class="btn-confirm-cancel" onclick="closeConfirmModal()">
+          <span>✕</span> Cancel
+        </button>
+        <button type="button" class="btn-confirm-danger" onclick="executeClearAllTiers()">
+          <span class="cssart-clear" style="margin-right:6px;">
+            <span class="cssart-clear-lid"></span>
+            <span class="cssart-clear-can"></span>
+          </span>
+          <span>Reset All Tiers</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
 
 </html>
