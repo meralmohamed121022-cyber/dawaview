@@ -3744,7 +3744,7 @@
         page-break-after: avoid !important;
       }
 
-      /* 2. ACTIVITY SECTION BLOCKS: SOFT LUXURY THEMES & EXACT COLOR REPRODUCTION */
+      /* 2. ACTIVITY SECTION BLOCKS: BASE COMMON STYLES */
       .activity-section-block {
         margin-bottom: 20px !important;
         padding: 12px 14px 16px 14px !important;
@@ -3753,49 +3753,6 @@
         print-color-adjust: exact !important;
         page-break-inside: auto !important;
         box-sizing: border-box !important;
-      }
-
-      /* Diamond Sections: Soft Icy Blue */
-      .activity-section-block[data-tier="DIAMOND"],
-      .activity-section-block[data-tier="DIAMOND UPGRADE"] {
-        background: #f0f7ff !important;
-        border: 1.5px solid #bae6fd !important;
-      }
-
-      /* Gold Sections: Soft Warm Champagne Gold */
-      .activity-section-block[data-tier="GOLD"],
-      .activity-section-block[data-tier="GOLD UPGRADE"],
-      .activity-section-block[data-tier="GOLD DOWNGRADE"] {
-        background: #fffdf0 !important;
-        border: 1.5px solid #fde68a !important;
-      }
-
-      /* Silver Sections: Soft Platinum Slate */
-      .activity-section-block[data-tier="SILVER"],
-      .activity-section-block[data-tier="SILVER UPGRADE"],
-      .activity-section-block[data-tier="SILVER DOWNGRADE"] {
-        background: #f8fafc !important;
-        border: 1.5px solid #cbd5e1 !important;
-      }
-
-      /* Out of Planogram Sections: Soft Rose Blush */
-      .activity-section-block[data-tier="OUT"],
-      .activity-section-block[data-tier="OUT DOWNGRADE"] {
-        background: #fff1f2 !important;
-        border: 1.5px solid #fecdd3 !important;
-      }
-
-      /* General Catalog Sections */
-      .activity-section-block[data-tier="GENERAL"],
-      .activity-section-block:not([data-tier]) {
-        background: #f8fafc !important;
-        border: 1.5px solid #e2e8f0 !important;
-      }
-
-      /* Clean White Option */
-      body.print-theme-white .activity-section-block {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
       }
 
       .activity-section-block .activity-tier-banner {
@@ -3809,7 +3766,6 @@
         border-radius: 8px !important;
       }
 
-      /* 3. PACKED ROWS & SEAMLESS BORDERLESS CARDS */
       .packed-magazine-row {
         display: flex !important;
         flex-direction: row !important;
@@ -3843,22 +3799,487 @@
         box-sizing: border-box !important;
       }
 
-      /* BORDERLESS MAGAZINE PRODUCT CARDS */
-      .magazine-product-card,
-      .cat-cards-subgrid .magazine-product-card {
-        box-shadow: none !important;
-        border: none !important;
-        outline: none !important;
-        background: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 10px !important;
+      /* ============================================================ */
+      /* 🌾 THEME A: BOHEMIAN EDITORIAL SHELF AESTHETIC (DEFAULT ⭐) */
+      /* ============================================================ */
+      body.print-theme-bohemian .activity-section-block {
+        background: #faf7f2 !important;
+        box-shadow: inset 0 0 0 1000px #faf7f2 !important;
+        border: 2px solid #e7ded0 !important;
+        border-radius: 16px !important;
+        padding: 14px 16px 18px 16px !important;
+        margin-bottom: 22px !important;
+      }
+
+      /* Bohemian Shelf Underline on Each Product Row */
+      body.print-theme-bohemian .packed-magazine-row {
+        position: relative !important;
+        border-bottom: 3.5px solid #d8ccb8 !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+      }
+
+      /* Clean Floating Organic Card Pedestals (Zero Cutouts / Zero Artifacts) */
+      body.print-theme-bohemian .magazine-product-card,
+      body.print-theme-bohemian .cat-cards-subgrid .magazine-product-card {
+        background: #ffffff !important;
+        border: 1px solid rgba(216, 204, 184, 0.75) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 10px rgba(110, 85, 60, 0.06) !important;
+        padding: 6px 8px !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
 
-      .prod-img-box {
-        border: none !important;
+      body.print-theme-bohemian .prod-img-box {
         background: #ffffff !important;
         border-radius: 8px !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      body.print-theme-bohemian .prod-img-box img,
+      body.print-theme-bohemian .magazine-product-card img {
+        background: #ffffff !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+        border: none !important;
+      }
+
+      /* Bohemian Earthy Accents */
+      body.print-theme-bohemian .activity-tier-banner {
+        background: linear-gradient(135deg, #c26d53 0%, #a8583c 100%) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 12px rgba(168, 88, 60, 0.3) !important;
+      }
+      body.print-theme-bohemian .tier-theme-gold {
+        background: linear-gradient(135deg, #c99a3e 0%, #ad8029 100%) !important;
+      }
+      body.print-theme-bohemian .tier-theme-silver {
+        background: linear-gradient(135deg, #5c8071 0%, #466759 100%) !important;
+      }
+      body.print-theme-bohemian .tier-theme-out {
+        background: linear-gradient(135deg, #b36b77 0%, #94505c 100%) !important;
+      }
+
+      /* ============================================================ */
+      /* 💎 THEME B: ALDAWAA MAGAZINE TIERS (VIBRANT COLORS) */
+      /* ============================================================ */
+      body.print-theme-magazine .activity-section-block[data-tier="DIAMOND"],
+      body.print-theme-magazine .activity-section-block[data-tier="DIAMOND UPGRADE"] {
+        background: #dbeafe !important;
+        box-shadow: inset 0 0 0 1000px #dbeafe !important;
+        border: 2px solid #0284c7 !important;
+      }
+
+      body.print-theme-magazine .activity-section-block[data-tier="GOLD"],
+      body.print-theme-magazine .activity-section-block[data-tier="GOLD UPGRADE"],
+      body.print-theme-magazine .activity-section-block[data-tier="GOLD DOWNGRADE"] {
+        background: #fef08a !important;
+        box-shadow: inset 0 0 0 1000px #fef08a !important;
+        border: 2px solid #d97706 !important;
+      }
+
+      body.print-theme-magazine .activity-section-block[data-tier="SILVER"],
+      body.print-theme-magazine .activity-section-block[data-tier="SILVER UPGRADE"],
+      body.print-theme-magazine .activity-section-block[data-tier="SILVER DOWNGRADE"] {
+        background: #e2e8f0 !important;
+        box-shadow: inset 0 0 0 1000px #e2e8f0 !important;
+        border: 2px solid #64748b !important;
+      }
+
+      body.print-theme-magazine .activity-section-block[data-tier="OUT"],
+      body.print-theme-magazine .activity-section-block[data-tier="OUT DOWNGRADE"] {
+        background: #ffe4e6 !important;
+        box-shadow: inset 0 0 0 1000px #ffe4e6 !important;
+        border: 2px solid #e11d48 !important;
+      }
+
+      body.print-theme-magazine .activity-section-block[data-tier="GENERAL"],
+      body.print-theme-magazine .activity-section-block:not([data-tier]) {
+        background: #f1f5f9 !important;
+        box-shadow: inset 0 0 0 1000px #f1f5f9 !important;
+        border: 2px solid #94a3b8 !important;
+      }
+
+      /* Clean White Card Pedestals on Tier Backgrounds */
+      body.print-theme-magazine .magazine-product-card,
+      body.print-theme-magazine .cat-cards-subgrid .magazine-product-card {
+        background: rgba(255, 255, 255, 0.96) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        border-radius: 11px !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        padding: 6px 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      body.print-theme-magazine .prod-img-box {
+        background: #ffffff !important;
+        border-radius: 8px !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      body.print-theme-magazine .prod-img-box img,
+      body.print-theme-magazine .magazine-product-card img {
+        background: #ffffff !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+        border: none !important;
+      }
+
+      /* ============================================================ */
+      /* ⚪ THEME C: CLEAN WHITE STUDIO */
+      /* ============================================================ */
+      body.print-theme-white .activity-section-block {
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+      }
+      body.print-theme-white .magazine-product-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+      }
+      body.print-theme-white .prod-img-box {
+        background: #ffffff !important;
+      }
+
+      /* ============================================================ */
+      /* 🌸 THEME E: ALDAWAA BLUSH ROSE EDITORIAL (BEAUTY & SKINCARE) */
+      /* ============================================================ */
+      body.print-theme-blush .activity-section-block {
+        background: #fff1f2 !important;
+        box-shadow: inset 0 0 0 1000px #fff1f2 !important;
+        border: 2px solid #fecdd3 !important;
+        border-radius: 16px !important;
+        padding: 14px 16px 18px 16px !important;
+        margin-bottom: 22px !important;
+      }
+      body.print-theme-blush .packed-magazine-row {
+        position: relative !important;
+        border-bottom: 2.5px solid #fda4af !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+      }
+      body.print-theme-blush .magazine-product-card,
+      body.print-theme-blush .cat-cards-subgrid .magazine-product-card {
+        background: #ffffff !important;
+        border: 1px solid #ffe4e6 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 10px rgba(244, 63, 94, 0.06) !important;
+        padding: 6px 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      body.print-theme-blush .prod-img-box {
+        background: #ffffff !important;
+        border-radius: 8px !important;
+        border: none !important;
+      }
+      body.print-theme-blush .prod-img-box img,
+      body.print-theme-blush .magazine-product-card img {
+        background: #ffffff !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+      }
+      body.print-theme-blush .activity-tier-banner {
+        background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3) !important;
+      }
+
+      /* ============================================================ */
+      /* 🌿 THEME F: BOTANICAL FRESH MINT (ORGANIC & PHARMACY HEALTH) */
+      /* ============================================================ */
+      body.print-theme-mint .activity-section-block {
+        background: #f0fdf4 !important;
+        box-shadow: inset 0 0 0 1000px #f0fdf4 !important;
+        border: 2px solid #bbf7d0 !important;
+        border-radius: 16px !important;
+        padding: 14px 16px 18px 16px !important;
+        margin-bottom: 22px !important;
+      }
+      body.print-theme-mint .packed-magazine-row {
+        position: relative !important;
+        border-bottom: 2.5px solid #86efac !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+      }
+      body.print-theme-mint .magazine-product-card,
+      body.print-theme-mint .cat-cards-subgrid .magazine-product-card {
+        background: #ffffff !important;
+        border: 1px solid #dcfce7 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.06) !important;
+        padding: 6px 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      body.print-theme-mint .prod-img-box {
+        background: #ffffff !important;
+        border-radius: 8px !important;
+        border: none !important;
+      }
+      body.print-theme-mint .prod-img-box img,
+      body.print-theme-mint .magazine-product-card img {
+        background: #ffffff !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+      }
+      body.print-theme-mint .activity-tier-banner {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3) !important;
+      }
+
+      /* ============================================================ */
+      /* ✨ THEME G: LUXURY CHAMPAGNE & MARBLE EDITORIAL */
+      /* ============================================================ */
+      body.print-theme-gold .activity-section-block {
+        background: #faf8f5 !important;
+        box-shadow: inset 0 0 0 1000px #faf8f5 !important;
+        border: 2px solid #e7dfd5 !important;
+        border-radius: 16px !important;
+        padding: 14px 16px 18px 16px !important;
+        margin-bottom: 22px !important;
+      }
+      body.print-theme-gold .packed-magazine-row {
+        position: relative !important;
+        border-bottom: 2.5px solid #d4af37 !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+      }
+      body.print-theme-gold .magazine-product-card,
+      body.print-theme-gold .cat-cards-subgrid .magazine-product-card {
+        background: #ffffff !important;
+        border: 1.5px solid #f3e8d2 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 10px rgba(180, 83, 9, 0.06) !important;
+        padding: 6px 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      body.print-theme-gold .prod-img-box {
+        background: #ffffff !important;
+        border-radius: 8px !important;
+        border: none !important;
+      }
+      body.print-theme-gold .prod-img-box img,
+      body.print-theme-gold .magazine-product-card img {
+        background: #ffffff !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+      }
+      body.print-theme-gold .activity-tier-banner {
+        background: linear-gradient(135deg, #b45309 0%, #78350f 100%) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 4px 12px rgba(180, 83, 9, 0.3) !important;
+      }
+
+      /* Metadata Badges & Typography across all themes */
+      .code-badge-tag,
+      .code-badge-left {
+        background: rgba(255, 255, 255, 0.9) !important;
+        color: #0b132b !important;
+        font-weight: 800 !important;
+        border-radius: 4px !important;
+        padding: 1px 5px !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .tier-card-badge {
+        background: rgba(255, 255, 255, 0.92) !important;
+        color: #0b132b !important;
+        font-weight: 800 !important;
+        border: 1px solid rgba(0, 0, 0, 0.12) !important;
+        border-radius: 4px !important;
+        padding: 1px 5px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .prod-title-en {
+        color: #0b132b !important;
+        font-weight: 800 !important;
+        text-shadow: none !important;
+      }
+
+      .prod-brand-row {
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        text-shadow: none !important;
+      }
+
+      /* ============================================================ */
+      /* 📷 THEME D & CUSTOM BACKGROUND OVERRIDE (CANCELS SOLID THEMES) */
+      /* ============================================================ */
+      body.has-custom-print-bg,
+      body.print-theme-custom-bg {
+        background: transparent !important;
+      }
+
+      body.has-custom-print-bg .magazine-display-area,
+      body.print-theme-custom-bg .magazine-display-area {
+        background: transparent !important;
+      }
+
+      /* Cancel solid color backgrounds from Bohemian & Magazine themes when custom background is used */
+      body.has-custom-print-bg .activity-section-block,
+      body.print-theme-custom-bg .activity-section-block,
+      body.has-custom-print-bg.print-theme-bohemian .activity-section-block,
+      body.has-custom-print-bg.print-theme-magazine .activity-section-block {
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: 1.5px solid rgba(0, 35, 91, 0.15) !important;
+        border-radius: 14px !important;
+        margin-bottom: 20px !important;
+        padding: 12px 14px 16px 14px !important;
+      }
+
+      body.has-custom-print-bg .packed-magazine-row,
+      body.print-theme-custom-bg .packed-magazine-row,
+      body.has-custom-print-bg.print-theme-bohemian .packed-magazine-row {
+        position: relative !important;
+        border-bottom: 2px dashed rgba(0, 35, 91, 0.2) !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 14px !important;
+        background: transparent !important;
+      }
+
+      body.has-custom-print-bg .cat-group-segment,
+      body.print-theme-custom-bg .cat-group-segment,
+      body.has-custom-print-bg .cat-cards-subgrid,
+      body.print-theme-custom-bg .cat-cards-subgrid {
+        background: transparent !important;
+      }
+
+      /* Clean White Floating Pedestal Cards so products float cleanly without cutout artifacts */
+      body.has-custom-print-bg .magazine-product-card,
+      body.print-theme-custom-bg .magazine-product-card,
+      body.has-custom-print-bg .cat-cards-subgrid .magazine-product-card,
+      body.print-theme-custom-bg .cat-cards-subgrid .magazine-product-card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid rgba(0, 35, 91, 0.18) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      body.has-custom-print-bg .prod-img-box,
+      body.print-theme-custom-bg .prod-img-box {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      body.has-custom-print-bg .prod-img-box img,
+      body.print-theme-custom-bg .prod-img-box img,
+      body.has-custom-print-bg .magazine-product-card img,
+      body.print-theme-custom-bg .magazine-product-card img {
+        background: transparent !important;
+        mix-blend-mode: normal !important;
+        object-fit: contain !important;
+        border: none !important;
+      }
+
+      body.has-custom-print-bg .magazine-print-header,
+      body.print-theme-custom-bg .magazine-print-header {
+        background: rgba(255, 255, 255, 0.92) !important;
+        border-radius: 12px !important;
+        border-bottom: 3.5px solid #00235B !important;
+      }
+
+      /* Ensure content containers have higher z-index than watermark */
+      .magazine-display-area,
+      .magazine-print-header,
+      .activity-section-block,
+      .packed-magazine-row,
+      .cat-group-segment,
+      .cat-cards-subgrid,
+      .magazine-product-card {
+        position: relative !important;
+        z-index: 10 !important;
+      }
+
+      /* ============================================================ */
+      /* 📷 CUSTOM BACKGROUND WATERMARK BACKDROP IN PRINT */
+      /* ============================================================ */
+      .print-watermark-backdrop,
+      #printWatermarkBackdrop {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 1 !important; /* Positive z-index so Chrome print engine renders it */
+        pointer-events: none !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Scope: Page 1 Only (Cover Style) */
+      .print-watermark-backdrop.scope-page1,
+      #printWatermarkBackdrop.scope-page1 {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+      }
+
+      .print-watermark-backdrop img,
+      #printWatermarkBackdrop img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Scope: Specific Section Watermark */
+      .section-watermark-bg {
+        display: block !important;
+        visibility: visible !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
+        border-radius: 14px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .section-watermark-bg img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .activity-section-block.has-section-watermark {
+        position: relative !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
       }
 
       /* 4. 4-COLUMNS MODE (ALDAWAA MAGAZINE STYLE) */
@@ -4497,15 +4918,27 @@
     .custom-confirm-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 9, 24, 0.78);
+      background: rgba(4, 9, 24, 0.82);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 999999;
-      display: flex;
-      align-items: center;
+      display: none; /* By default hidden */
+      align-items: flex-start;
       justify-content: center;
-      padding: 16px;
+      padding: 20px 14px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       animation: confirmFadeIn 0.25s ease-out;
+    }
+
+    .custom-confirm-backdrop[style*="display: none"],
+    .custom-confirm-backdrop[style*="display:none"] {
+      display: none !important;
+    }
+
+    .custom-confirm-backdrop[style*="display: flex"],
+    .custom-confirm-backdrop[style*="display:flex"] {
+      display: flex !important;
     }
 
     @keyframes confirmFadeIn {
@@ -4684,7 +5117,7 @@
     /* 🎨 CSS ART PRINT OPTIONS MODAL (3 vs 4 Cards, Magazine Themes) */
     /* ============================================================ */
     .custom-print-card {
-      max-width: 480px !important;
+      max-width: 520px !important;
       border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(56, 189, 248, 0.25) !important;
     }
@@ -4781,6 +5214,276 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
+    }
+
+    /* Screen-only hide for print watermarks (NEVER overrides @media print) */
+    @media screen {
+      .print-watermark-backdrop,
+      #printWatermarkBackdrop,
+      .section-watermark-bg {
+        display: none !important;
+      }
+    }
+
+    /* Modal Backdrop with Smooth Centering & Touch Scroll */
+    /* Modal Backdrop defined above */
+
+    /* Print Modal Card with Smooth Custom Scrollbar & Sticky Footer */
+    .custom-print-card {
+      max-width: 580px !important;
+      width: 100% !important;
+      max-height: calc(100vh - 40px) !important;
+      overflow-y: auto !important;
+      overscroll-behavior: contain !important;
+      margin: auto !important;
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 22px 22px 14px 22px !important;
+      box-sizing: border-box !important;
+      border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    /* Premium Slim Scrollbar */
+    .custom-print-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-print-card::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 4px;
+    }
+    .custom-print-card::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.45);
+      border-radius: 4px;
+    }
+    .custom-print-card::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+
+    /* Sticky Modal Actions (Start Print / Cancel never get cut off) */
+    .custom-print-card .confirm-modal-actions {
+      position: sticky !important;
+      bottom: -14px !important;
+      margin-top: 14px !important;
+      background: linear-gradient(180deg, rgba(13, 19, 34, 0.9) 0%, rgba(13, 19, 34, 1) 100%) !important;
+      padding: 12px 0 6px 0 !important;
+      border-top: 1px solid rgba(56, 189, 248, 0.25) !important;
+      backdrop-filter: blur(12px) !important;
+      z-index: 100 !important;
+      display: flex !important;
+      gap: 10px !important;
+    }
+
+    /* Premium 7-Theme Grid */
+    .print-theme-grid-premium {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)) !important;
+      gap: 9px !important;
+    }
+
+    .visual-theme-custom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      border-radius: 4px;
+      font-size: 11pt;
+      color: #fff;
+    }
+
+    .visual-theme-blush {
+      display: flex; gap: 2px;
+    }
+    .visual-theme-blush .swatch-1 { flex: 1; height: 100%; background: #f43f5e; border-radius: 2px; }
+    .visual-theme-blush .swatch-2 { flex: 1; height: 100%; background: #fbcfe8; border-radius: 2px; }
+    .visual-theme-blush .swatch-3 { flex: 1; height: 100%; background: #fda4af; border-radius: 2px; }
+
+    .visual-theme-mint {
+      display: flex; gap: 2px;
+    }
+    .visual-theme-mint .swatch-1 { flex: 1; height: 100%; background: #059669; border-radius: 2px; }
+    .visual-theme-mint .swatch-2 { flex: 1; height: 100%; background: #6ee7b7; border-radius: 2px; }
+    .visual-theme-mint .swatch-3 { flex: 1; height: 100%; background: #a7f3d0; border-radius: 2px; }
+
+    .visual-theme-gold {
+      display: flex; gap: 2px;
+    }
+    .visual-theme-gold .swatch-1 { flex: 1; height: 100%; background: #b45309; border-radius: 2px; }
+    .visual-theme-gold .swatch-2 { flex: 1; height: 100%; background: #fef08a; border-radius: 2px; }
+    .visual-theme-gold .swatch-3 { flex: 1; height: 100%; background: #d4af37; border-radius: 2px; }
+
+    /* Scope Selector Pills */
+    .scope-pills-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 5px;
+    }
+    .btn-scope-pill {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #94a3b8;
+      font-size: 7.2pt;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-scope-pill:hover {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+    .btn-scope-pill.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+    .section-select-control {
+      margin-top: 6px;
+      width: 100%;
+      background: #0f172a;
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      color: #7dd3fc;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 8pt;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .visual-theme-boh {
+      display: flex;
+      gap: 2px;
+    }
+    .visual-theme-boh .swatch-terra { flex: 1; height: 100%; background: #c26d53; border-radius: 2px; }
+    .visual-theme-boh .swatch-sand { flex: 1; height: 100%; background: #dfd7c5; border-radius: 2px; }
+    .visual-theme-boh .swatch-sage { flex: 1; height: 100%; background: #5c8071; border-radius: 2px; }
+
+    /* Custom Background Upload Dropzone */
+    .print-upload-dropzone {
+      border: 1.5px dashed rgba(56, 189, 248, 0.45);
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 12px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .print-upload-dropzone:hover {
+      border-color: #38bdf8;
+      background: rgba(30, 58, 138, 0.25);
+      transform: translateY(-1px);
+    }
+    .upload-icon-art {
+      font-size: 18pt;
+      line-height: 1;
+    }
+    .upload-text-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .upload-title {
+      font-size: 8.8pt;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .upload-subtitle {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* Uploaded Preview Card */
+    .print-bg-preview-card {
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .preview-thumb-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      flex-shrink: 0;
+      background: #000;
+    }
+    .preview-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview-controls-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+    .preview-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preview-name {
+      font-size: 8.5pt;
+      font-weight: 800;
+      color: #7dd3fc;
+    }
+    .btn-remove-bg {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-size: 7.2pt;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-remove-bg:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    .opacity-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .opacity-label {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-right: 2px;
+    }
+    .btn-opacity-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #cbd5e1;
+      font-size: 7pt;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-opacity-pill.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
     }
 
     .print-choice-card {
@@ -5104,7 +5807,7 @@
     <div class="filter-inner-box">
             <!-- ⚡ Primary Action Buttons Toolbar (Fast Print, Scanner, Clear) -->
       <div class="filter-top-actions-bar">
-        <button type="button" class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn" title="Print all currently displayed cards in A4">
+        <button type="button" class="btn-fast-print" onclick="openPrintModal('fast')" id="fastPrintBtn" title="Print all currently displayed cards in A4">
           <span class="cssart-printer">
             <span class="cssart-printer-paper"></span>
             <span class="cssart-printer-body"></span>
@@ -7118,7 +7821,7 @@
       // ============================================================
       // CASE 2: SHOW ALL ACTIVITIES / PRINT ALL ACTIVITIES
       // ============================================================
-      if ((window.displayMode === 'uploaded' && (currentTier === 'ALL' || !currentTier)) || window.isPrintingAll) {
+      if ((window.displayMode === 'uploaded' && (currentTier === 'ALL' || !currentTier)) || (window.isPrintingAll && window.pendingPrintMode === 'all')) {
         let fullRowsHTML = '';
         let totalRendered = 0;
         let displayedSections = 0;
@@ -7924,16 +8627,24 @@
     // ============================================================
     // 🎨 PRINT CONFIGURATION & MAGAZINE THEME CONTROLLER
     // ============================================================
-    window.printColumnsMode = 4; // Default to 4 cards/row magazine layout
-    window.printThemeMode = 'magazine'; // Default to colored tier backgrounds
+    window.printColumnsMode = 4; // Default to 4 cards/row
+    window.printThemeMode = 'bohemian'; // Default to Bohemian Shelf aesthetic ⭐
     window.pendingPrintMode = 'all';
+    window.customPrintBackgroundDataUrl = null;
+    window.customPrintBackgroundOpacity = 0.75;
+    window.printThemeMode = 'bohemian';
+    window.printBgScope = 'all'; // 'all', 'page1', 'section'
+    window.printBgTargetSection = 'ALL';
 
     function openPrintModal(mode = 'all') {
       window.pendingPrintMode = mode;
       const modal = document.getElementById('customPrintModal');
       if (modal) {
         selectPrintColumns(window.printColumnsMode || 4, false);
-        selectPrintTheme(window.printThemeMode || 'magazine', false);
+        const currentTheme = window.customPrintBackgroundDataUrl ? (window.printThemeMode || 'custom-bg') : (window.printThemeMode || 'bohemian');
+        selectPrintTheme(currentTheme, false);
+        setPrintBgScope(window.printBgScope || 'all');
+        renderPrintBgPreview();
         modal.style.display = 'flex';
       } else {
         executeDirectPrintFallback(mode);
@@ -7967,15 +8678,112 @@
     }
 
     function selectPrintTheme(theme, updateState = true) {
+      if (theme === 'custom-bg' && !window.customPrintBackgroundDataUrl) {
+        const fileInput = document.getElementById('printBgFileInput');
+        if (fileInput) fileInput.click();
+        return;
+      }
+
       if (updateState) window.printThemeMode = theme;
-      const themeMag = document.getElementById('choiceThemeMagazine');
-      const themeWhite = document.getElementById('choiceThemeWhite');
-      if (theme === 'white') {
-        if (themeWhite) themeWhite.classList.add('active');
-        if (themeMag) themeMag.classList.remove('active');
+      
+      const themeCards = [
+        'choiceThemeCustomBg',
+        'choiceThemeBlush',
+        'choiceThemeBohemian',
+        'choiceThemeMint',
+        'choiceThemeGold',
+        'choiceThemeMagazine',
+        'choiceThemeWhite'
+      ];
+      
+      themeCards.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+
+      const activeMap = {
+        'custom-bg': 'choiceThemeCustomBg',
+        'blush': 'choiceThemeBlush',
+        'bohemian': 'choiceThemeBohemian',
+        'mint': 'choiceThemeMint',
+        'gold': 'choiceThemeGold',
+        'magazine': 'choiceThemeMagazine',
+        'white': 'choiceThemeWhite'
+      };
+
+      const targetId = activeMap[theme] || 'choiceThemeBohemian';
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) targetEl.classList.add('active');
+    }
+
+    function setPrintBgScope(scope) {
+      window.printBgScope = scope;
+      const btnAll = document.getElementById('btnScopeAll');
+      const btnP1 = document.getElementById('btnScopePage1');
+      const btnSec = document.getElementById('btnScopeSection');
+      const secContainer = document.getElementById('sectionSelectContainer');
+
+      if (btnAll) btnAll.classList.toggle('active', scope === 'all');
+      if (btnP1) btnP1.classList.toggle('active', scope === 'page1');
+      if (btnSec) btnSec.classList.toggle('active', scope === 'section');
+
+      if (secContainer) {
+        secContainer.style.display = scope === 'section' ? 'block' : 'none';
+      }
+    }
+
+    function setPrintBgTargetSection(val) {
+      window.printBgTargetSection = val;
+    }
+
+    function handlePrintBgImageUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        window.customPrintBackgroundDataUrl = e.target.result;
+        // Automatically switch active theme to Custom Image, canceling the solid themes above!
+        selectPrintTheme('custom-bg', true);
+        renderPrintBgPreview();
+        showToast('📷 تم تفعيل صورتك كخلفية رئيسية للطباعة بنجاح', 3000);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removePrintBgImage() {
+      window.customPrintBackgroundDataUrl = null;
+      const input = document.getElementById('printBgFileInput');
+      if (input) input.value = '';
+      selectPrintTheme('bohemian', true);
+      renderPrintBgPreview();
+      showToast('🗑️ تم إزالة الصورة واستعادة نمط التصميم البوهيمي', 2500);
+    }
+
+    function setPrintBgOpacity(val) {
+      window.customPrintBackgroundOpacity = parseFloat(val);
+      renderPrintBgPreview();
+    }
+
+    function renderPrintBgPreview() {
+      const dropzone = document.getElementById('printBgDropzone');
+      const previewBox = document.getElementById('printBgPreviewBox');
+      const thumb = document.getElementById('printBgThumb');
+      const themeCustom = document.getElementById('choiceThemeCustomBg');
+      
+      if (window.customPrintBackgroundDataUrl) {
+        if (dropzone) dropzone.style.display = 'none';
+        if (previewBox) previewBox.style.display = 'flex';
+        if (thumb) thumb.src = window.customPrintBackgroundDataUrl;
+        
+        const op = window.customPrintBackgroundOpacity !== undefined ? window.customPrintBackgroundOpacity : 0.75;
+        document.querySelectorAll('.btn-opacity-pill').forEach(btn => {
+          btn.classList.toggle('active', Math.abs(parseFloat(btn.dataset.opacity) - op) < 0.05);
+        });
       } else {
-        if (themeMag) themeMag.classList.add('active');
-        if (themeWhite) themeWhite.classList.remove('active');
+        if (dropzone) dropzone.style.display = 'flex';
+        if (previewBox) previewBox.style.display = 'none';
+        if (themeCustom) themeCustom.classList.remove('active');
       }
     }
 
@@ -7983,14 +8791,63 @@
       closePrintModal();
 
       const cols = window.printColumnsMode || 4;
-      const theme = window.printThemeMode || 'magazine';
+      const theme = window.printThemeMode || (window.customPrintBackgroundDataUrl ? 'custom-bg' : 'bohemian');
+      const scope = window.printBgScope || 'all';
 
-      // 1. Set classes on document body for print engine
-      document.body.classList.remove('print-cols-3', 'print-cols-4', 'print-theme-magazine', 'print-theme-white');
+      // 1. Reset all print theme classes
+      document.body.classList.remove(
+        'print-cols-3',
+        'print-cols-4',
+        'print-theme-magazine',
+        'print-theme-bohemian',
+        'print-theme-white',
+        'print-theme-blush',
+        'print-theme-mint',
+        'print-theme-gold',
+        'print-theme-custom-bg',
+        'has-custom-print-bg'
+      );
       document.body.classList.add('print-cols-' + cols);
       document.body.classList.add('print-theme-' + theme);
 
-      // 2. Prepare catalog based on print mode
+      // Clean up previous section watermarks
+      document.querySelectorAll('.section-watermark-bg').forEach(el => el.remove());
+      document.querySelectorAll('.has-section-watermark').forEach(el => el.classList.remove('has-section-watermark'));
+
+      // 2. Setup custom background image backdrop if active
+      let watermarkEl = document.getElementById('printWatermarkBackdrop');
+      if (!watermarkEl) {
+        watermarkEl = document.createElement('div');
+        watermarkEl.id = 'printWatermarkBackdrop';
+        watermarkEl.className = 'print-watermark-backdrop';
+        document.body.insertBefore(watermarkEl, document.body.firstChild);
+      }
+
+      const hasCustomBg = !!window.customPrintBackgroundDataUrl;
+      const opacity = window.customPrintBackgroundOpacity !== undefined ? window.customPrintBackgroundOpacity : 0.75;
+
+      if (hasCustomBg) {
+        if (scope === 'all') {
+          document.body.classList.add('has-custom-print-bg');
+          watermarkEl.className = 'print-watermark-backdrop';
+          watermarkEl.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100vw; height: 100vh; object-fit: cover;" alt="Print Background All Pages" />`;
+          watermarkEl.style.display = 'block';
+        } else if (scope === 'page1') {
+          document.body.classList.add('has-custom-print-bg');
+          watermarkEl.className = 'print-watermark-backdrop scope-page1';
+          watermarkEl.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100%; height: 297mm; object-fit: cover;" alt="Print Background Page 1" />`;
+          watermarkEl.style.display = 'block';
+        } else if (scope === 'section') {
+          watermarkEl.innerHTML = '';
+          watermarkEl.style.display = 'none';
+          // Specific section watermark will be attached after catalog refresh
+        }
+      } else {
+        watermarkEl.innerHTML = '';
+        watermarkEl.style.display = 'none';
+      }
+
+      // 3. Prepare catalog based on print mode
       if (window.pendingPrintMode === 'all') {
         syncAllTierCodesFromStore();
         window.selectedActivityTier = 'ALL';
@@ -8005,7 +8862,37 @@
         window.isPrintingAll = false;
       }
 
-      showToast(`⚡ Preparing ${cols} cards per row (${theme === 'magazine' ? 'Magazine Theme' : 'Clean White'})...`, 2500);
+      // If scope is section, attach image to matching sections now
+      if (hasCustomBg && scope === 'section') {
+        const target = window.printBgTargetSection || 'ALL';
+        let targetBlocks = [];
+        if (target === 'ALL') {
+          targetBlocks = Array.from(document.querySelectorAll('.activity-section-block'));
+        } else {
+          targetBlocks = Array.from(document.querySelectorAll(`.activity-section-block[data-tier="${target}"]`));
+        }
+
+        targetBlocks.forEach(blk => {
+          blk.style.position = 'relative';
+          blk.classList.add('has-section-watermark');
+          const secWatermark = document.createElement('div');
+          secWatermark.className = 'section-watermark-bg';
+          secWatermark.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100%; height: 100%; object-fit: cover;" alt="Section Watermark" />`;
+          blk.insertBefore(secWatermark, blk.firstChild);
+        });
+      }
+
+      const themeLabels = {
+        'custom-bg': 'خلفية صورتك المخصصة',
+        'blush': 'Aldawaa Blush Rose 🌸',
+        'bohemian': 'Bohemian Shelf 🌾',
+        'mint': 'Botanical Mint 🌿',
+        'gold': 'Luxury Gold ✨',
+        'magazine': 'Magazine Tiers 💎',
+        'white': 'Clean White ⚪'
+      };
+      const themeLabel = themeLabels[theme] || 'Custom Theme';
+      showToast(`⚡ جاري تجهيز الطباعة: ${cols} كروت في الصف (${themeLabel})...`, 2500);
 
       const container = document.getElementById('magazineRowsContainer');
       if (container) {
@@ -8035,6 +8922,26 @@
         window.print();
       }, 350);
     }
+
+    // Clean up print classes & watermarks on afterprint
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove(
+        'print-cols-3',
+        'print-cols-4',
+        'print-theme-magazine',
+        'print-theme-bohemian',
+        'print-theme-white',
+        'print-theme-blush',
+        'print-theme-mint',
+        'print-theme-gold',
+        'print-theme-custom-bg',
+        'has-custom-print-bg'
+      );
+      const watermarkEl = document.getElementById('printWatermarkBackdrop');
+      if (watermarkEl) watermarkEl.style.display = 'none';
+      document.querySelectorAll('.section-watermark-bg').forEach(el => el.remove());
+      document.querySelectorAll('.has-section-watermark').forEach(el => el.classList.remove('has-section-watermark'));
+    });
 
     function promptClearAllTiers() {
       const modal = document.getElementById('customConfirmModal');
@@ -9451,15 +10358,65 @@
 
       <!-- Option 2: Print Theme Style -->
       <div class="print-option-section">
-        <div class="print-option-label"><span>🎨</span> Theme & Background Colors:</div>
-        <div class="print-choice-grid">
-          <div class="print-choice-card active" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
+        <div class="print-option-label"><span>🎨</span> Theme & Layout Style (نمط وتصميم المجلة الفاخرة):</div>
+        <div class="print-choice-grid print-theme-grid-premium">
+          <div class="print-choice-card" id="choiceThemeCustomBg" onclick="selectPrintTheme('custom-bg')">
+            <div class="choice-visual visual-theme-custom">
+              <span>📷</span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Custom Image ⭐</div>
+              <div class="choice-sub">صورتك المرفقة</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card" id="choiceThemeBlush" onclick="selectPrintTheme('blush')">
+            <div class="choice-visual visual-theme-blush">
+              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Blush Rose 🌸</div>
+              <div class="choice-sub">وردي مجلات العناية</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card active" id="choiceThemeBohemian" onclick="selectPrintTheme('bohemian')">
+            <div class="choice-visual visual-theme-boh">
+              <span class="swatch-terra"></span><span class="swatch-sand"></span><span class="swatch-sage"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Bohemian Shelf</div>
+              <div class="choice-sub">أرفف خشبية دافئة</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card" id="choiceThemeMint" onclick="selectPrintTheme('mint')">
+            <div class="choice-visual visual-theme-mint">
+              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Botanical Mint 🌿</div>
+              <div class="choice-sub">أخضر صحي زمردي</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card" id="choiceThemeGold" onclick="selectPrintTheme('gold')">
+            <div class="choice-visual visual-theme-gold">
+              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Luxury Gold ✨</div>
+              <div class="choice-sub">ذهبي ورخامي راقي</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
             <div class="choice-visual visual-theme-mag">
               <span class="swatch-d"></span><span class="swatch-g"></span><span class="swatch-s"></span>
             </div>
             <div class="choice-text">
-              <div class="choice-title">Magazine Colors ⭐</div>
-              <div class="choice-sub">Soft Tiers, No Borders</div>
+              <div class="choice-title">Magazine Tiers 💎</div>
+              <div class="choice-sub">ألوان فئات الدواء</div>
             </div>
           </div>
 
@@ -9468,10 +10425,75 @@
               <span class="swatch-w"></span>
             </div>
             <div class="choice-text">
-              <div class="choice-title">Clean White</div>
-              <div class="choice-sub">Minimalist Black & White</div>
+              <div class="choice-title">Clean White ⚪</div>
+              <div class="choice-sub">أبيض كلاسيكي ستوديو</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Option 3: Custom Background Watermark Image & Scope -->
+      <div class="print-option-section">
+        <div class="print-option-label"><span>📷</span> Custom Background Image (خلفية مخصصة للطباعة):</div>
+        
+        <!-- Upload dropzone when no image is loaded -->
+        <div id="printBgDropzone" class="print-upload-dropzone" onclick="document.getElementById('printBgFileInput').click()">
+          <input type="file" id="printBgFileInput" accept="image/*" style="display:none;" onchange="handlePrintBgImageUpload(event)">
+          <span class="upload-icon-art">🖼️</span>
+          <div class="upload-text-group">
+            <span class="upload-title">Attach / Upload Background Image</span>
+            <span class="upload-subtitle">JPG, PNG, WebP (تظهر كخلفية كاملة أو لصفحة/قسم معين وتلغي المصمت)</span>
+          </div>
+        </div>
+
+        <!-- Preview & controls when image is loaded -->
+        <div id="printBgPreviewBox" class="print-bg-preview-card" style="display:none;">
+          <div class="preview-thumb-box">
+            <img id="printBgThumb" src="" alt="Thumbnail" />
+          </div>
+          <div class="preview-controls-group">
+            <div class="preview-meta-row">
+              <span class="preview-name" id="previewStatusText">✓ صورتك محملة وجاهزة</span>
+              <button type="button" class="btn-remove-bg" onclick="removePrintBgImage()" title="Remove background image">✕ Remove</button>
+            </div>
+
+            <!-- Target Scope: All Pages, Page 1, or Specific Section -->
+            <div style="margin-top: 4px;">
+              <div style="font-size: 7.2pt; color: #7dd3fc; font-weight: 700; margin-bottom: 3px;">🎯 نطاق تطبيق الخلفية:</div>
+              <div class="scope-pills-row">
+                <button type="button" class="btn-scope-pill active" id="btnScopeAll" onclick="setPrintBgScope('all')">🌐 All Pages (كل الصفحات)</button>
+                <button type="button" class="btn-scope-pill" id="btnScopePage1" onclick="setPrintBgScope('page1')">📄 Page 1 Only (الغلاف فقط)</button>
+                <button type="button" class="btn-scope-pill" id="btnScopeSection" onclick="setPrintBgScope('section')">🏷️ Specific Section (قسم محدد)</button>
+              </div>
+              <div id="sectionSelectContainer" style="display:none; margin-top: 5px;">
+                <select id="printBgSectionSelect" class="section-select-control" onchange="setPrintBgTargetSection(this.value)">
+                  <option value="ALL">جميع الأقسام الحالية</option>
+                  <option value="DIAMOND">DIAMOND (دايموند)</option>
+                  <option value="DIAMOND UPGRADE">DIAMOND UPGRADE (ترقية دايموند)</option>
+                  <option value="GOLD">GOLD (جولد)</option>
+                  <option value="GOLD UPGRADE">GOLD UPGRADE (ترقية جولد)</option>
+                  <option value="SILVER">SILVER (سيلفر)</option>
+                  <option value="SILVER UPGRADE">SILVER UPGRADE (ترقية سيلفر)</option>
+                  <option value="OUT">OUT (أوت / بلانوجرام)</option>
+                  <option value="GENERAL">GENERAL (عام)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Opacity Pills -->
+            <div class="opacity-pills-row" style="margin-top: 6px;">
+              <span class="opacity-label">وضوح الصورة:</span>
+              <button type="button" class="btn-opacity-pill" data-opacity="0.25" onclick="setPrintBgOpacity(0.25)">25% هادئ</button>
+              <button type="button" class="btn-opacity-pill" data-opacity="0.50" onclick="setPrintBgOpacity(0.50)">50%</button>
+              <button type="button" class="btn-opacity-pill active" data-opacity="0.75" onclick="setPrintBgOpacity(0.75)">75% ⭐</button>
+              <button type="button" class="btn-opacity-pill" data-opacity="1.00" onclick="setPrintBgOpacity(1.00)">100% كامل</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Helpful Print Tip -->
+        <div style="margin-top: 10px; font-size: 7.2pt; color: #38bdf8; background: rgba(56, 189, 248, 0.08); padding: 6px 9px; border-radius: 6px; border: 1px dashed rgba(56, 189, 248, 0.3); text-align: right; direction: rtl;">
+          💡 <strong>نصيحة هامة:</strong> في نافذة الطباعة (Print Preview)، تأكد من وضع علامة ✓ على خيار <strong>Background graphics (رسومات الخلفية)</strong> لتظهر كافة الألوان والخلفيات بأعلى دقة.
         </div>
       </div>
 
