@@ -3757,6 +3757,123 @@
         height: 140px !important;
       }
     }
+      /* 📱 RESPONSIVE PLANOGRAM TIERS PANEL & COMPACT TIERS GRID */
+    .planogram-tiers-panel {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
+
+    .tiers-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      gap: 8px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .tier-card {
+      min-width: 0 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      padding: 8px 5px !important;
+    }
+
+    .tier-card-actions {
+      display: flex !important;
+      gap: 4px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .btn-tier-action {
+      flex: 1 1 50% !important;
+      min-width: 0 !important;
+      padding: 5px 3px !important;
+      font-size: 7pt !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      box-sizing: border-box !important;
+    }
+
+    .btn-tier-action.btn-tier-action-single {
+      flex: 1 1 100% !important;
+      width: 100% !important;
+      text-align: center !important;
+    }
+
+    @media (max-width: 768px) {
+      .planogram-tiers-panel {
+        padding: 10px 8px !important;
+      }
+
+      .tiers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+      }
+
+      .tier-card {
+        padding: 7px 4px !important;
+      }
+
+      .tier-card-name {
+        font-size: 7.5pt !important;
+      }
+
+      .tier-all-badge {
+        font-size: 5.5pt !important;
+        padding: 1px 4px !important;
+      }
+
+      .btn-tier-action {
+        font-size: 6.8pt !important;
+        padding: 4px 2px !important;
+      }
+
+      .btn-tier-print-all,
+      .btn-tier-show-all,
+      .btn-clear-tier {
+        font-size: 7.2pt !important;
+        padding: 5px 8px !important;
+      }
+    }
+
+  @media screen and (max-width: 680px) {
+    .planogram-tiers-panel {
+      padding: 8px 6px !important;
+    }
+    .tiers-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .tier-card {
+      min-width: 0 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 7px 4px !important;
+    }
+    .tier-card-actions {
+      display: flex !important;
+      gap: 3px !important;
+      width: 100% !important;
+    }
+    .btn-tier-action {
+      flex: 1 1 50% !important;
+      min-width: 0 !important;
+      font-size: 6.8pt !important;
+      padding: 4px 2px !important;
+    }
+    .btn-tier-action.btn-tier-action-single {
+      flex: 1 1 100% !important;
+    }
+  }
+
   </style>
 </head>
 
@@ -3774,11 +3891,7 @@
       </div>
     </div>
 
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <button type="button" class="btn-install-shortcut" id="btnInstallPwaApp" onclick="triggerPwaInstallPrompt()" title="Install as Shortcut App on Mobile / Desktop">
-        <span>📲</span> Install App
-      </button>
-    </div>
+    
 
     <div class="stats-info-box">
       <div class="stat-badge">
@@ -3824,7 +3937,7 @@
         </div>
 
         <div class="tiers-grid">
-          <!-- 1. DIAMOND (NO DOWNGRADE) -->
+          <!-- 1. DIAMOND -->
           <div class="tier-card tier-diamond" id="tierCard-DIAMOND">
             <div class="tier-card-header" onclick="selectActivityTier('DIAMOND')" title="Select DIAMOND (NEW)">
               <div class="tier-3d-wrapper">
@@ -3834,7 +3947,7 @@
               <span class="tier-all-badge" title="New into Diamond">NEW</span>
             </div>
             <div class="tier-card-actions">
-              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-DIAMOND_UPGRADE" onclick="selectActivityTier('DIAMOND UPGRADE')">
+              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-DIAMOND_UPGRADE" onclick="selectActivityTier('DIAMOND UPGRADE')" style="width:100%;text-align:center;">
                 <span class="cssart-badge cssart-up"></span> Upgrade
               </button>
             </div>
@@ -3879,21 +3992,20 @@
           </div>
 
           <!-- 4. OUT (SIMPLIFIED: NO UPGRADE / NO DOWNGRADE) -->
-          <div class="tier-card tier-out" id="tierCard-OUT" onclick="selectActivityTier('OUT')" title="Click to activate and view OUT (Out of Planogram) items">
+          <div class="tier-card tier-out" id="tierCard-OUT" onclick="selectActivityTier('OUT')" title="Select OUT (Out of Planogram)">
             <div class="tier-card-header">
               <div class="tier-3d-wrapper">
                 <img src="out_3d.svg" class="tier-3d-header-img" alt="Out" onerror="this.outerHTML='🚪'" />
               </div>
               <span class="tier-card-name">OUT</span>
-              <span class="tier-all-badge" title="Out of Planogram">OUT</span>
+              <span class="tier-all-badge" style="background:#ef4444;color:#fff;">OUT</span>
             </div>
             <div class="tier-card-actions">
-              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-OUT" onclick="event.stopPropagation(); selectActivityTier('OUT')">
-                <span class="cssart-badge cssart-out"></span> OUT OF PLANOGRAM
+              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-OUT" onclick="event.stopPropagation(); selectActivityTier('OUT')" style="border-color: rgba(239, 68, 68, 0.4); text-align: center; width: 100%;">
+                <span class="cssart-badge cssart-out"></span> Out / Planogram
               </button>
             </div>
           </div>
-        </div>
 
         <div class="tier-active-status-bar" id="tierActiveStatusBar">
           <span class="status-dot"></span>
@@ -3923,8 +4035,13 @@
 
       <!-- Manual Input Textarea -->
       <div class="manual-textarea-container" id="manualInputContainer">
-        <textarea id="manualCodesTextarea" class="manual-textarea" placeholder="Paste item codes separated by commas, spaces, or newlines (e.g. 100000, 101060)..."></textarea>
-        <button class="btn-apply-codes" onclick="applyManualCodes()">Apply Codes</button>
+        <textarea id="manualCodesTextarea" class="manual-textarea" placeholder="Paste item codes separated by commas, spaces, or newlines (e.g. 100000, 101060)..." oninput="onManualCodesInputChanged()"></textarea>
+        <div class="manual-input-actions-bar">
+          <button type="button" class="btn-apply-codes" onclick="applyManualCodes()">Apply Codes</button>
+          <button type="button" class="btn-reset-codes" onclick="clearCurrentManualCodes()" title="Clear and reset codes for current tier">
+            <span>🗑️</span> Reset / Clear
+          </button>
+        </div>
       </div>
 
       <!-- Database Loading Status -->
@@ -5505,8 +5622,7 @@
       { key: 'SILVER', label: 'SILVER (NEW)', icon: 'silver_3d.svg', theme: 'silver', type: 'NEW' },
       { key: 'SILVER UPGRADE', label: 'SILVER UPGRADE', icon: 'silver_3d.svg', theme: 'silver', type: 'UPGRADE' },
       { key: 'SILVER DOWNGRADE', label: 'SILVER DOWNGRADE', icon: 'silver_3d.svg', theme: 'silver', type: 'DOWNGRADE' },
-      { key: 'OUT', label: 'OUT OF PLANOGRAM', icon: 'out_3d.svg', theme: 'out', type: 'OUT' },
-      { key: 'OUT OF PLANOGRAM', label: 'OUT OF PLANOGRAM', icon: 'out_3d.svg', theme: 'out', type: 'OUT' }
+      { key: 'OUT', label: 'OUT OF PLANOGRAM', icon: 'out_3d.svg', theme: 'out', type: 'OUT' }
     ];
 
     function buildActivitySectionBannerHTML(tierDef, itemsCount) {
@@ -5551,7 +5667,7 @@
       `;
     }
 
-    function renderSingleProductCardHTML(p) {
+    function renderSingleProductCardHTML(p, forcedTier = null) {
       let imgSrc = p.image_url;
       if (!imgSrc || imgSrc === 'No Image' || imgSrc === '1') {
         if (window.repairedImages && window.repairedImages[p.Code] && window.repairedImages[p.Code] !== 'FAILED') {
@@ -5567,7 +5683,7 @@
       const isOwnB = isProductOwnBrand(p);
       const ownBadge = isOwnB ? `<span class="own-brand-tag">⭐ Own Brand</span>` : '';
       
-      const pTier = (window.productTierMap && window.productTierMap.get(p.Code)) || p.activityTier || (window.selectedActivityTier || "");
+      const pTier = forcedTier || p.activityTier || (window.productTierMap && window.productTierMap.get(p.Code)) || (window.selectedActivityTier || "");
       let tierBadge = '';
       if (pTier) {
         let artClass = 'cssart-up';
@@ -5635,7 +5751,7 @@
                  data-brand="${escapeAttr(p.Brand || 'GENERIC')}"
                  alt="${p.Code}"
                  onerror="handleProductImageError('${p.Code}', this, '${escapeAttr(p.Brand || 'GENERIC')}')"
-                 loading="lazy" />
+                 loading="eager" decoding="async" />
             <div class="zoom-hover-hint">🔍 Zoom</div>
 
             <!-- Quick In-Card Direct Upload / Link Overlay -->
@@ -5705,7 +5821,7 @@
       `;
     }
 
-    function renderItemsAsPackedMagazineRows(productsList) {
+    function renderItemsAsPackedMagazineRows(productsList, forcedTier = null) {
       if (!productsList || productsList.length === 0) return '';
 
       // Sort by Category C/D, then Brand
@@ -5776,7 +5892,7 @@
           `;
 
           seg.items.forEach(p => {
-            html += renderSingleProductCardHTML(p);
+            html += renderSingleProductCardHTML(p, forcedTier);
           });
 
           html += `
@@ -5792,7 +5908,30 @@
     }
 
     // 🖨️ طباعة جميع الأنشطة المحددة بالترتيب المطلوب مع تجاهل الأنشطة الفارغة
-    function printAllActivities() {
+
+    async function ensureAllImagesLoadedBeforePrint(container) {
+      if (!container) return;
+      const images = Array.from(container.querySelectorAll('img'));
+      const loadPromises = images.map(img => {
+        img.loading = 'eager';
+        if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+        return new Promise(resolve => {
+          let resolved = false;
+          const done = () => {
+            if (!resolved) {
+              resolved = true;
+              resolve();
+            }
+          };
+          const timer = setTimeout(done, 2200);
+          img.addEventListener('load', () => { clearTimeout(timer); done(); }, { once: true });
+          img.addEventListener('error', () => { clearTimeout(timer); done(); }, { once: true });
+        });
+      });
+      await Promise.all(loadPromises);
+    }
+
+    async function printAllActivities() {
       // ⚡ Crucial: Auto-sync all typed/pasted codes from ALL tiers before printing!
       syncAllTierCodesFromStore();
 
@@ -5804,119 +5943,67 @@
       refreshCatalogDisplay(true);
       window.isPrintingAll = false;
 
-      showToast("⏳ Preparing and printing all activity tiers...");
+      showToast("⏳ Loading and preparing high-resolution images for print...", 2500);
+
+      const container = document.getElementById('magazineRowsContainer');
+      if (container) {
+        await ensureAllImagesLoadedBeforePrint(container);
+      }
+
       setTimeout(() => {
         window.print();
-      }, 400);
+      }, 350);
     }
 
     function refreshCatalogDisplay(shouldSyncChecklists = false) {
-      // ⚡ Auto-sync all tier codes from memory & textarea
+      // ⚡ 1. Auto-sync current textarea into current tier and rebuild tier stores
       syncAllTierCodesFromStore();
 
       const container = document.getElementById('magazineRowsContainer');
       const placeholder = document.getElementById('emptyStatePlaceholder');
       const totalLoadedBadge = document.getElementById('totalLoadedBadge');
       const activeVisibleCount = document.getElementById('activeVisibleCount');
-      const uploadedSpan = document.getElementById('uploadedCountSpan');
-
-      if (uploadedSpan) uploadedSpan.innerText = window.accumulatedProductCodes.size;
-
       const searchQuery = (document.getElementById('liveSearchInput')?.value || '').trim().toLowerCase();
+      const currentTier = window.selectedActivityTier;
 
-      // Source items pool selection
-      let sourceProducts = [];
-      if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
-        let codesPool = Array.from(window.accumulatedProductCodes);
-
-        // 🎯 Filter by selected activity tier if a specific tier is active!
-        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
-          const selected = window.selectedActivityTier.toUpperCase();
-          codesPool = codesPool.filter(code => {
-            const itemTier = (window.productTierMap.get(code) || resolveProductRecord(code)?.activityTier || '').toUpperCase();
-            if (!itemTier) return false;
-            // Specific tier matching: clicking DIAMOND matches only DIAMOND (NEW)!
-            if (selected === 'OUT' || selected === 'OUT OF PLANOGRAM') {
-              return itemTier === 'OUT' || itemTier === 'OUT OF PLANOGRAM';
-            }
-            return itemTier === selected;
-          });
-        }
-
-        if (totalLoadedBadge) {
-          const tierTag = (window.selectedActivityTier && window.selectedActivityTier !== 'ALL') ? ` (${window.selectedActivityTier})` : ' (Uploaded)';
-          totalLoadedBadge.innerText = `${codesPool.length}${tierTag}`;
-        }
-        sourceProducts = codesPool.map(code => resolveProductRecord(code)).filter(Boolean);
-      } else {
-        if (totalLoadedBadge) totalLoadedBadge.innerText = window.masterProductsDB.length.toLocaleString();
-        sourceProducts = window.masterProductsDB;
-      }
-
-      if (!sourceProducts || sourceProducts.length === 0) {
-        placeholder.style.display = 'block';
-        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
-          placeholder.querySelector('h3').innerText = `No products found for activity: (${window.selectedActivityTier})`;
-          placeholder.querySelector('p').innerText = 'Type or paste item codes in the box above to add them to this tier.';
-        } else {
-          placeholder.querySelector('h3').innerText = 'No Products Displayed';
-          placeholder.querySelector('p').innerText = 'Use the search bar, filter by category/brand, upload a file, or enter codes manually.';
-        }
-        container.innerHTML = '';
-        if (activeVisibleCount) activeVisibleCount.innerText = '0';
-        return;
-      }
-
-      // Filter products by all 8 Multi-Select Checklists & Live Search
-      let activeProducts = sourceProducts.filter(p => {
-        // Multi-select checks
+      // Helper function to test multi-select filters and live search
+      function matchFiltersAndSearch(p) {
         const filters = window.activeMultiFilters;
-
         if (filters.categoryA.size > 0) {
           const val = p["Category Level A"] ? p["Category Level A"].trim() : "";
           if (!filters.categoryA.has(val)) return false;
         }
-
         if (filters.categoryB.size > 0) {
           const val = p["Category Level B"] ? p["Category Level B"].trim() : "";
           if (!filters.categoryB.has(val)) return false;
         }
-
         if (filters.categoryC.size > 0) {
           const val = p["Category Level C"] ? p["Category Level C"].trim() : "";
           if (!filters.categoryC.has(val)) return false;
         }
-
         if (filters.categoryD.size > 0) {
           const val = p["Category Level D"] ? p["Category Level D"].trim() : "";
           if (!filters.categoryD.has(val)) return false;
         }
-
         if (filters.categoryE.size > 0) {
           const val = p["Category Level E"] ? p["Category Level E"].trim() : (p["Item Class"] || "");
           if (!filters.categoryE.has(val)) return false;
         }
-
         if (filters.brand.size > 0) {
           const val = p.Brand ? p.Brand.trim() : "";
           if (!filters.brand.has(val)) return false;
         }
-
         if (filters.manufacture.size > 0) {
           const val = p.Manufacture ? p.Manufacture.trim() : "";
           if (!filters.manufacture.has(val)) return false;
         }
-
         if (filters.ownBrand.size > 0) {
           if (!isProductOwnBrand(p)) return false;
           const val = p.Manufacture ? p.Manufacture.trim() : 'Own Brand';
           if (!filters.ownBrand.has(val) && !filters.ownBrand.has('Own Brand')) return false;
         }
-
-        // Quick Own Brand Toggle Button
         if (window.isOwnBrandToggleActive && !isProductOwnBrand(p)) return false;
 
-        // Live Search Query (checks Code, English Desc, Arabic Name, Brand, Manufacture, Barcodes, GTIN)
         if (searchQuery) {
           const inCode = (p.Code || '').toLowerCase().includes(searchQuery);
           const inDesc = (p["Item Description"] || '').toLowerCase().includes(searchQuery);
@@ -5933,103 +6020,151 @@
 
           if (!inCode && !inDesc && !inAr && !inBrand && !inMfg && !inBarcode && !inCat) return false;
         }
-
         return true;
-      });
-
-      // 🔄 Update dynamic dropdown checklists to reflect only the available options for the active search
-      if (shouldSyncChecklists) {
-        syncAllMultiSelectChecklists();
       }
 
-      const totalMatchingCount = activeProducts.length;
-      if (activeVisibleCount) activeVisibleCount.innerText = totalMatchingCount.toLocaleString();
-
-      if (totalMatchingCount === 0) {
-        placeholder.style.display = 'block';
-        placeholder.querySelector('h3').innerText = 'No matching items found for the current search or filters';
-        container.innerHTML = '';
-        return;
-      }
-
-      placeholder.style.display = 'none';
-      updateMagazineTierBanner(activeProducts);
-
-      // 🎯 GROUP AND RENDER BY PLANOGRAM TIERS (ONLY TIERS WITH CODES ARE DISPLAYED)
+      // Hide top static banner
       const topStaticBanner = document.getElementById('activityTierBanner');
       if (topStaticBanner) topStaticBanner.style.display = 'none';
 
-      let fullRowsHTML = '';
-      const handledCodes = new Set();
-      let displayedSectionsCount = 0;
+      // ============================================================
+      // CASE 1: SPECIFIC TIER SELECTED (e.g. DIAMOND, DIAMOND UPGRADE, GOLD, etc.)
+      // ============================================================
+      if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+        const curCodes = window.tierCodesStore[currentTier] || [];
 
-      for (const tierDef of ACTIVITY_TIERS_DISPLAY_ORDER) {
-        // If user chose a specific tier or parent tier:
-        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
-          const selUpper = window.selectedActivityTier.toUpperCase();
-          const isOutMatch = (selUpper === 'OUT' || selUpper === 'OUT OF PLANOGRAM') && (tierDef.key === 'OUT' || tierDef.key === 'OUT OF PLANOGRAM');
-          const isExactMatch = tierDef.key === selUpper;
-          if (!isOutMatch && !isExactMatch) continue;
+        if (curCodes.length === 0) {
+          placeholder.style.display = 'block';
+          placeholder.querySelector('h3').innerText = `No products found for activity: (${currentTier})`;
+          placeholder.querySelector('p').innerText = 'Type or paste item codes in the box above to add them to this tier.';
+          container.innerHTML = '';
+          if (activeVisibleCount) activeVisibleCount.innerText = '0';
+          if (totalLoadedBadge) totalLoadedBadge.innerText = `0 (${currentTier})`;
+          return;
         }
 
-        const tierItems = activeProducts.filter(p => {
-          const pTier = ((window.productTierMap && window.productTierMap.get(p.Code)) || p.activityTier || '').toUpperCase();
-          return pTier === tierDef.key;
-        });
+        const tierProducts = curCodes.map(code => {
+          const rec = resolveProductRecord(code);
+          return rec ? { ...rec, activityTier: currentTier } : null;
+        }).filter(Boolean);
 
-        // 🎯 CRITICAL USER RULE: لو حاجة فيهم منضافش ليها أكواد متتعرضتش أبداً!
-        if (tierItems.length === 0) continue;
+        const activeProducts = tierProducts.filter(matchFiltersAndSearch);
 
-        tierItems.forEach(p => handledCodes.add(p.Code));
-        displayedSectionsCount++;
+        if (shouldSyncChecklists) syncAllMultiSelectChecklists();
 
-        fullRowsHTML += `
+        if (activeProducts.length === 0) {
+          placeholder.style.display = 'block';
+          placeholder.querySelector('h3').innerText = 'No matching items found for current search/filters';
+          container.innerHTML = '';
+          if (activeVisibleCount) activeVisibleCount.innerText = '0';
+          return;
+        }
+
+        placeholder.style.display = 'none';
+        if (activeVisibleCount) activeVisibleCount.innerText = activeProducts.length.toLocaleString();
+        if (totalLoadedBadge) totalLoadedBadge.innerText = `${activeProducts.length} (${currentTier})`;
+
+        const tierDef = ACTIVITY_TIERS_DISPLAY_ORDER.find(t => t.key === currentTier) || {
+          key: currentTier,
+          label: currentTier,
+          icon: 'favicon.svg',
+          theme: currentTier.toLowerCase().includes('gold') ? 'gold' : (currentTier.toLowerCase().includes('silver') ? 'silver' : (currentTier.toLowerCase().includes('out') ? 'out' : 'diamond')),
+          type: currentTier.includes('UPGRADE') ? 'UPGRADE' : (currentTier.includes('DOWNGRADE') ? 'DOWNGRADE' : (currentTier.includes('OUT') ? 'OUT' : 'NEW'))
+        };
+
+        container.innerHTML = `
           <div class="activity-section-block" data-tier="${tierDef.key}">
-            ${buildActivitySectionBannerHTML(tierDef, tierItems.length)}
-            ${renderItemsAsPackedMagazineRows(tierItems)}
+            ${buildActivitySectionBannerHTML(tierDef, activeProducts.length)}
+            ${renderItemsAsPackedMagazineRows(activeProducts, tierDef.key)}
           </div>
         `;
+        return;
       }
 
-      // Check remaining items (unassigned items or Master DB items when in ALL mode)
-      const remainingItems = activeProducts.filter(p => !handledCodes.has(p.Code));
-      if (remainingItems.length > 0 && (!window.selectedActivityTier || window.selectedActivityTier === 'ALL')) {
-        const itemsToRender = (window.displayMode === 'uploaded' || window.isPrintingAll) ? remainingItems : remainingItems.slice(0, window.renderLimit);
-        fullRowsHTML += `
-          <div class="activity-section-block" data-tier="GENERAL">
-            ${buildActivitySectionBannerHTML({ key: 'GENERAL', label: 'GENERAL ITEMS', icon: 'favicon.svg', theme: 'other', type: 'OTHER' }, itemsToRender.length)}
-            ${renderItemsAsPackedMagazineRows(itemsToRender)}
-          </div>
-        `;
-        displayedSectionsCount++;
+      // ============================================================
+      // CASE 2: SHOW ALL ACTIVITIES / PRINT ALL ACTIVITIES
+      // ============================================================
+      if (currentTier === 'ALL' || window.isPrintingAll) {
+        let fullRowsHTML = '';
+        let totalRendered = 0;
+        let displayedSections = 0;
 
-        if (remainingItems.length > window.renderLimit && window.displayMode !== 'uploaded') {
-          const rem = remainingItems.length - window.renderLimit;
+        for (const tierDef of ACTIVITY_TIERS_DISPLAY_ORDER) {
+          const codes = window.tierCodesStore[tierDef.key] || [];
+          if (!codes || codes.length === 0) continue; // CRITICAL: Skip any tier with NO codes!
+
+          const tierProducts = codes.map(code => {
+            const rec = resolveProductRecord(code);
+            return rec ? { ...rec, activityTier: tierDef.key } : null;
+          }).filter(Boolean);
+
+          const activeProducts = tierProducts.filter(matchFiltersAndSearch);
+          if (activeProducts.length === 0) continue;
+
+          displayedSections++;
+          totalRendered += activeProducts.length;
+
           fullRowsHTML += `
-            <div style="display: flex; justify-content: center; align-items: center; margin: 30px 0; width: 100%;">
-              <button type="button" class="btn-fast-print" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); font-size: 11pt; padding: 12px 28px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);" onclick="loadMoreCatalogItems()">
-                📥 Load More (+150 Items) - ${rem.toLocaleString()} Remaining
-              </button>
+            <div class="activity-section-block" data-tier="${tierDef.key}">
+              ${buildActivitySectionBannerHTML(tierDef, activeProducts.length)}
+              ${renderItemsAsPackedMagazineRows(activeProducts, tierDef.key)}
             </div>
           `;
         }
+
+        if (displayedSections === 0) {
+          placeholder.style.display = 'block';
+          placeholder.querySelector('h3').innerText = 'No products found across activity tiers';
+          placeholder.querySelector('p').innerText = 'Type or paste item codes into any tier box to display them here.';
+          container.innerHTML = '';
+          if (activeVisibleCount) activeVisibleCount.innerText = '0';
+          if (totalLoadedBadge) totalLoadedBadge.innerText = '0 (All Tiers)';
+          return;
+        }
+
+        placeholder.style.display = 'none';
+        container.innerHTML = fullRowsHTML;
+        if (activeVisibleCount) activeVisibleCount.innerText = totalRendered.toLocaleString();
+        if (totalLoadedBadge) totalLoadedBadge.innerText = `${totalRendered} (All Tiers)`;
+        if (shouldSyncChecklists) syncAllMultiSelectChecklists();
+        return;
       }
 
-      if (displayedSectionsCount === 0) {
+      // ============================================================
+      // CASE 3: GENERAL / MASTER DB BROWSING (MODE === 'all' or TIER === 'NONE')
+      // ============================================================
+      let sourceProducts = [];
+      if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
+        sourceProducts = Array.from(window.accumulatedProductCodes).map(resolveProductRecord).filter(Boolean);
+        if (totalLoadedBadge) totalLoadedBadge.innerText = `${sourceProducts.length} (Uploaded)`;
+      } else {
+        sourceProducts = window.masterProductsDB;
+        if (totalLoadedBadge) totalLoadedBadge.innerText = window.masterProductsDB.length.toLocaleString();
+      }
+
+      const activeProducts = sourceProducts.filter(matchFiltersAndSearch);
+
+      if (shouldSyncChecklists) syncAllMultiSelectChecklists();
+
+      if (activeProducts.length === 0) {
         placeholder.style.display = 'block';
-        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
-          placeholder.querySelector('h3').innerText = `No products to display for (${window.selectedActivityTier})`;
-          placeholder.querySelector('p').innerText = 'Type or paste product codes in the box above and click Apply Codes to assign them to this activity.';
-        } else {
-          placeholder.querySelector('h3').innerText = 'No products to display';
-          placeholder.querySelector('p').innerText = 'Enter or upload item codes to display them here.';
-        }
+        placeholder.querySelector('h3').innerText = 'No Products Displayed';
+        placeholder.querySelector('p').innerText = 'Use the search bar, filter by category/brand, upload a file, or enter codes manually.';
         container.innerHTML = '';
         if (activeVisibleCount) activeVisibleCount.innerText = '0';
         return;
       }
 
-      container.innerHTML = fullRowsHTML;
+      placeholder.style.display = 'none';
+      if (activeVisibleCount) activeVisibleCount.innerText = activeProducts.length.toLocaleString();
+
+      const itemsToRender = (window.displayMode === 'uploaded' || window.isPrintingAll) ? activeProducts : activeProducts.slice(0, window.renderLimit);
+      container.innerHTML = `
+        <div class="activity-section-block" data-tier="GENERAL">
+          ${buildActivitySectionBannerHTML({ key: 'GENERAL', label: 'GENERAL CATALOG ITEMS', icon: 'favicon.svg', theme: 'other', type: 'OTHER' }, itemsToRender.length)}
+          ${renderItemsAsPackedMagazineRows(itemsToRender)}
+        </div>
+      `;
     }
 
     // ============================================================
@@ -6261,6 +6396,41 @@
       return codes;
     }
 
+    
+    function clearCurrentManualCodes() {
+      const textarea = document.getElementById('manualCodesTextarea');
+      if (textarea) textarea.value = '';
+
+      const currentTier = window.selectedActivityTier;
+      if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+        if (window.tierDataStore[currentTier]) {
+          window.tierDataStore[currentTier].text = '';
+          window.tierDataStore[currentTier].codes = [];
+        }
+        if (currentTier === 'OUT' || currentTier === 'OUT OF PLANOGRAM') {
+          if (window.tierDataStore['OUT']) window.tierDataStore['OUT'] = { text: '', codes: [] };
+          if (window.tierDataStore['OUT OF PLANOGRAM']) window.tierDataStore['OUT OF PLANOGRAM'] = { text: '', codes: [] };
+        }
+        if (window.tierCodesStore) {
+          window.tierCodesStore[currentTier] = [];
+          if (currentTier === 'OUT') window.tierCodesStore['OUT OF PLANOGRAM'] = [];
+        }
+      } else {
+        for (const k of Object.keys(window.tierDataStore)) {
+          window.tierDataStore[k] = { text: '', codes: [] };
+        }
+        window.tierCodesStore = {};
+      }
+
+      // Re-sync all stores and save to localStorage
+      syncAllTierCodesFromStore();
+
+      // Immediately refresh display so the cards disappear!
+      refreshCatalogDisplay(true);
+
+      showToast("🗑️ Reset and cleared codes successfully");
+    }
+
     function applyManualCodes() {
       const textarea = document.getElementById('manualCodesTextarea');
       const text = textarea ? textarea.value : '';
@@ -6272,32 +6442,14 @@
 
       const currentTier = window.selectedActivityTier || 'NONE';
 
-      // Save into tierDataStore
       if (!window.tierDataStore[currentTier]) {
         window.tierDataStore[currentTier] = { text: '', codes: [] };
       }
       window.tierDataStore[currentTier].text = text;
 
-      matches.forEach(c => {
-        const clean = String(c).trim();
-        window.accumulatedProductCodes.add(clean);
-        if (!window.tierDataStore[currentTier].codes.includes(clean)) {
-          window.tierDataStore[currentTier].codes.push(clean);
-        }
-        if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
-          window.productTierMap.set(clean, currentTier);
-          const up = window.uploadedProductsMap.get(clean);
-          if (up) up.activityTier = currentTier;
-          const custom = window.customLocalProductsMap && window.customLocalProductsMap.get(clean);
-          if (custom) custom.activityTier = currentTier;
-          const master = window.masterProductsMap && window.masterProductsMap.get(clean);
-          if (master) master.activityTier = currentTier;
-        }
-      });
+      // Sync and isolate all codes
+      syncAllTierCodesFromStore();
 
-      savePlanogramTierStore();
-
-      // DO NOT clear textarea! Keep user codes visible so they never lose them!
       setSourceMode('uploaded');
       refreshCatalogDisplay(true);
 
@@ -6440,17 +6592,14 @@
 
     // Data store holding text and codes per tier
     window.tierDataStore = {
-      'DIAMOND UPGRADE': { text: '', codes: [] },
-      'DIAMOND DOWNGRADE': { text: '', codes: [] },
       'DIAMOND': { text: '', codes: [] },
+      'DIAMOND UPGRADE': { text: '', codes: [] },
+      'GOLD': { text: '', codes: [] },
       'GOLD UPGRADE': { text: '', codes: [] },
       'GOLD DOWNGRADE': { text: '', codes: [] },
-      'GOLD': { text: '', codes: [] },
+      'SILVER': { text: '', codes: [] },
       'SILVER UPGRADE': { text: '', codes: [] },
       'SILVER DOWNGRADE': { text: '', codes: [] },
-      'SILVER': { text: '', codes: [] },
-      'OUT UPGRADE': { text: '', codes: [] },
-      'OUT OF PLANOGRAM': { text: '', codes: [] },
       'OUT': { text: '', codes: [] },
       'ALL': { text: '', codes: [] },
       'NONE': { text: '', codes: [] }
@@ -6462,9 +6611,11 @@
         const saved = localStorage.getItem('aldawaa_planogram_tiers_store_v2');
         if (saved) {
           const parsed = JSON.parse(saved);
+          delete parsed['OUT OF PLANOGRAM'];
+          delete parsed['OUT UPGRADE'];
+          delete parsed['DIAMOND DOWNGRADE'];
           Object.assign(window.tierDataStore, parsed);
         }
-        // ⚡ Immediately re-sync all codes from text and arrays into accumulated codes and tier maps!
         syncAllTierCodesFromStore();
       } catch (err) {
         console.warn('Could not load planogram tier store:', err);
@@ -6487,59 +6638,92 @@
     // ⚡ CENTRAL AUTO-SYNC ENGINE FOR ALL PLANOGRAM TIERS
     // Automatically extracts and links codes from ALL tabs/textareas
     // ============================================================
+    window.tierCodesStore = {};
+
+    let manualCodesDebounceTimer = null;
+    function onManualCodesInputChanged() {
+      clearTimeout(manualCodesDebounceTimer);
+      manualCodesDebounceTimer = setTimeout(() => {
+        syncAllTierCodesFromStore();
+        refreshCatalogDisplay(false);
+      }, 350);
+    }
+
     function syncAllTierCodesFromStore() {
-      // 1. If textarea is currently open, capture its live content to current tier
+      // 1. Capture live textarea value into current tier immediately
       const textarea = document.getElementById('manualCodesTextarea');
       const currentTier = window.selectedActivityTier;
       if (textarea && currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
-        if (!window.tierDataStore[currentTier]) window.tierDataStore[currentTier] = { text: '', codes: [] };
+        if (!window.tierDataStore[currentTier]) {
+          window.tierDataStore[currentTier] = { text: '', codes: [] };
+        }
         window.tierDataStore[currentTier].text = textarea.value;
       }
 
-      // 2. Loop through ALL tiers in tierDataStore and sync their codes
-      let totalFound = 0;
-      Object.keys(window.tierDataStore).forEach(tierName => {
-        const tierObj = window.tierDataStore[tierName];
-        if (!tierObj || !tierObj.text) return;
+      // 2. Purge invalid / legacy tier keys
+      delete window.tierDataStore['OUT OF PLANOGRAM'];
+      delete window.tierDataStore['OUT UPGRADE'];
+      delete window.tierDataStore['OUT DOWNGRADE'];
+      delete window.tierDataStore['DIAMOND DOWNGRADE'];
 
-        const matches = tierObj.text.match(/\b\d{4,8}\b/g) || [];
-        tierObj.codes = Array.from(new Set(matches.map(c => String(c).trim())));
+      // 3. Reset stores cleanly
+      window.tierCodesStore = {};
+      window.accumulatedProductCodes.clear();
+      if (window.productTierMap) window.productTierMap.clear();
 
-        if (tierName !== 'ALL' && tierName !== 'NONE') {
-          tierObj.codes.forEach(code => {
-            window.accumulatedProductCodes.add(code);
-            window.productTierMap.set(code, tierName);
-
-            // Keep in-memory records in sync
-            const up = window.uploadedProductsMap && window.uploadedProductsMap.get(code);
-            if (up) up.activityTier = tierName;
-            const custom = window.customLocalProductsMap && window.customLocalProductsMap.get(code);
-            if (custom) custom.activityTier = tierName;
-            const master = window.masterProductsMap && window.masterProductsMap.get(code);
-            if (master) master.activityTier = tierName;
-
-            totalFound++;
-          });
+      // If products were loaded from a file upload, preserve them:
+      if (window.uploadedProductsMap && window.uploadedProductsMap.size > 0) {
+        for (const code of window.uploadedProductsMap.keys()) {
+          window.accumulatedProductCodes.add(code);
         }
-      });
+      }
 
-      // Update badge counts immediately
+      // Process only valid allowed tiers in defined order
+      for (const tierDef of ACTIVITY_TIERS_DISPLAY_ORDER) {
+        const tierKey = tierDef.key;
+        const tierObj = window.tierDataStore[tierKey];
+        if (!tierObj) {
+          window.tierDataStore[tierKey] = { text: '', codes: [] };
+          window.tierCodesStore[tierKey] = [];
+          continue;
+        }
+
+        const text = tierObj.text || '';
+        const matches = text.match(/\b\d{4,8}\b/g) || [];
+        const unique = Array.from(new Set(matches.map(c => String(c).trim())));
+        tierObj.codes = unique;
+        window.tierCodesStore[tierKey] = unique;
+
+        unique.forEach(code => {
+          window.accumulatedProductCodes.add(code);
+          window.productTierMap.set(code, tierKey);
+        });
+      }
+
+      savePlanogramTierStore();
+
+      // Update header badge counts immediately
+      let totalAllCodes = 0;
+      for (const k of Object.keys(window.tierCodesStore)) {
+        if (k !== 'ALL' && k !== 'NONE') {
+          totalAllCodes += (window.tierCodesStore[k] || []).length;
+        }
+      }
       const upSpan = document.getElementById('uploadedCountSpan');
-      if (upSpan) upSpan.innerText = window.accumulatedProductCodes.size;
+      if (upSpan) upSpan.innerText = totalAllCodes || window.accumulatedProductCodes.size;
 
       const totalBadge = document.getElementById('totalLoadedBadge');
       if (totalBadge && window.displayMode === 'uploaded') {
         const activeT = window.selectedActivityTier;
         if (activeT && activeT !== 'ALL' && activeT !== 'NONE') {
-          const count = window.tierDataStore[activeT]?.codes?.length || 0;
+          const count = (window.tierCodesStore[activeT] || []).length;
           totalBadge.innerText = `${count} (${activeT})`;
         } else {
-          totalBadge.innerText = `${window.accumulatedProductCodes.size} (Uploaded)`;
+          totalBadge.innerText = `${totalAllCodes || window.accumulatedProductCodes.size} (Uploaded)`;
         }
       }
 
-      savePlanogramTierStore();
-      return totalFound;
+      return totalAllCodes;
     }
 
     function selectActivityTier(tierName) {
@@ -6565,7 +6749,6 @@
       }
 
       // 3. Restore text for newly selected tier into manualCodesTextarea
-      // ⚡ STRICT INDEPENDENCE: Each tier retains only its own text and NEVER overwrites other sub-tiers!
       const newTier = window.selectedActivityTier;
       if (textarea) {
         if (!newTier || newTier === 'ALL') {
@@ -6579,12 +6762,13 @@
       updateTierSelectorUI();
       updateMagazineTierBanner();
 
-      // Trigger catalog refresh so ONLY cards matching this tier appear!
+      // Ensure uploaded display mode is active when selecting a tier
+      setSourceMode('uploaded');
       refreshCatalogDisplay(true);
 
       showToast(window.selectedActivityTier && window.selectedActivityTier !== 'ALL'
         ? `🎯 Active Tier: ${window.selectedActivityTier}`
-          : '🌐 Showing All Activity Tiers in Planogram Order'
+        : '🌐 Showing All Activity Tiers in Planogram Order'
       );
     }
 
@@ -6638,19 +6822,18 @@
 
       if (!confirm(`Are you sure you want to clear all codes for ${currentTier}?`)) return;
 
-      const codesToDelete = window.tierDataStore[currentTier]?.codes || [];
-      codesToDelete.forEach(code => {
-        window.accumulatedProductCodes.delete(code);
-        window.productTierMap.delete(code);
-      });
-
       if (window.tierDataStore[currentTier]) {
         window.tierDataStore[currentTier] = { text: '', codes: [] };
+      }
+      if (currentTier === 'OUT') {
+        delete window.tierDataStore['OUT OF PLANOGRAM'];
+        delete window.tierDataStore['OUT UPGRADE'];
       }
 
       const textarea = document.getElementById('manualCodesTextarea');
       if (textarea) textarea.value = '';
 
+      syncAllTierCodesFromStore();
       savePlanogramTierStore();
       refreshCatalogDisplay(true);
       showToast(`🗑️ Cleared codes for tier: ${currentTier}`);
@@ -7732,7 +7915,39 @@
             .ref { font-size: 11pt; font-weight: bold; margin-bottom: 2px; }
             .name { font-size: 7.5pt; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
             svg { max-width: 100%; height: auto; }
-          </style>
+          
+    .manual-input-actions-bar {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      margin-top: 10px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .btn-reset-codes {
+      background: rgba(239, 68, 68, 0.15) !important;
+      color: #f87171 !important;
+      border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+      padding: 9px 20px !important;
+      border-radius: 9px !important;
+      font-size: 9.5pt !important;
+      font-weight: 800 !important;
+      font-family: var(--font-family) !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .btn-reset-codes:hover {
+      background: rgba(239, 68, 68, 0.35) !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
+    }
+
+  <\/style>
         </head>
         <body>
           <div class="ref">CODE: ${ref}</div>
@@ -7763,32 +7978,11 @@
     const textareaEl = document.getElementById('manualCodesTextarea');
     if (textareaEl) {
       textareaEl.addEventListener('input', () => {
-        const currentTier = window.selectedActivityTier || 'NONE';
-        if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
-          if (!window.tierDataStore[currentTier]) window.tierDataStore[currentTier] = { text: '', codes: [] };
-          window.tierDataStore[currentTier].text = textareaEl.value;
-
-          const matches = textareaEl.value.match(/\b\d{4,8}\b/g) || [];
-          window.tierDataStore[currentTier].codes = Array.from(new Set(matches.map(c => String(c).trim())));
-
-          matches.forEach(c => {
-            const clean = String(c).trim();
-            window.accumulatedProductCodes.add(clean);
-            window.productTierMap.set(clean, currentTier);
-          });
-
-          // Update header count badge immediately
-          const totalBadge = document.getElementById('totalLoadedBadge');
-          if (totalBadge && window.displayMode === 'uploaded') {
-            totalBadge.innerText = `${window.tierDataStore[currentTier].codes.length} (${currentTier})`;
-          }
-          const upSpan = document.getElementById('uploadedCountSpan');
-          if (upSpan) upSpan.innerText = window.accumulatedProductCodes.size;
-        }
+        syncAllTierCodesFromStore();
       });
     }
-      initMasterDatabase();
-    });
+    initMasterDatabase();
+  });
   </script>
 
   
