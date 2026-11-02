@@ -4323,6 +4323,208 @@
       }
     }
 
+    /* ============================================================ */
+    /* 🛑 CSS ART CONFIRMATION MODAL */
+    /* ============================================================ */
+    .custom-confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 9, 24, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: confirmFadeIn 0.25s ease-out;
+    }
+
+    @keyframes confirmFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .custom-confirm-card {
+      background: linear-gradient(145deg, #131b2e 0%, #0d1322 100%);
+      border: 1.5px solid rgba(239, 68, 68, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(239, 68, 68, 0.25);
+      border-radius: 18px;
+      max-width: 440px;
+      width: 100%;
+      padding: 28px 24px 22px 24px;
+      text-align: center;
+      box-sizing: border-box;
+      animation: confirmCardPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #f8fafc;
+      font-family: var(--font-family);
+    }
+
+    @keyframes confirmCardPop {
+      from { transform: scale(0.88) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* 🎨 CSS Art Warning Shield Emblem */
+    .cssart-confirm-emblem {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cssart-shield-outer {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+      border-radius: 14px;
+      transform: rotate(45deg);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cssart-shield-inner {
+      width: 44px;
+      height: 44px;
+      background: #111827;
+      border-radius: 10px;
+      border: 1.5px solid rgba(248, 113, 113, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-45deg);
+    }
+
+    .cssart-warning-sign {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3.5px;
+    }
+
+    .cssart-exclamation-bar {
+      width: 4px;
+      height: 16px;
+      background: #ef4444;
+      border-radius: 2px;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    .cssart-exclamation-dot {
+      width: 4px;
+      height: 4px;
+      background: #ef4444;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    .cssart-shield-rings {
+      position: absolute;
+      inset: -6px;
+      border: 1.5px dashed rgba(239, 68, 68, 0.4);
+      border-radius: 50%;
+      animation: emblemRotate 8s linear infinite;
+    }
+
+    @keyframes emblemRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .confirm-modal-title {
+      font-size: 15pt;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .confirm-modal-desc {
+      font-size: 9.5pt;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin: 0 0 22px 0;
+    }
+
+    .confirm-modal-desc strong {
+      color: #fca5a5;
+    }
+
+    .confirm-modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-confirm-cancel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 9.5pt;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-confirm-cancel:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-confirm-danger {
+      flex: 1.3;
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 9.5pt;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 18px rgba(239, 68, 68, 0.45);
+      font-family: var(--font-family);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-confirm-danger:hover {
+      background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.6);
+    }
+
+    /* Top Clear All Tiers Button Style */
+    .btn-clear-all-tiers {
+      background: rgba(239, 68, 68, 0.18) !important;
+      color: #fca5a5 !important;
+      border: 1px solid rgba(239, 68, 68, 0.45) !important;
+      transition: all 0.2s ease !important;
+    }
+    .btn-clear-all-tiers:hover {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
+      transform: translateY(-1px) !important;
+    }
+
   </style>
 </head>
 
@@ -4376,8 +4578,12 @@
             <button type="button" class="btn-tier-show-all" onclick="selectActivityTier('ALL')" title="Display all populated tiers sequentially">
               🌐 Show All Activities
             </button>
-            <button type="button" class="btn-clear-tier" onclick="clearCurrentTierCodes()" title="Clear codes for currently active tier only">
-              🗑️ Clear Tier Codes
+            <button type="button" class="btn-clear-tier btn-clear-all-tiers" onclick="promptClearAllTiers()" title="Clear and reset all activity tiers and sub-tiers completely">
+              <span class="cssart-clear" style="margin-right:4px;">
+                <span class="cssart-clear-lid"></span>
+                <span class="cssart-clear-can"></span>
+              </span>
+              Reset / Clear All Tiers
             </button>
             <button type="button" class="btn-clear-tier" onclick="selectActivityTier('NONE')" title="Unselect tier (standard unassigned view)">
               <span class="cssart-badge cssart-out" style="width:13px;height:13px;border-radius:3px;"></span> No Tier
@@ -5991,12 +6197,12 @@
       if (mode === 'all') {
         if (btnM) btnM.classList.add('active');
         if (btnU) btnU.classList.remove('active');
+        window.selectedActivityTier = 'NONE';
+        updateTierSelectorUI();
+        updateMagazineTierBanner();
       } else {
         if (btnM) btnM.classList.remove('active');
         if (btnU) btnU.classList.add('active');
-        if (window.accumulatedProductCodes.size === 0) {
-          alert("Notice: No codes have been uploaded or scanned yet. Drag a file or enter codes to view them.");
-        }
       }
       applyActiveFilters();
     }
@@ -6010,6 +6216,17 @@
         } else {
           btn.classList.remove('active');
         }
+      }
+      // If toggled while in an empty uploaded view, switch to all master DB mode so user sees the Own Brand products!
+      if (window.isOwnBrandToggleActive && window.accumulatedProductCodes.size === 0) {
+        window.displayMode = 'all';
+        window.selectedActivityTier = 'NONE';
+        const btnM = document.getElementById('btnModeMaster');
+        const btnU = document.getElementById('btnModeUploaded');
+        if (btnM) btnM.classList.add('active');
+        if (btnU) btnU.classList.remove('active');
+        updateTierSelectorUI();
+        updateMagazineTierBanner();
       }
       applyActiveFilters();
     }
@@ -6496,9 +6713,9 @@
       if (topStaticBanner) topStaticBanner.style.display = 'none';
 
       // ============================================================
-      // CASE 1: SPECIFIC TIER SELECTED (e.g. DIAMOND, DIAMOND UPGRADE, GOLD, etc.)
+      // CASE 1: SPECIFIC TIER SELECTED (ONLY IN UPLOADED MODE)
       // ============================================================
-      if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+      if (window.displayMode === 'uploaded' && currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
         const curCodes = window.tierCodesStore[currentTier] || [];
 
         if (curCodes.length === 0) {
@@ -6552,7 +6769,7 @@
       // ============================================================
       // CASE 2: SHOW ALL ACTIVITIES / PRINT ALL ACTIVITIES
       // ============================================================
-      if (currentTier === 'ALL' || window.isPrintingAll) {
+      if ((window.displayMode === 'uploaded' && (currentTier === 'ALL' || !currentTier)) || window.isPrintingAll) {
         let fullRowsHTML = '';
         let totalRendered = 0;
         let displayedSections = 0;
@@ -6925,8 +7142,12 @@
     }
 
     function showAllDatabaseItems() {
+      window.selectedActivityTier = 'NONE';
+      updateTierSelectorUI();
+      updateMagazineTierBanner();
       setSourceMode('all');
       resetActiveFilters();
+      showToast("🌐 Displaying Master Database (150 Initial Items)");
     }
 
     function switchInputTab(tab) {
@@ -7305,7 +7526,88 @@
       savePlanogramTierStore();
       refreshCatalogDisplay(true);
       showToast(`🗑️ Cleared codes for tier: ${currentTier}`);
+    } 
+
+ 
+    function promptClearAllTiers() {
+      const modal = document.getElementById('customConfirmModal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
     }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('customConfirmModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function handleConfirmModalBackdropClick(e) {
+      if (e.target && e.target.id === 'customConfirmModal') {
+        closeConfirmModal();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeConfirmModal();
+      }
+    });
+
+    function executeClearAllTiers() {
+      closeConfirmModal();
+
+      // 1. Wipe all tier stores
+      for (const k of Object.keys(window.tierDataStore)) {
+        window.tierDataStore[k] = { text: '', codes: [] };
+      }
+      delete window.tierDataStore['OUT OF PLANOGRAM'];
+      delete window.tierDataStore['OUT UPGRADE'];
+      delete window.tierDataStore['DIAMOND DOWNGRADE'];
+
+      window.tierCodesStore = {};
+      window.accumulatedProductCodes.clear();
+      if (window.productTierMap) window.productTierMap.clear();
+
+      // 2. Clear manual codes textarea
+      const textarea = document.getElementById('manualCodesTextarea');
+      if (textarea) textarea.value = '';
+
+      // 3. Persist empty state to localStorage
+      savePlanogramTierStore();
+
+      // 4. Return to default Master DB browsing state!
+      window.selectedActivityTier = 'NONE';
+      window.displayMode = 'all';
+      window.isOwnBrandToggleActive = false;
+      const ownBtn = document.getElementById('btnQuickOwnBrand');
+      if (ownBtn) ownBtn.classList.remove('active');
+
+      const btnM = document.getElementById('btnModeMaster');
+      const btnU = document.getElementById('btnModeUploaded');
+      if (btnM) btnM.classList.add('active');
+      if (btnU) btnU.classList.remove('active');
+
+      // 5. Reset all filters and search query
+      resetActiveFilters();
+
+      // 6. Update tab button state
+      const tabBtnAll = document.getElementById('tabBtnAll');
+      if (tabBtnAll) {
+        document.querySelectorAll('.input-tabs-header .tab-btn').forEach(b => b.classList.remove('active'));
+        tabBtnAll.classList.add('active');
+      }
+
+      updateTierSelectorUI();
+      updateMagazineTierBanner();
+
+      // 7. Refresh catalog display - will now render the 150 normal master products!
+      refreshCatalogDisplay(true);
+
+      showToast("✅ All activity tiers cleared. Default master catalog (150 items) restored!", 3500);
+    }
+
 
     function updateMagazineTierBanner(items = null) {
       const banner = document.getElementById('activityTierBanner');
@@ -8404,7 +8706,44 @@
               setTimeout(function() { window.print(); }, 200);
             };
           <\/script>
-        </body>
+        
+  <!-- 🛑 CUSTOM CSS ART CONFIRMATION MODAL -->
+  <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
+    <div class="custom-confirm-card" role="dialog" aria-modal="true">
+      <!-- 🎨 CSS Art Animated Warning Shield Emblem -->
+      <div class="cssart-confirm-emblem">
+        <div class="cssart-shield-outer">
+          <div class="cssart-shield-inner">
+            <div class="cssart-warning-sign">
+              <span class="cssart-exclamation-bar"></span>
+              <span class="cssart-exclamation-dot"></span>
+            </div>
+          </div>
+        </div>
+        <div class="cssart-shield-rings"></div>
+      </div>
+
+      <h3 class="confirm-modal-title">Reset & Clear All Tiers?</h3>
+      <p class="confirm-modal-desc">
+        This will permanently clear all item codes across <strong>ALL Activity Tiers</strong> (Diamond, Gold, Silver, Out & all Upgrades/Downgrades) and restore the default master catalog view.
+      </p>
+
+      <div class="confirm-modal-actions">
+        <button type="button" class="btn-confirm-cancel" onclick="closeConfirmModal()">
+          <span>✕</span> Cancel
+        </button>
+        <button type="button" class="btn-confirm-danger" onclick="executeClearAllTiers()">
+          <span class="cssart-clear" style="margin-right:6px;">
+            <span class="cssart-clear-lid"></span>
+            <span class="cssart-clear-can"></span>
+          </span>
+          <span>Reset All Tiers</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
         </html>
       `);
       win.document.close();
