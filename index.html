@@ -2236,24 +2236,25 @@
       .filter-top-actions-bar {
         grid-column: 1 / -1 !important;
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
         width: 100% !important;
-        gap: 8px !important;
-        padding-bottom: 10px !important;
-        margin-bottom: 8px !important;
+        gap: 6px !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 6px !important;
         box-sizing: border-box !important;
       }
 
-      .filter-top-actions-bar .btn-fast-print,
-      .filter-top-actions-bar .btn-scanner-toggle,
-      .filter-top-actions-bar .btn-clear-items {
-        width: 100% !important;
-        display: flex !important;
+      .filter-top-actions-bar button {
+        flex: 1 1 calc(50% - 6px) !important;
+        min-width: 125px !important;
+        max-width: 100% !important;
+        display: inline-flex !important;
         justify-content: center !important;
         align-items: center !important;
-        padding: 12px 14px !important;
-        font-size: 9.5pt !important;
-        border-radius: 10px !important;
+        padding: 8px 10px !important;
+        font-size: 8pt !important;
+        border-radius: 8px !important;
         box-sizing: border-box !important;
         margin: 0 !important;
       }
@@ -3874,6 +3875,454 @@
     }
   }
 
+    /* ============================================================ */
+    /* 💎 PREMIUM CSS ART ACTION BUTTONS & RESET BUTTON */
+    /* ============================================================ */
+
+    /* 🗑️ RESET / CLEAR BUTTON (NEXT TO APPLY CODES) */
+    .manual-input-actions-bar {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      margin-top: 10px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .btn-apply-codes {
+      align-self: auto !important;
+      background: linear-gradient(135deg, #ffd600 0%, #f59e0b 100%) !important;
+      color: #0b132b !important;
+      border: 1px solid rgba(245, 158, 11, 0.45) !important;
+      padding: 9px 24px !important;
+      border-radius: 9px !important;
+      font-size: 10pt !important;
+      font-weight: 800 !important;
+      font-family: var(--font-family) !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .btn-apply-codes:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.55) !important;
+      background: linear-gradient(135deg, #ffe033 0%, #fbbf24 100%) !important;
+    }
+
+    .btn-reset-codes {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.16) 0%, rgba(185, 28, 28, 0.28) 100%) !important;
+      color: #fca5a5 !important;
+      border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+      padding: 9px 22px !important;
+      border-radius: 9px !important;
+      font-size: 10pt !important;
+      font-weight: 800 !important;
+      font-family: var(--font-family) !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      backdrop-filter: blur(8px) !important;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.18) !important;
+    }
+    .btn-reset-codes:hover {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 18px rgba(239, 68, 68, 0.45) !important;
+    }
+
+    /* CSS Art Animated Reset / Circular Arrow Icon */
+    .cssart-icon-reset {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      position: relative;
+      transition: transform 0.4s ease;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+    .cssart-icon-reset::after {
+      content: '';
+      position: absolute;
+      top: -2.5px;
+      right: -2px;
+      width: 0;
+      height: 0;
+      border-left: 3.5px solid transparent;
+      border-right: 3.5px solid transparent;
+      border-bottom: 5px solid currentColor;
+      transform: rotate(45deg);
+    }
+    .btn-reset-codes:hover .cssart-icon-reset {
+      transform: rotate(-180deg);
+    }
+
+    /* ============================================================ */
+    /* 🚀 PREMIUM ACTION BAR (COMPACT & MODERN WITH CSS ART) */
+    /* ============================================================ */
+    .filter-top-actions-bar {
+      grid-column: 1 / -1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin-bottom: 6px !important;
+      padding-bottom: 10px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Base Action Button Style */
+    .filter-top-actions-bar button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      padding: 8px 15px !important;
+      border-radius: 9px !important;
+      font-size: 8.8pt !important;
+      font-weight: 700 !important;
+      font-family: var(--font-family) !important;
+      cursor: pointer !important;
+      white-space: nowrap !important;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      min-height: 36px !important;
+      flex: 0 1 auto !important;
+    }
+    .filter-top-actions-bar button:hover {
+      transform: translateY(-2px) !important;
+    }
+
+    /* 1. Fast Print (A4) */
+    .filter-top-actions-bar .btn-fast-print {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(52, 211, 153, 0.4) !important;
+    }
+    .filter-top-actions-bar .btn-fast-print:hover {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45) !important;
+    }
+
+    /* 2. Scan GS1 / Barcode */
+    .filter-top-actions-bar .btn-scanner-toggle {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(96, 165, 250, 0.4) !important;
+    }
+    .filter-top-actions-bar .btn-scanner-toggle:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45) !important;
+    }
+
+    /* 3. Export Missing Items */
+    .filter-top-actions-bar .btn-export-missing {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(56, 189, 248, 0.4) !important;
+    }
+    .filter-top-actions-bar .btn-export-missing:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.45) !important;
+    }
+
+    /* 4. Custom Products */
+    .filter-top-actions-bar .btn-manage-custom {
+      background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(167, 139, 250, 0.4) !important;
+    }
+    .filter-top-actions-bar .btn-manage-custom:hover {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.45) !important;
+    }
+
+    /* 5. Clear List */
+    .filter-top-actions-bar .btn-clear-items {
+      background: rgba(239, 68, 68, 0.16) !important;
+      color: #fca5a5 !important;
+      border-color: rgba(239, 68, 68, 0.4) !important;
+    }
+    .filter-top-actions-bar .btn-clear-items:hover {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      color: #ffffff !important;
+      border-color: #ef4444 !important;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45) !important;
+    }
+
+    /* ============================================================ */
+    /* 🎨 CSS ART ICONS FOR ACTION BAR */
+    /* ============================================================ */
+
+    /* 1. CSS Art Barcode Scanner */
+    .cssart-scanner {
+      position: relative;
+      width: 18px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+    .cssart-scanner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid #93c5fd;
+      border-radius: 2.5px;
+      clip-path: polygon(
+        0% 0%, 35% 0%, 35% 20%, 20% 20%, 20% 35%, 0% 35%,
+        0% 65%, 20% 65%, 20% 80%, 35% 80%, 35% 100%, 0% 100%,
+        100% 100%, 65% 100%, 65% 80%, 80% 80%, 80% 65%, 100% 65%,
+        100% 35%, 80% 35%, 80% 20%, 65% 20%, 65% 0%, 100% 0%
+      );
+    }
+    .cssart-scanner .cssart-barcode-lines {
+      width: 10px;
+      height: 9px;
+      background: repeating-linear-gradient(
+        90deg,
+        #ffffff 0px,
+        #ffffff 1.2px,
+        transparent 1.2px,
+        transparent 2.4px,
+        #ffffff 2.4px,
+        #ffffff 4px,
+        transparent 4px,
+        transparent 5.2px,
+        #ffffff 5.2px,
+        #ffffff 6.2px,
+        transparent 6.2px,
+        transparent 7.4px,
+        #ffffff 7.4px,
+        #ffffff 10px
+      );
+      border-radius: 1px;
+    }
+    .cssart-scanner .cssart-laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: #f43f5e;
+      box-shadow: 0 0 5px #f43f5e, 0 0 2px #fff;
+      animation: laserScan 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes laserScan {
+      0% { top: 2px; opacity: 0.7; }
+      100% { top: 12px; opacity: 1; }
+    }
+
+    /* 2. CSS Art Fast Print (Printer) */
+    .cssart-printer {
+      position: relative;
+      width: 16px;
+      height: 15px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .cssart-printer-paper {
+      position: absolute;
+      top: 0;
+      left: 3px;
+      right: 3px;
+      height: 7px;
+      background: #ffffff;
+      border-radius: 1.5px 1.5px 0 0;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-bottom: none;
+    }
+    .cssart-printer-paper::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 1.5px;
+      right: 1.5px;
+      height: 3px;
+      background: repeating-linear-gradient(180deg, #10b981 0px, #10b981 1px, transparent 1px, transparent 2px);
+    }
+    .cssart-printer-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 9px;
+      background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 2.5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .cssart-printer-body::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 2.5px;
+      right: 2.5px;
+      height: 1.5px;
+      background: #064e3b;
+      border-radius: 1px;
+    }
+
+    /* 3. CSS Art Export Sheet */
+    .cssart-export {
+      position: relative;
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .cssart-export-sheet {
+      position: absolute;
+      inset: 0;
+      background: #38bdf8;
+      border-radius: 2.5px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .cssart-export-sheet::before {
+      content: '';
+      position: absolute;
+      top: 2.5px;
+      left: 2px;
+      right: 2px;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #ffffff 0px, #ffffff 1.5px, transparent 1.5px, transparent 3px);
+      opacity: 0.9;
+    }
+    .cssart-export-arrow {
+      position: absolute;
+      bottom: 1.5px;
+      right: 1.5px;
+      width: 7px;
+      height: 7px;
+      background: #0284c7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cssart-export-arrow::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-top: 3px solid #ffffff;
+    }
+
+    /* 4. CSS Art Custom Products (Disk/Storage) */
+    .cssart-custom {
+      position: relative;
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .cssart-custom-disk {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 2.5px;
+    }
+    .cssart-custom-disk::before {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 2.5px;
+      right: 2.5px;
+      height: 4px;
+      background: #ffffff;
+      border-radius: 1px;
+    }
+    .cssart-custom-disk::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 3px;
+      right: 3px;
+      height: 5px;
+      background: #4c1d95;
+      border-radius: 1px;
+    }
+
+    /* 5. CSS Art Clear List (Trash Bin) */
+    .cssart-clear {
+      position: relative;
+      width: 14px;
+      height: 15px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .cssart-clear-can {
+      position: absolute;
+      bottom: 0;
+      left: 1.5px;
+      right: 1.5px;
+      height: 10px;
+      background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
+      border-radius: 0 0 2.5px 2.5px;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+    .cssart-clear-can::before {
+      content: '';
+      position: absolute;
+      top: 1.5px;
+      bottom: 1.5px;
+      left: 2px;
+      right: 2px;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 2.5px);
+    }
+    .cssart-clear-lid {
+      position: absolute;
+      top: 1.5px;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: #fca5a5;
+      border-radius: 1.5px;
+    }
+
+    /* Responsive adjustment for Mobile / Narrow split screen */
+    @media screen and (max-width: 992px) {
+      .filter-top-actions-bar {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 6px !important;
+        width: 100% !important;
+      }
+      .filter-top-actions-bar button {
+        flex: 1 1 calc(50% - 6px) !important;
+        min-width: 125px !important;
+        padding: 8px 10px !important;
+        font-size: 8pt !important;
+        margin: 0 !important;
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .filter-top-actions-bar button {
+        flex: 1 1 calc(50% - 4px) !important;
+        font-size: 7.5pt !important;
+        padding: 7px 6px !important;
+        gap: 5px !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -4039,7 +4488,7 @@
         <div class="manual-input-actions-bar">
           <button type="button" class="btn-apply-codes" onclick="applyManualCodes()">Apply Codes</button>
           <button type="button" class="btn-reset-codes" onclick="clearCurrentManualCodes()" title="Clear and reset codes for current tier">
-            <span>🗑️</span> Reset / Clear
+            <span class="cssart-icon-reset"></span> Reset / Clear
           </button>
         </div>
       </div>
@@ -4063,23 +4512,42 @@
             <!-- ⚡ Primary Action Buttons Toolbar (Fast Print, Scanner, Clear) -->
       <div class="filter-top-actions-bar">
         <button type="button" class="btn-fast-print" onclick="startFastPrintProcess()" id="fastPrintBtn" title="Print all currently displayed cards in A4">
-          <span>⚡</span> Fast Print (A4)
+          <span class="cssart-printer">
+            <span class="cssart-printer-paper"></span>
+            <span class="cssart-printer-body"></span>
+          </span>
+          <span>Fast Print (A4)</span>
         </button>
 
         <button type="button" class="btn-scanner-toggle" onclick="openCameraScannerModal()" title="Open Barcode / GS1 Camera Scanner">
-          <span>📷</span> Scan GS1 / Barcode
+          <span class="cssart-scanner">
+            <span class="cssart-barcode-lines"></span>
+            <span class="cssart-laser"></span>
+          </span>
+          <span>Scan GS1 / Barcode</span>
         </button>
 
         <button type="button" class="btn-export-missing" onclick="downloadMissingItemsExcel()" id="btnExportMissing" title="Download Excel/CSV of items without data in master">
-          <span>📥</span> Export Missing Items
+          <span class="cssart-export">
+            <span class="cssart-export-sheet"></span>
+            <span class="cssart-export-arrow"></span>
+          </span>
+          <span>Export Missing</span>
         </button>
 
         <button type="button" class="btn-manage-custom" onclick="openCustomManagerModal()" id="btnManageCustom" title="Manage Custom Saved Products">
-          <span>💾</span> Custom Products (<span id="customCountBadge">0</span>)
+          <span class="cssart-custom">
+            <span class="cssart-custom-disk"></span>
+          </span>
+          <span>Custom Products (<span id="customCountBadge">0</span>)</span>
         </button>
 
         <button type="button" class="btn-clear-items" onclick="clearAccumulatedCatalog()" title="Clear current list">
-          <span>🗑️</span> Clear List
+          <span class="cssart-clear">
+            <span class="cssart-clear-lid"></span>
+            <span class="cssart-clear-can"></span>
+          </span>
+          <span>Clear List</span>
         </button>
       </div>
 
@@ -7922,29 +8390,6 @@
       gap: 12px !important;
       margin-top: 10px !important;
       flex-wrap: wrap !important;
-    }
-
-    .btn-reset-codes {
-      background: rgba(239, 68, 68, 0.15) !important;
-      color: #f87171 !important;
-      border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
-      padding: 9px 20px !important;
-      border-radius: 9px !important;
-      font-size: 9.5pt !important;
-      font-weight: 800 !important;
-      font-family: var(--font-family) !important;
-      cursor: pointer !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 6px !important;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .btn-reset-codes:hover {
-      background: rgba(239, 68, 68, 0.35) !important;
-      color: #ffffff !important;
-      border-color: #ef4444 !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
     }
 
   <\/style>
