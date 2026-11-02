@@ -4275,11 +4275,78 @@
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
-      .activity-section-block.has-section-watermark {
+      .activity-section-block.has-section-watermark,
+      .cat-group-segment.has-section-watermark {
         position: relative !important;
         background: transparent !important;
         background-color: transparent !important;
         box-shadow: none !important;
+      }
+
+      /* ============================================================ */
+      /* ✨ SEAMLESS CUTOUT & BORDERLESS CARDS OPTION (تفريغ الصور)   */
+      /* ============================================================ */
+      body.print-seamless-cards .magazine-product-card,
+      body.print-seamless-cards .cat-cards-subgrid .magazine-product-card {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      body.print-seamless-cards .prod-img-box {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      body.print-seamless-cards .prod-img-box img,
+      body.print-seamless-cards .magazine-product-card img {
+        background: transparent !important;
+        background-color: transparent !important;
+        mix-blend-mode: multiply !important;
+        filter: contrast(106%) !important;
+        border: none !important;
+      }
+
+      body.print-seamless-cards .brand-name {
+        background: rgba(255, 255, 255, 0.88) !important;
+        display: inline-block !important;
+        padding: 1px 6px !important;
+        border-radius: 4px !important;
+        color: #0f172a !important;
+        font-weight: 800 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+      }
+
+      body.print-seamless-cards .item-desc {
+        background: rgba(255, 255, 255, 0.88) !important;
+        display: inline-block !important;
+        padding: 2px 6px !important;
+        border-radius: 4px !important;
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        margin-top: 2px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+      }
+
+      body.print-seamless-cards .code-badge-tag,
+      body.print-seamless-cards .code-badge-left {
+        background: rgba(255, 255, 255, 0.92) !important;
+        color: #0b132b !important;
+        font-weight: 800 !important;
+        border-radius: 4px !important;
+        padding: 2px 5px !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+      }
+
+      body.print-seamless-cards .tier-card-badge {
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1px solid rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
       }
 
       /* 4. 4-COLUMNS MODE (ALDAWAA MAGAZINE STYLE) */
@@ -5228,51 +5295,270 @@
     /* Modal Backdrop with Smooth Centering & Touch Scroll */
     /* Modal Backdrop defined above */
 
-    /* Print Modal Card with Smooth Custom Scrollbar & Sticky Footer */
+    /* Print Modal Card with Flex Architecture & Sticky Footer (Never Cut Off on Mobile) */
     .custom-print-card {
       max-width: 580px !important;
       width: 100% !important;
-      max-height: calc(100vh - 40px) !important;
-      overflow-y: auto !important;
-      overscroll-behavior: contain !important;
+      max-height: min(90dvh, calc(100vh - 24px)) !important;
       margin: auto !important;
       position: relative !important;
       display: flex !important;
       flex-direction: column !important;
-      padding: 22px 22px 14px 22px !important;
+      padding: 0 !important;
       box-sizing: border-box !important;
       border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
       box-shadow: 0 25px 65px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.3) !important;
+      border-radius: 18px !important;
+      overflow: hidden !important;
+    }
+
+    .custom-print-header {
+      flex: 0 0 auto;
+      padding: 16px 20px 8px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+      background: rgba(13, 19, 34, 0.7);
+    }
+    .custom-print-header .confirm-modal-title {
+      margin-bottom: 4px;
+    }
+    .custom-print-header .confirm-modal-desc {
+      margin-bottom: 4px;
+    }
+
+    .custom-print-scrollable-body {
+      flex: 1 1 auto;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior: contain !important;
+      padding: 14px 20px 10px 20px;
     }
 
     /* Premium Slim Scrollbar */
-    .custom-print-card::-webkit-scrollbar {
+    .custom-print-scrollable-body::-webkit-scrollbar {
       width: 6px;
     }
-    .custom-print-card::-webkit-scrollbar-track {
+    .custom-print-scrollable-body::-webkit-scrollbar-track {
       background: rgba(15, 23, 42, 0.6);
       border-radius: 4px;
     }
-    .custom-print-card::-webkit-scrollbar-thumb {
+    .custom-print-scrollable-body::-webkit-scrollbar-thumb {
       background: rgba(56, 189, 248, 0.45);
       border-radius: 4px;
     }
-    .custom-print-card::-webkit-scrollbar-thumb:hover {
+    .custom-print-scrollable-body::-webkit-scrollbar-thumb:hover {
       background: #38bdf8;
     }
 
-    /* Sticky Modal Actions (Start Print / Cancel never get cut off) */
-    .custom-print-card .confirm-modal-actions {
-      position: sticky !important;
-      bottom: -14px !important;
-      margin-top: 14px !important;
-      background: linear-gradient(180deg, rgba(13, 19, 34, 0.9) 0%, rgba(13, 19, 34, 1) 100%) !important;
-      padding: 12px 0 6px 0 !important;
-      border-top: 1px solid rgba(56, 189, 248, 0.25) !important;
-      backdrop-filter: blur(12px) !important;
+    /* Permanent Sticky / Pinned Footer - NEVER CUT OFF ON ANY SCREEN */
+    .custom-print-sticky-footer {
+      flex: 0 0 auto;
+      background: linear-gradient(180deg, #0e1526 0%, #080d1a 100%) !important;
+      padding: 12px 20px 14px 20px !important;
+      border-top: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+      box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.6) !important;
       z-index: 100 !important;
       display: flex !important;
-      gap: 10px !important;
+      gap: 12px !important;
+    }
+
+    /* Seamless Magazine Cutout Toggle Card */
+    .seamless-toggle-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.28) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      user-select: none;
+    }
+    .seamless-toggle-card:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+    .seamless-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: right;
+      direction: rtl;
+      flex: 1;
+    }
+    .seamless-icon {
+      font-size: 16pt;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .seamless-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .seamless-title {
+      font-size: 8.8pt;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .seamless-badge-hot {
+      font-size: 6.8pt;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      color: #ffffff;
+      padding: 1px 6px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+    .seamless-sub {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* Custom CSS Art Switch */
+    .toggle-switch-container {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .toggle-switch-container input[type="checkbox"] {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 24px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+    .toggle-switch-container input:checked + .toggle-slider {
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+    .toggle-switch-container input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Multiple Section Background Chips */
+    .section-bg-chips-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .section-bg-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 8px;
+      padding: 3px 8px 3px 4px;
+      font-size: 7.2pt;
+      color: #e2e8f0;
+      transition: all 0.2s;
+    }
+    .section-bg-chip img {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .section-bg-chip .chip-name {
+      font-weight: 700;
+      color: #7dd3fc;
+      max-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .section-bg-chip .btn-chip-remove {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6.5pt;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .section-bg-chip .btn-chip-remove:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    /* Mobile Responsiveness for Print Modal */
+    @media screen and (max-width: 640px) {
+      .custom-confirm-backdrop {
+        padding: 8px 6px !important;
+        align-items: center !important;
+      }
+      .custom-print-card {
+        max-height: 94dvh !important;
+        border-radius: 14px !important;
+      }
+      .custom-print-header {
+        padding: 10px 14px 6px 14px !important;
+      }
+      .cssart-print-emblem {
+        width: 48px !important;
+        height: 48px !important;
+        margin: 0 auto 6px auto !important;
+      }
+      .cssart-printer-3d {
+        width: 42px !important;
+        height: 36px !important;
+      }
+      .confirm-modal-title {
+        font-size: 12pt !important;
+      }
+      .confirm-modal-desc {
+        font-size: 8pt !important;
+      }
+      .custom-print-scrollable-body {
+        padding: 10px 12px 8px 12px !important;
+      }
+      .custom-print-sticky-footer {
+        padding: 10px 12px 10px 12px !important;
+        gap: 8px !important;
+      }
+      .btn-confirm-cancel, .btn-confirm-success {
+        padding: 10px 12px !important;
+        font-size: 8.8pt !important;
+      }
+      .print-theme-grid-premium {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
     }
 
     /* Premium 7-Theme Grid */
@@ -5352,6 +5638,16 @@
       font-size: 8pt;
       font-weight: 700;
       outline: none;
+    }
+    .section-select-control optgroup {
+      background: #090d16;
+      color: #38bdf8;
+      font-weight: 800;
+    }
+    .section-select-control option {
+      background: #0f172a;
+      color: #f1f5f9;
+      font-weight: 600;
     }
 
     .visual-theme-boh {
@@ -7472,7 +7768,7 @@
       const isPlaceholderImg = !imgSrc || imgSrc.startsWith('data:image/svg+xml') || imgSrc === 'No Image' || imgSrc === '1' || imgSrc.includes('data:image/svg');
 
       return `
-        <div class="magazine-product-card" id="card-${p.Code}" data-code="${p.Code}">
+        <div class="magazine-product-card" id="card-${p.Code}" data-code="${p.Code}" data-category-a="${escapeAttr((p['Category Level A'] || p.category_level_a || '').toUpperCase())}">
           <!-- 🏷️ Clean Two-Row Top Header: Row 1 = Code & Tier Badge; Row 2 = GTIN & Edit Buttons -->
           <div class="card-top-badges-header">
             <div class="card-header-top-row">
@@ -7639,8 +7935,9 @@
           const flexBasisPercent = ((catCount / maxSlots) * 100).toFixed(2);
           const catColor = getCategoryColor(seg.category);
 
+          const segCatA = (seg.items[0]?.["Category Level A"] || seg.items[0]?.category_level_a || "General").trim().toUpperCase();
           html += `
-            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 8px); max-width: calc(${flexBasisPercent}% - 8px);">
+            <div class="cat-group-segment" data-category-a="${escapeAttr(segCatA)}" style="flex: 0 0 calc(${flexBasisPercent}% - 8px); max-width: calc(${flexBasisPercent}% - 8px);">
               <div class="cat-segment-banner" style="background: ${catColor};">
                 ${seg.category}
               </div>
@@ -8635,6 +8932,145 @@
     window.printThemeMode = 'bohemian';
     window.printBgScope = 'all'; // 'all', 'page1', 'section'
     window.printBgTargetSection = 'ALL';
+    window.printSeamlessCards = false;
+    window.customSectionBackgrounds = {}; // Map of secKey -> { dataUrl: string, opacity: number, label: string }
+
+    function toggleSeamlessCardsOption() {
+      const cb = document.getElementById('toggleSeamlessCards');
+      if (cb) {
+        cb.checked = !cb.checked;
+        window.printSeamlessCards = cb.checked;
+      }
+    }
+
+    // Collect all distinct Category Level A values from database & uploaded items
+    function getAllCategoryLevelAValues() {
+      const catSet = new Set();
+      
+      // 1. From uploaded codes & activity tiers
+      if (window.accumulatedProductCodes && window.accumulatedProductCodes.size > 0) {
+        window.accumulatedProductCodes.forEach(code => {
+          const p = resolveProductRecord(code);
+          if (p) {
+            const val = p["Category Level A"] || p.category_level_a;
+            if (val && typeof val === 'string' && val.trim() && val.trim().toLowerCase() !== 'general') {
+              catSet.add(val.trim());
+            }
+          }
+        });
+      }
+
+      if (window.tierCodesStore) {
+        Object.values(window.tierCodesStore).forEach(arr => {
+          if (Array.isArray(arr)) {
+            arr.forEach(code => {
+              const p = resolveProductRecord(code);
+              if (p) {
+                const val = p["Category Level A"] || p.category_level_a;
+                if (val && typeof val === 'string' && val.trim() && val.trim().toLowerCase() !== 'general') {
+                  catSet.add(val.trim());
+                }
+              }
+            });
+          }
+        });
+      }
+
+      // 2. From master products DB
+      if (window.masterProductsDB && Array.isArray(window.masterProductsDB)) {
+        for (let i = 0; i < window.masterProductsDB.length; i++) {
+          const val = window.masterProductsDB[i]["Category Level A"];
+          if (val && typeof val === 'string' && val.trim() && val.trim().toLowerCase() !== 'general') {
+            catSet.add(val.trim());
+          }
+        }
+      }
+
+      // Fallbacks if database not yet fully indexed
+      if (catSet.size === 0) {
+        ['BEAUTY & SKIN CARE', 'HEALTH & WELLNESS', 'BABY CARE', 'PERSONAL CARE', 'PHARMACY & RX', 'VITAMINS & SUPPLEMENTS'].forEach(c => catSet.add(c));
+      }
+
+      return Array.from(catSet).sort((a, b) => a.localeCompare(b));
+    }
+
+    function populatePrintBgSectionSelect() {
+      const select = document.getElementById('printBgSectionSelect');
+      if (!select) return;
+
+      const currentVal = window.printBgTargetSection || 'ALL';
+
+      let html = `
+        <option value="ALL">جميع الأقسام الحالية (All Current Sections)</option>
+        <optgroup label="⭐ فئات الأنشطة (Activity Tiers)">
+          <option value="TIER:DIAMOND">DIAMOND (دايموند)</option>
+          <option value="TIER:DIAMOND UPGRADE">DIAMOND UPGRADE (ترقية دايموند)</option>
+          <option value="TIER:GOLD">GOLD (جولد)</option>
+          <option value="TIER:GOLD UPGRADE">GOLD UPGRADE (ترقية جولد)</option>
+          <option value="TIER:SILVER">SILVER (سيلفر)</option>
+          <option value="TIER:SILVER UPGRADE">SILVER UPGRADE (ترقية سيلفر)</option>
+          <option value="TIER:OUT">OUT (أوت / بلانوجرام)</option>
+          <option value="TIER:GENERAL">GENERAL (عام)</option>
+        </optgroup>
+      `;
+
+      const catAList = getAllCategoryLevelAValues();
+      if (catAList.length > 0) {
+        html += `<optgroup label="🏷️ أقسام الكاتجوري A (Category Level A)">`;
+        catAList.forEach(cat => {
+          html += `<option value="CAT_A:${escapeAttr(cat.toUpperCase())}">${escapeAttr(cat)}</option>`;
+        });
+        html += `</optgroup>`;
+      }
+
+      select.innerHTML = html;
+      select.value = currentVal;
+    }
+
+    function getSectionHumanLabel(secKey) {
+      if (!secKey || secKey === 'ALL') return 'جميع الأقسام';
+      if (secKey.startsWith('TIER:')) return secKey.replace('TIER:', '');
+      if (secKey.startsWith('CAT_A:')) return 'قسم: ' + secKey.replace('CAT_A:', '');
+      return secKey;
+    }
+
+    function handleSectionSelectChange(val) {
+      window.printBgTargetSection = val;
+      renderPrintBgPreview();
+    }
+
+    function renderSectionBgChips() {
+      const container = document.getElementById('sectionBgChipsContainer');
+      if (!container) return;
+
+      const keys = Object.keys(window.customSectionBackgrounds || {});
+      if (keys.length === 0) {
+        container.style.display = 'none';
+        container.innerHTML = '';
+        return;
+      }
+
+      container.style.display = 'flex';
+      container.innerHTML = keys.map(k => {
+        const item = window.customSectionBackgrounds[k];
+        return `
+          <div class="section-bg-chip">
+            <img src="${item.dataUrl}" alt="Thumb" />
+            <span class="chip-name">${item.label || getSectionHumanLabel(k)}</span>
+            <button type="button" class="btn-chip-remove" onclick="removeSectionBg('${k}')" title="إزالة صورة هذا القسم">✕</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function removeSectionBg(secKey) {
+      if (window.customSectionBackgrounds && window.customSectionBackgrounds[secKey]) {
+        delete window.customSectionBackgrounds[secKey];
+        renderSectionBgChips();
+        renderPrintBgPreview();
+        showToast(`🗑️ تم إزالة صورة ${getSectionHumanLabel(secKey)}`, 2500);
+      }
+    }
 
     function openPrintModal(mode = 'all') {
       window.pendingPrintMode = mode;
@@ -8644,7 +9080,13 @@
         const currentTheme = window.customPrintBackgroundDataUrl ? (window.printThemeMode || 'custom-bg') : (window.printThemeMode || 'bohemian');
         selectPrintTheme(currentTheme, false);
         setPrintBgScope(window.printBgScope || 'all');
+        populatePrintBgSectionSelect();
+        renderSectionBgChips();
         renderPrintBgPreview();
+
+        const cb = document.getElementById('toggleSeamlessCards');
+        if (cb) cb.checked = !!window.printSeamlessCards;
+
         modal.style.display = 'flex';
       } else {
         executeDirectPrintFallback(mode);
@@ -8678,7 +9120,7 @@
     }
 
     function selectPrintTheme(theme, updateState = true) {
-      if (theme === 'custom-bg' && !window.customPrintBackgroundDataUrl) {
+      if (theme === 'custom-bg' && !window.customPrintBackgroundDataUrl && Object.keys(window.customSectionBackgrounds || {}).length === 0) {
         const fileInput = document.getElementById('printBgFileInput');
         if (fileInput) fileInput.click();
         return;
@@ -8730,10 +9172,12 @@
       if (secContainer) {
         secContainer.style.display = scope === 'section' ? 'block' : 'none';
       }
+      renderPrintBgPreview();
     }
 
     function setPrintBgTargetSection(val) {
       window.printBgTargetSection = val;
+      renderPrintBgPreview();
     }
 
     function handlePrintBgImageUpload(event) {
@@ -8742,26 +9186,62 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        window.customPrintBackgroundDataUrl = e.target.result;
-        // Automatically switch active theme to Custom Image, canceling the solid themes above!
-        selectPrintTheme('custom-bg', true);
-        renderPrintBgPreview();
-        showToast('📷 تم تفعيل صورتك كخلفية رئيسية للطباعة بنجاح', 3000);
+        const dataUrl = e.target.result;
+        const scope = window.printBgScope || 'all';
+
+        if (scope === 'section') {
+          const targetSec = window.printBgTargetSection || 'ALL';
+          const label = getSectionHumanLabel(targetSec);
+          window.customSectionBackgrounds[targetSec] = {
+            dataUrl: dataUrl,
+            opacity: window.customPrintBackgroundOpacity || 0.75,
+            label: label
+          };
+          selectPrintTheme('custom-bg', true);
+          renderSectionBgChips();
+          renderPrintBgPreview();
+          showToast(`📷 تم حفظ صورة خلفية مخصصة لـ (${label})`, 3000);
+        } else {
+          window.customPrintBackgroundDataUrl = dataUrl;
+          selectPrintTheme('custom-bg', true);
+          renderPrintBgPreview();
+          showToast('📷 تم تفعيل صورتك كخلفية رئيسية للطباعة بنجاح', 3000);
+        }
       };
       reader.readAsDataURL(file);
     }
 
     function removePrintBgImage() {
-      window.customPrintBackgroundDataUrl = null;
+      const scope = window.printBgScope || 'all';
+      if (scope === 'section') {
+        const targetSec = window.printBgTargetSection || 'ALL';
+        if (window.customSectionBackgrounds[targetSec]) {
+          delete window.customSectionBackgrounds[targetSec];
+          renderSectionBgChips();
+        }
+      } else {
+        window.customPrintBackgroundDataUrl = null;
+      }
+
       const input = document.getElementById('printBgFileInput');
       if (input) input.value = '';
-      selectPrintTheme('bohemian', true);
+
+      if (!window.customPrintBackgroundDataUrl && Object.keys(window.customSectionBackgrounds).length === 0) {
+        selectPrintTheme('bohemian', true);
+      }
       renderPrintBgPreview();
-      showToast('🗑️ تم إزالة الصورة واستعادة نمط التصميم البوهيمي', 2500);
+      showToast('🗑️ تم إزالة الصورة واستعادة النمط المطلوب', 2500);
     }
 
     function setPrintBgOpacity(val) {
       window.customPrintBackgroundOpacity = parseFloat(val);
+      const scope = window.printBgScope || 'all';
+      if (scope === 'section') {
+        const targetSec = window.printBgTargetSection || 'ALL';
+        if (window.customSectionBackgrounds[targetSec]) {
+          window.customSectionBackgrounds[targetSec].opacity = parseFloat(val);
+        }
+      }
       renderPrintBgPreview();
     }
 
@@ -8770,11 +9250,30 @@
       const previewBox = document.getElementById('printBgPreviewBox');
       const thumb = document.getElementById('printBgThumb');
       const themeCustom = document.getElementById('choiceThemeCustomBg');
+      const statusText = document.getElementById('previewStatusText');
+      const scope = window.printBgScope || 'all';
+
+      let activeImg = null;
+      let label = 'صورتك محملة وجاهزة';
+
+      if (scope === 'section') {
+        const targetSec = window.printBgTargetSection || 'ALL';
+        if (window.customSectionBackgrounds && window.customSectionBackgrounds[targetSec]) {
+          activeImg = window.customSectionBackgrounds[targetSec].dataUrl;
+          label = '✓ صورة نشطة لـ: ' + (window.customSectionBackgrounds[targetSec].label || getSectionHumanLabel(targetSec));
+        } else if (window.customPrintBackgroundDataUrl) {
+          activeImg = window.customPrintBackgroundDataUrl;
+          label = 'صورة عامة (اختر رفع صورة خاصة لهذا القسم)';
+        }
+      } else {
+        activeImg = window.customPrintBackgroundDataUrl;
+      }
       
-      if (window.customPrintBackgroundDataUrl) {
+      if (activeImg) {
         if (dropzone) dropzone.style.display = 'none';
         if (previewBox) previewBox.style.display = 'flex';
-        if (thumb) thumb.src = window.customPrintBackgroundDataUrl;
+        if (thumb) thumb.src = activeImg;
+        if (statusText) statusText.innerText = label;
         
         const op = window.customPrintBackgroundOpacity !== undefined ? window.customPrintBackgroundOpacity : 0.75;
         document.querySelectorAll('.btn-opacity-pill').forEach(btn => {
@@ -8783,7 +9282,9 @@
       } else {
         if (dropzone) dropzone.style.display = 'flex';
         if (previewBox) previewBox.style.display = 'none';
-        if (themeCustom) themeCustom.classList.remove('active');
+        if (!window.customPrintBackgroundDataUrl && Object.keys(window.customSectionBackgrounds || {}).length === 0) {
+          if (themeCustom) themeCustom.classList.remove('active');
+        }
       }
     }
 
@@ -8805,16 +9306,22 @@
         'print-theme-mint',
         'print-theme-gold',
         'print-theme-custom-bg',
-        'has-custom-print-bg'
+        'has-custom-print-bg',
+        'print-seamless-cards'
       );
       document.body.classList.add('print-cols-' + cols);
       document.body.classList.add('print-theme-' + theme);
+
+      // ✨ Apply Seamless Cutout if checked
+      if (window.printSeamlessCards) {
+        document.body.classList.add('print-seamless-cards');
+      }
 
       // Clean up previous section watermarks
       document.querySelectorAll('.section-watermark-bg').forEach(el => el.remove());
       document.querySelectorAll('.has-section-watermark').forEach(el => el.classList.remove('has-section-watermark'));
 
-      // 2. Setup custom background image backdrop if active
+      // 2. Setup global custom background image backdrop if active
       let watermarkEl = document.getElementById('printWatermarkBackdrop');
       if (!watermarkEl) {
         watermarkEl = document.createElement('div');
@@ -8826,21 +9333,16 @@
       const hasCustomBg = !!window.customPrintBackgroundDataUrl;
       const opacity = window.customPrintBackgroundOpacity !== undefined ? window.customPrintBackgroundOpacity : 0.75;
 
-      if (hasCustomBg) {
+      if (hasCustomBg && (scope === 'all' || scope === 'page1')) {
+        document.body.classList.add('has-custom-print-bg');
         if (scope === 'all') {
-          document.body.classList.add('has-custom-print-bg');
           watermarkEl.className = 'print-watermark-backdrop';
           watermarkEl.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100vw; height: 100vh; object-fit: cover;" alt="Print Background All Pages" />`;
           watermarkEl.style.display = 'block';
         } else if (scope === 'page1') {
-          document.body.classList.add('has-custom-print-bg');
           watermarkEl.className = 'print-watermark-backdrop scope-page1';
           watermarkEl.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100%; height: 297mm; object-fit: cover;" alt="Print Background Page 1" />`;
           watermarkEl.style.display = 'block';
-        } else if (scope === 'section') {
-          watermarkEl.innerHTML = '';
-          watermarkEl.style.display = 'none';
-          // Specific section watermark will be attached after catalog refresh
         }
       } else {
         watermarkEl.innerHTML = '';
@@ -8862,23 +9364,54 @@
         window.isPrintingAll = false;
       }
 
-      // If scope is section, attach image to matching sections now
-      if (hasCustomBg && scope === 'section') {
-        const target = window.printBgTargetSection || 'ALL';
-        let targetBlocks = [];
-        if (target === 'ALL') {
-          targetBlocks = Array.from(document.querySelectorAll('.activity-section-block'));
-        } else {
-          targetBlocks = Array.from(document.querySelectorAll(`.activity-section-block[data-tier="${target}"]`));
+      // 4. Attach Section Watermarks (Tier-specific or Category Level A specific)
+      const sectionEntries = Object.entries(window.customSectionBackgrounds || {});
+      if (sectionEntries.length > 0 || (hasCustomBg && scope === 'section')) {
+        document.body.classList.add('has-custom-print-bg');
+
+        // If a single section image was uploaded under old 'section' scope without map
+        if (hasCustomBg && scope === 'section' && sectionEntries.length === 0) {
+          const target = window.printBgTargetSection || 'ALL';
+          sectionEntries.push([target, { dataUrl: window.customPrintBackgroundDataUrl, opacity: opacity, label: getSectionHumanLabel(target) }]);
         }
 
-        targetBlocks.forEach(blk => {
-          blk.style.position = 'relative';
-          blk.classList.add('has-section-watermark');
-          const secWatermark = document.createElement('div');
-          secWatermark.className = 'section-watermark-bg';
-          secWatermark.innerHTML = `<img src="${window.customPrintBackgroundDataUrl}" style="opacity: ${opacity}; width: 100%; height: 100%; object-fit: cover;" alt="Section Watermark" />`;
-          blk.insertBefore(secWatermark, blk.firstChild);
+        sectionEntries.forEach(([secKey, secData]) => {
+          const imgUrl = secData.dataUrl;
+          const imgOp = secData.opacity !== undefined ? secData.opacity : opacity;
+
+          if (secKey === 'ALL') {
+            document.querySelectorAll('.activity-section-block').forEach(blk => {
+              blk.style.position = 'relative';
+              blk.classList.add('has-section-watermark');
+              const secWatermark = document.createElement('div');
+              secWatermark.className = 'section-watermark-bg';
+              secWatermark.innerHTML = `<img src="${imgUrl}" style="opacity: ${imgOp}; width: 100%; height: 100%; object-fit: cover;" alt="Section Watermark" />`;
+              blk.insertBefore(secWatermark, blk.firstChild);
+            });
+          } else if (secKey.startsWith('TIER:')) {
+            const tierName = secKey.replace('TIER:', '');
+            const targetBlocks = document.querySelectorAll(`.activity-section-block[data-tier="${tierName}"]`);
+            targetBlocks.forEach(blk => {
+              blk.style.position = 'relative';
+              blk.classList.add('has-section-watermark');
+              const secWatermark = document.createElement('div');
+              secWatermark.className = 'section-watermark-bg';
+              secWatermark.innerHTML = `<img src="${imgUrl}" style="opacity: ${imgOp}; width: 100%; height: 100%; object-fit: cover;" alt="Tier Watermark" />`;
+              blk.insertBefore(secWatermark, blk.firstChild);
+            });
+          } else if (secKey.startsWith('CAT_A:')) {
+            const catName = secKey.replace('CAT_A:', '').trim().toUpperCase();
+            // Apply to all cat-group-segments matching this Category Level A
+            const targetSegments = document.querySelectorAll(`.cat-group-segment[data-category-a="${catName}"]`);
+            targetSegments.forEach(seg => {
+              seg.style.position = 'relative';
+              seg.classList.add('has-section-watermark');
+              const secWatermark = document.createElement('div');
+              secWatermark.className = 'section-watermark-bg';
+              secWatermark.innerHTML = `<img src="${imgUrl}" style="opacity: ${imgOp}; width: 100%; height: 100%; object-fit: cover;" alt="Category Watermark" />`;
+              seg.insertBefore(secWatermark, seg.firstChild);
+            });
+          }
         });
       }
 
@@ -8892,7 +9425,8 @@
         'white': 'Clean White ⚪'
       };
       const themeLabel = themeLabels[theme] || 'Custom Theme';
-      showToast(`⚡ جاري تجهيز الطباعة: ${cols} كروت في الصف (${themeLabel})...`, 2500);
+      const seamlessMsg = window.printSeamlessCards ? ' + تفريغ الصور ✨' : '';
+      showToast(`⚡ جاري تجهيز الطباعة: ${cols} كروت في الصف (${themeLabel}${seamlessMsg})...`, 2500);
 
       const container = document.getElementById('magazineRowsContainer');
       if (container) {
@@ -8935,7 +9469,8 @@
         'print-theme-mint',
         'print-theme-gold',
         'print-theme-custom-bg',
-        'has-custom-print-bg'
+        'has-custom-print-bg',
+        'print-seamless-cards'
       );
       const watermarkEl = document.getElementById('printWatermarkBackdrop');
       if (watermarkEl) watermarkEl.style.display = 'none';
@@ -10312,192 +10847,214 @@
   <!-- 🎨 CUSTOM CSS ART PRINT CONFIGURATION MODAL (3 vs 4 CARDS & MAGAZINE THEMES) -->
   <div id="customPrintModal" class="custom-confirm-backdrop" style="display:none;" onclick="handlePrintModalBackdropClick(event)">
     <div class="custom-confirm-card custom-print-card" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
-      <!-- 🎨 CSS Art Animated 3D Printer & Sheet Emblem -->
-      <div class="cssart-confirm-emblem cssart-print-emblem">
-        <div class="cssart-printer-3d">
-          <div class="cssart-printer-tray"></div>
-          <div class="cssart-printer-slot"></div>
-          <div class="cssart-paper-feeding">
-            <span class="paper-line"></span>
-            <span class="paper-line"></span>
-            <span class="paper-line"></span>
+      <!-- 🎨 Pinned Modal Header -->
+      <div class="custom-print-header">
+        <div class="cssart-confirm-emblem cssart-print-emblem">
+          <div class="cssart-printer-3d">
+            <div class="cssart-printer-tray"></div>
+            <div class="cssart-printer-slot"></div>
+            <div class="cssart-paper-feeding">
+              <span class="paper-line"></span>
+              <span class="paper-line"></span>
+              <span class="paper-line"></span>
+            </div>
           </div>
         </div>
+        <h3 class="confirm-modal-title">Print Layout & Magazine Options</h3>
+        <p class="confirm-modal-desc">
+          Select your layout format and styling before generating your A4 document:
+        </p>
       </div>
 
-      <h3 class="confirm-modal-title">Print Layout & Magazine Options</h3>
-      <p class="confirm-modal-desc">
-        Select your layout format and styling before generating your A4 document:
-      </p>
-
-      <!-- Option 1: Cards Per Row (3 vs 4) -->
-      <div class="print-option-section">
-        <div class="print-option-label"><span>📐</span> Cards Per Row:</div>
-        <div class="print-choice-grid">
-          <div class="print-choice-card" id="choiceCols3" onclick="selectPrintColumns(3)">
-            <div class="choice-visual visual-3cols">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">3 Cards / Row</div>
-              <div class="choice-sub">Large & Spacious</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card active" id="choiceCols4" onclick="selectPrintColumns(4)">
-            <div class="choice-visual visual-4cols">
-              <span></span><span></span><span></span><span></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">4 Cards / Row ⭐</div>
-              <div class="choice-sub">Aldawaa Magazine Style</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Option 2: Print Theme Style -->
-      <div class="print-option-section">
-        <div class="print-option-label"><span>🎨</span> Theme & Layout Style (نمط وتصميم المجلة الفاخرة):</div>
-        <div class="print-choice-grid print-theme-grid-premium">
-          <div class="print-choice-card" id="choiceThemeCustomBg" onclick="selectPrintTheme('custom-bg')">
-            <div class="choice-visual visual-theme-custom">
-              <span>📷</span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Custom Image ⭐</div>
-              <div class="choice-sub">صورتك المرفقة</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card" id="choiceThemeBlush" onclick="selectPrintTheme('blush')">
-            <div class="choice-visual visual-theme-blush">
-              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Blush Rose 🌸</div>
-              <div class="choice-sub">وردي مجلات العناية</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card active" id="choiceThemeBohemian" onclick="selectPrintTheme('bohemian')">
-            <div class="choice-visual visual-theme-boh">
-              <span class="swatch-terra"></span><span class="swatch-sand"></span><span class="swatch-sage"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Bohemian Shelf</div>
-              <div class="choice-sub">أرفف خشبية دافئة</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card" id="choiceThemeMint" onclick="selectPrintTheme('mint')">
-            <div class="choice-visual visual-theme-mint">
-              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Botanical Mint 🌿</div>
-              <div class="choice-sub">أخضر صحي زمردي</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card" id="choiceThemeGold" onclick="selectPrintTheme('gold')">
-            <div class="choice-visual visual-theme-gold">
-              <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Luxury Gold ✨</div>
-              <div class="choice-sub">ذهبي ورخامي راقي</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
-            <div class="choice-visual visual-theme-mag">
-              <span class="swatch-d"></span><span class="swatch-g"></span><span class="swatch-s"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Magazine Tiers 💎</div>
-              <div class="choice-sub">ألوان فئات الدواء</div>
-            </div>
-          </div>
-
-          <div class="print-choice-card" id="choiceThemeWhite" onclick="selectPrintTheme('white')">
-            <div class="choice-visual visual-theme-white">
-              <span class="swatch-w"></span>
-            </div>
-            <div class="choice-text">
-              <div class="choice-title">Clean White ⚪</div>
-              <div class="choice-sub">أبيض كلاسيكي ستوديو</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Option 3: Custom Background Watermark Image & Scope -->
-      <div class="print-option-section">
-        <div class="print-option-label"><span>📷</span> Custom Background Image (خلفية مخصصة للطباعة):</div>
-        
-        <!-- Upload dropzone when no image is loaded -->
-        <div id="printBgDropzone" class="print-upload-dropzone" onclick="document.getElementById('printBgFileInput').click()">
-          <input type="file" id="printBgFileInput" accept="image/*" style="display:none;" onchange="handlePrintBgImageUpload(event)">
-          <span class="upload-icon-art">🖼️</span>
-          <div class="upload-text-group">
-            <span class="upload-title">Attach / Upload Background Image</span>
-            <span class="upload-subtitle">JPG, PNG, WebP (تظهر كخلفية كاملة أو لصفحة/قسم معين وتلغي المصمت)</span>
-          </div>
-        </div>
-
-        <!-- Preview & controls when image is loaded -->
-        <div id="printBgPreviewBox" class="print-bg-preview-card" style="display:none;">
-          <div class="preview-thumb-box">
-            <img id="printBgThumb" src="" alt="Thumbnail" />
-          </div>
-          <div class="preview-controls-group">
-            <div class="preview-meta-row">
-              <span class="preview-name" id="previewStatusText">✓ صورتك محملة وجاهزة</span>
-              <button type="button" class="btn-remove-bg" onclick="removePrintBgImage()" title="Remove background image">✕ Remove</button>
-            </div>
-
-            <!-- Target Scope: All Pages, Page 1, or Specific Section -->
-            <div style="margin-top: 4px;">
-              <div style="font-size: 7.2pt; color: #7dd3fc; font-weight: 700; margin-bottom: 3px;">🎯 نطاق تطبيق الخلفية:</div>
-              <div class="scope-pills-row">
-                <button type="button" class="btn-scope-pill active" id="btnScopeAll" onclick="setPrintBgScope('all')">🌐 All Pages (كل الصفحات)</button>
-                <button type="button" class="btn-scope-pill" id="btnScopePage1" onclick="setPrintBgScope('page1')">📄 Page 1 Only (الغلاف فقط)</button>
-                <button type="button" class="btn-scope-pill" id="btnScopeSection" onclick="setPrintBgScope('section')">🏷️ Specific Section (قسم محدد)</button>
+      <!-- 📜 Scrollable Modal Body (Smooth scroll on all phones & tablets) -->
+      <div class="custom-print-scrollable-body">
+        <!-- Option 1: Cards Per Row (3 vs 4) -->
+        <div class="print-option-section">
+          <div class="print-option-label"><span>📐</span> Cards Per Row:</div>
+          <div class="print-choice-grid">
+            <div class="print-choice-card" id="choiceCols3" onclick="selectPrintColumns(3)">
+              <div class="choice-visual visual-3cols">
+                <span></span><span></span><span></span>
               </div>
-              <div id="sectionSelectContainer" style="display:none; margin-top: 5px;">
-                <select id="printBgSectionSelect" class="section-select-control" onchange="setPrintBgTargetSection(this.value)">
-                  <option value="ALL">جميع الأقسام الحالية</option>
-                  <option value="DIAMOND">DIAMOND (دايموند)</option>
-                  <option value="DIAMOND UPGRADE">DIAMOND UPGRADE (ترقية دايموند)</option>
-                  <option value="GOLD">GOLD (جولد)</option>
-                  <option value="GOLD UPGRADE">GOLD UPGRADE (ترقية جولد)</option>
-                  <option value="SILVER">SILVER (سيلفر)</option>
-                  <option value="SILVER UPGRADE">SILVER UPGRADE (ترقية سيلفر)</option>
-                  <option value="OUT">OUT (أوت / بلانوجرام)</option>
-                  <option value="GENERAL">GENERAL (عام)</option>
-                </select>
+              <div class="choice-text">
+                <div class="choice-title">3 Cards / Row</div>
+                <div class="choice-sub">Large & Spacious</div>
               </div>
             </div>
 
-            <!-- Opacity Pills -->
-            <div class="opacity-pills-row" style="margin-top: 6px;">
-              <span class="opacity-label">وضوح الصورة:</span>
-              <button type="button" class="btn-opacity-pill" data-opacity="0.25" onclick="setPrintBgOpacity(0.25)">25% هادئ</button>
-              <button type="button" class="btn-opacity-pill" data-opacity="0.50" onclick="setPrintBgOpacity(0.50)">50%</button>
-              <button type="button" class="btn-opacity-pill active" data-opacity="0.75" onclick="setPrintBgOpacity(0.75)">75% ⭐</button>
-              <button type="button" class="btn-opacity-pill" data-opacity="1.00" onclick="setPrintBgOpacity(1.00)">100% كامل</button>
+            <div class="print-choice-card active" id="choiceCols4" onclick="selectPrintColumns(4)">
+              <div class="choice-visual visual-4cols">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">4 Cards / Row ⭐</div>
+                <div class="choice-sub">Aldawaa Magazine Style</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Helpful Print Tip -->
-        <div style="margin-top: 10px; font-size: 7.2pt; color: #38bdf8; background: rgba(56, 189, 248, 0.08); padding: 6px 9px; border-radius: 6px; border: 1px dashed rgba(56, 189, 248, 0.3); text-align: right; direction: rtl;">
-          💡 <strong>نصيحة هامة:</strong> في نافذة الطباعة (Print Preview)، تأكد من وضع علامة ✓ على خيار <strong>Background graphics (رسومات الخلفية)</strong> لتظهر كافة الألوان والخلفيات بأعلى دقة.
+        <!-- Option 2: Print Theme Style -->
+        <div class="print-option-section">
+          <div class="print-option-label"><span>🎨</span> Theme & Layout Style (نمط وتصميم المجلة الفاخرة):</div>
+          <div class="print-choice-grid print-theme-grid-premium">
+            <div class="print-choice-card" id="choiceThemeCustomBg" onclick="selectPrintTheme('custom-bg')">
+              <div class="choice-visual visual-theme-custom">
+                <span>📷</span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Custom Image ⭐</div>
+                <div class="choice-sub">صورتك المرفقة</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card" id="choiceThemeBlush" onclick="selectPrintTheme('blush')">
+              <div class="choice-visual visual-theme-blush">
+                <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Blush Rose 🌸</div>
+                <div class="choice-sub">وردي مجلات العناية</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card active" id="choiceThemeBohemian" onclick="selectPrintTheme('bohemian')">
+              <div class="choice-visual visual-theme-boh">
+                <span class="swatch-terra"></span><span class="swatch-sand"></span><span class="swatch-sage"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Bohemian Shelf</div>
+                <div class="choice-sub">أرفف خشبية دافئة</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card" id="choiceThemeMint" onclick="selectPrintTheme('mint')">
+              <div class="choice-visual visual-theme-mint">
+                <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Botanical Mint 🌿</div>
+                <div class="choice-sub">أخضر صحي زمردي</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card" id="choiceThemeGold" onclick="selectPrintTheme('gold')">
+              <div class="choice-visual visual-theme-gold">
+                <span class="swatch-1"></span><span class="swatch-2"></span><span class="swatch-3"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Luxury Gold ✨</div>
+                <div class="choice-sub">ذهبي ورخامي راقي</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
+              <div class="choice-visual visual-theme-mag">
+                <span class="swatch-d"></span><span class="swatch-g"></span><span class="swatch-s"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Magazine Tiers 💎</div>
+                <div class="choice-sub">ألوان فئات الدواء</div>
+              </div>
+            </div>
+
+            <div class="print-choice-card" id="choiceThemeWhite" onclick="selectPrintTheme('white')">
+              <div class="choice-visual visual-theme-white">
+                <span class="swatch-w"></span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">Clean White ⚪</div>
+                <div class="choice-sub">أبيض كلاسيكي ستوديو</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option 3: Seamless Magazine Cutout (تفريغ الصور وإزالة حدود الكروت) -->
+        <div class="print-option-section">
+          <div class="seamless-toggle-card" onclick="toggleSeamlessCardsOption()">
+            <div class="seamless-toggle-left">
+              <div class="seamless-icon">✨</div>
+              <div class="seamless-text-group">
+                <div class="seamless-title">
+                  تفريغ صور المنتجات وإزالة حواف الكروت
+                  <span class="seamless-badge-hot">Magazine Cutout</span>
+                </div>
+                <div class="seamless-sub">
+                  إخفاء الحواف البيضاء للصور وحواف الكارت لتندمج مع الخلفية كالمجلات العالمية
+                </div>
+              </div>
+            </div>
+            <div class="toggle-switch-container" onclick="event.stopPropagation()">
+              <input type="checkbox" id="toggleSeamlessCards" onchange="window.printSeamlessCards = this.checked">
+              <label for="toggleSeamlessCards" class="toggle-slider"></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option 4: Custom Background Image & Multi-Section / Category A Support -->
+        <div class="print-option-section">
+          <div class="print-option-label"><span>📷</span> Custom Background Image (خلفية مخصصة للطباعة):</div>
+          
+          <!-- Upload dropzone when no image is loaded for current scope -->
+          <div id="printBgDropzone" class="print-upload-dropzone" onclick="document.getElementById('printBgFileInput').click()">
+            <input type="file" id="printBgFileInput" accept="image/*" style="display:none;" onchange="handlePrintBgImageUpload(event)">
+            <span class="upload-icon-art">🖼️</span>
+            <div class="upload-text-group">
+              <span class="upload-title">Attach / Upload Background Image</span>
+              <span class="upload-subtitle">JPG, PNG, WebP (تظهر كخلفية كاملة أو لصفحة/قسم معين وتلغي المصمت)</span>
+            </div>
+          </div>
+
+          <!-- Preview & controls when image is loaded -->
+          <div id="printBgPreviewBox" class="print-bg-preview-card" style="display:none;">
+            <div class="preview-thumb-box">
+              <img id="printBgThumb" src="" alt="Thumbnail" />
+            </div>
+            <div class="preview-controls-group">
+              <div class="preview-meta-row">
+                <span class="preview-name" id="previewStatusText">✓ صورتك محملة وجاهزة</span>
+                <button type="button" class="btn-remove-bg" onclick="removePrintBgImage()" title="Remove background image">✕ Remove</button>
+              </div>
+
+              <!-- Target Scope: All Pages, Page 1, or Specific Section -->
+              <div style="margin-top: 4px;">
+                <div style="font-size: 7.2pt; color: #7dd3fc; font-weight: 700; margin-bottom: 3px;">🎯 نطاق تطبيق الخلفية:</div>
+                <div class="scope-pills-row">
+                  <button type="button" class="btn-scope-pill active" id="btnScopeAll" onclick="setPrintBgScope('all')">🌐 All Pages (كل الصفحات)</button>
+                  <button type="button" class="btn-scope-pill" id="btnScopePage1" onclick="setPrintBgScope('page1')">📄 Page 1 Only (الغلاف فقط)</button>
+                  <button type="button" class="btn-scope-pill" id="btnScopeSection" onclick="setPrintBgScope('section')">🏷️ Specific Section (قسم محدد)</button>
+                </div>
+                <div id="sectionSelectContainer" style="display:none; margin-top: 6px;">
+                  <select id="printBgSectionSelect" class="section-select-control" onchange="handleSectionSelectChange(this.value)">
+                    <!-- Populated dynamically with Tiers and Category Level A -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- Configured Section Backgrounds Chips List -->
+              <div id="sectionBgChipsContainer" class="section-bg-chips-list" style="display:none;"></div>
+
+              <!-- Opacity Pills -->
+              <div class="opacity-pills-row" style="margin-top: 6px;">
+                <span class="opacity-label">وضوح الصورة:</span>
+                <button type="button" class="btn-opacity-pill" data-opacity="0.25" onclick="setPrintBgOpacity(0.25)">25% هادئ</button>
+                <button type="button" class="btn-opacity-pill" data-opacity="0.50" onclick="setPrintBgOpacity(0.50)">50%</button>
+                <button type="button" class="btn-opacity-pill active" data-opacity="0.75" onclick="setPrintBgOpacity(0.75)">75% ⭐</button>
+                <button type="button" class="btn-opacity-pill" data-opacity="1.00" onclick="setPrintBgOpacity(1.00)">100% كامل</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Helpful Print Tip -->
+          <div style="margin-top: 10px; font-size: 7.2pt; color: #38bdf8; background: rgba(56, 189, 248, 0.08); padding: 6px 9px; border-radius: 6px; border: 1px dashed rgba(56, 189, 248, 0.3); text-align: right; direction: rtl;">
+            💡 <strong>نصيحة هامة:</strong> في نافذة الطباعة (Print Preview)، تأكد من وضع علامة ✓ على خيار <strong>Background graphics (رسومات الخلفية)</strong> لتظهر كافة الألوان والخلفيات بأعلى دقة.
+          </div>
         </div>
       </div>
 
-      <div class="confirm-modal-actions">
+      <!-- 🔒 Pinned Sticky Footer Actions (Cancel & Start Print - Always visible on mobile) -->
+      <div class="custom-print-sticky-footer confirm-modal-actions">
         <button type="button" class="btn-confirm-cancel" onclick="closePrintModal()">
           <span>✕</span> Cancel
         </button>
@@ -10509,7 +11066,7 @@
     </div>
   </div>
 
-  <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
+    <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
     <div class="custom-confirm-card" role="dialog" aria-modal="true">
       <!-- 🎨 CSS Art Animated Warning Shield Emblem -->
       <div class="cssart-confirm-emblem">
