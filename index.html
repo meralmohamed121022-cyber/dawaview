@@ -7921,6 +7921,121 @@
     } 
 
  
+    // ============================================================
+    // 🎨 PRINT CONFIGURATION & MAGAZINE THEME CONTROLLER
+    // ============================================================
+    window.printColumnsMode = 4; // Default to 4 cards/row magazine layout
+    window.printThemeMode = 'magazine'; // Default to colored tier backgrounds
+    window.pendingPrintMode = 'all';
+
+    function openPrintModal(mode = 'all') {
+      window.pendingPrintMode = mode;
+      const modal = document.getElementById('customPrintModal');
+      if (modal) {
+        selectPrintColumns(window.printColumnsMode || 4, false);
+        selectPrintTheme(window.printThemeMode || 'magazine', false);
+        modal.style.display = 'flex';
+      } else {
+        executeDirectPrintFallback(mode);
+      }
+    }
+
+    function closePrintModal() {
+      const modal = document.getElementById('customPrintModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function handlePrintModalBackdropClick(e) {
+      if (e.target && e.target.id === 'customPrintModal') {
+        closePrintModal();
+      }
+    }
+
+    function selectPrintColumns(cols, updateState = true) {
+      if (updateState) window.printColumnsMode = cols;
+      const card3 = document.getElementById('choiceCols3');
+      const card4 = document.getElementById('choiceCols4');
+      if (cols === 3) {
+        if (card3) card3.classList.add('active');
+        if (card4) card4.classList.remove('active');
+      } else {
+        if (card4) card4.classList.add('active');
+        if (card3) card3.classList.remove('active');
+      }
+    }
+
+    function selectPrintTheme(theme, updateState = true) {
+      if (updateState) window.printThemeMode = theme;
+      const themeMag = document.getElementById('choiceThemeMagazine');
+      const themeWhite = document.getElementById('choiceThemeWhite');
+      if (theme === 'white') {
+        if (themeWhite) themeWhite.classList.add('active');
+        if (themeMag) themeMag.classList.remove('active');
+      } else {
+        if (themeMag) themeMag.classList.add('active');
+        if (themeWhite) themeWhite.classList.remove('active');
+      }
+    }
+
+    async function executePrintWithSelectedOptions() {
+      closePrintModal();
+
+      const cols = window.printColumnsMode || 4;
+      const theme = window.printThemeMode || 'magazine';
+
+      // 1. Set classes on document body for print engine
+      document.body.classList.remove('print-cols-3', 'print-cols-4', 'print-theme-magazine', 'print-theme-white');
+      document.body.classList.add('print-cols-' + cols);
+      document.body.classList.add('print-theme-' + theme);
+
+      // 2. Prepare catalog based on print mode
+      if (window.pendingPrintMode === 'all') {
+        syncAllTierCodesFromStore();
+        window.selectedActivityTier = 'ALL';
+        setSourceMode('uploaded');
+        updateTierSelectorUI();
+        window.isPrintingAll = true;
+        refreshCatalogDisplay(true);
+        window.isPrintingAll = false;
+      } else {
+        window.isPrintingAll = true;
+        refreshCatalogDisplay(false);
+        window.isPrintingAll = false;
+      }
+
+      showToast(`⚡ Preparing ${cols} cards per row (${theme === 'magazine' ? 'Magazine Theme' : 'Clean White'})...`, 2500);
+
+      const container = document.getElementById('magazineRowsContainer');
+      if (container) {
+        await ensureAllImagesLoadedBeforePrint(container);
+      }
+
+      setTimeout(() => {
+        window.print();
+      }, 350);
+    }
+
+    async function executeDirectPrintFallback(mode = 'all') {
+      if (mode === 'all') {
+        syncAllTierCodesFromStore();
+        window.selectedActivityTier = 'ALL';
+        setSourceMode('uploaded');
+        updateTierSelectorUI();
+        window.isPrintingAll = true;
+        refreshCatalogDisplay(true);
+        window.isPrintingAll = false;
+      }
+      const container = document.getElementById('magazineRowsContainer');
+      if (container) {
+        await ensureAllImagesLoadedBeforePrint(container);
+      }
+      setTimeout(() => {
+        window.print();
+      }, 350);
+    }
+
     function promptClearAllTiers() {
       const modal = document.getElementById('customConfirmModal');
       if (modal) {
@@ -7944,6 +8059,7 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeConfirmModal();
+        closePrintModal();
       }
     });
 
@@ -9309,7 +9425,7 @@
 
       <!-- Option 1: Cards Per Row (3 vs 4) -->
       <div class="print-option-section">
-        <div class="print-option-label"><span>📐</span> Cards Per Row (تنسيق الصف):</div>
+        <div class="print-option-label"><span>📐</span> Cards Per Row:</div>
         <div class="print-choice-grid">
           <div class="print-choice-card" id="choiceCols3" onclick="selectPrintColumns(3)">
             <div class="choice-visual visual-3cols">
@@ -9335,7 +9451,7 @@
 
       <!-- Option 2: Print Theme Style -->
       <div class="print-option-section">
-        <div class="print-option-label"><span>🎨</span> Theme & Colors (خلفيات وألوان المجلة):</div>
+        <div class="print-option-label"><span>🎨</span> Theme & Background Colors:</div>
         <div class="print-choice-grid">
           <div class="print-choice-card active" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
             <div class="choice-visual visual-theme-mag">
