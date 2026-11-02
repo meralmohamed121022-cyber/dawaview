@@ -3673,21 +3673,6 @@
         text-shadow: none !important;
       }
 
-      .activity-section-block {
-        margin-bottom: 22px !important;
-        page-break-inside: auto !important;
-      }
-
-      .activity-section-block .activity-tier-banner {
-        display: flex !important;
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-        margin-top: 14px !important;
-        margin-bottom: 10px !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
       body {
         background: #ffffff !important;
         color: #000000 !important;
@@ -3695,32 +3680,60 @@
         print-color-adjust: exact !important;
       }
 
+      /* 1. HIDE ALL NON-PRINT UI & COMPLETELY HIDE GTIN & EDIT BUTTONS */
       .top-action-bar,
       .filter-toolbar-card,
       .input-section-wrapper,
       .scanner-modal-backdrop,
       .image-zoom-modal-backdrop,
       .gtin-modal-backdrop,
-      .btn-card-gtin,
-      .btn-card-edit,
+      .custom-confirm-backdrop,
+      #customConfirmModal,
+      #customPrintModal,
       .card-img-quick-tools,
       .card-missing-prompt,
       .card-edit-mode,
       .custom-local-tag,
       .global-app-toast,
       .zoom-hover-hint,
-      #dragDropInputSection {
+      #dragDropInputSection,
+      .card-header-actions-row,
+      .card-header-actions-row *,
+      .btn-card-gtin,
+      .btn-card-edit,
+      button.btn-card-gtin,
+      button.btn-card-edit {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
       }
 
       .card-view-mode {
         display: block !important;
       }
 
+      .card-header-top-box {
+        margin-bottom: 2px !important;
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+      }
+
+      .card-header-meta {
+        margin-bottom: 0 !important;
+        width: 100% !important;
+      }
+
       .magazine-display-area {
         max-width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
+        background: transparent !important;
       }
 
       .magazine-print-header {
@@ -3731,31 +3744,186 @@
         page-break-after: avoid !important;
       }
 
+      /* 2. ACTIVITY SECTION BLOCKS: SOFT LUXURY THEMES & EXACT COLOR REPRODUCTION */
+      .activity-section-block {
+        margin-bottom: 20px !important;
+        padding: 12px 14px 16px 14px !important;
+        border-radius: 14px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        page-break-inside: auto !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Diamond Sections: Soft Icy Blue */
+      .activity-section-block[data-tier="DIAMOND"],
+      .activity-section-block[data-tier="DIAMOND UPGRADE"] {
+        background: #f0f7ff !important;
+        border: 1.5px solid #bae6fd !important;
+      }
+
+      /* Gold Sections: Soft Warm Champagne Gold */
+      .activity-section-block[data-tier="GOLD"],
+      .activity-section-block[data-tier="GOLD UPGRADE"],
+      .activity-section-block[data-tier="GOLD DOWNGRADE"] {
+        background: #fffdf0 !important;
+        border: 1.5px solid #fde68a !important;
+      }
+
+      /* Silver Sections: Soft Platinum Slate */
+      .activity-section-block[data-tier="SILVER"],
+      .activity-section-block[data-tier="SILVER UPGRADE"],
+      .activity-section-block[data-tier="SILVER DOWNGRADE"] {
+        background: #f8fafc !important;
+        border: 1.5px solid #cbd5e1 !important;
+      }
+
+      /* Out of Planogram Sections: Soft Rose Blush */
+      .activity-section-block[data-tier="OUT"],
+      .activity-section-block[data-tier="OUT DOWNGRADE"] {
+        background: #fff1f2 !important;
+        border: 1.5px solid #fecdd3 !important;
+      }
+
+      /* General Catalog Sections */
+      .activity-section-block[data-tier="GENERAL"],
+      .activity-section-block:not([data-tier]) {
+        background: #f8fafc !important;
+        border: 1.5px solid #e2e8f0 !important;
+      }
+
+      /* Clean White Option */
+      body.print-theme-white .activity-section-block {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      .activity-section-block .activity-tier-banner {
+        display: flex !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        margin-top: 2px !important;
+        margin-bottom: 10px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        border-radius: 8px !important;
+      }
+
+      /* 3. PACKED ROWS & SEAMLESS BORDERLESS CARDS */
       .packed-magazine-row {
         display: flex !important;
         flex-direction: row !important;
-        gap: 10px !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
         margin-bottom: 12px !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        width: 100% !important;
+      }
+
+      .cat-group-segment {
+        display: flex !important;
+        flex-direction: column !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
       }
 
       .cat-segment-banner {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         padding: 5px 8px !important;
-        font-size: 10pt !important;
+        font-size: 9pt !important;
+        border-radius: 6px !important;
       }
 
-      .magazine-product-card {
+      .cat-cards-subgrid {
+        display: grid !important;
+        gap: 6px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      /* BORDERLESS MAGAZINE PRODUCT CARDS */
+      .magazine-product-card,
+      .cat-cards-subgrid .magazine-product-card {
         box-shadow: none !important;
-        border: 1px solid #cbd5e1 !important;
-        height: 255px !important;
+        border: none !important;
+        outline: none !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border-radius: 10px !important;
         page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
 
       .prod-img-box {
-        height: 140px !important;
+        border: none !important;
+        background: #ffffff !important;
+        border-radius: 8px !important;
+      }
+
+      /* 4. 4-COLUMNS MODE (ALDAWAA MAGAZINE STYLE) */
+      body.print-cols-4 .packed-magazine-row,
+      body:not(.print-cols-3) .packed-magazine-row {
+        gap: 6px !important;
+      }
+      body.print-cols-4 .cat-cards-subgrid,
+      body:not(.print-cols-3) .cat-cards-subgrid {
+        gap: 5px !important;
+      }
+      body.print-cols-4 .magazine-product-card,
+      body:not(.print-cols-3) .magazine-product-card {
+        height: 232px !important;
+        padding: 5px 6px !important;
+      }
+      body.print-cols-4 .prod-img-box,
+      body:not(.print-cols-3) .prod-img-box {
+        height: 112px !important;
+      }
+      body.print-cols-4 .prod-title-en,
+      body:not(.print-cols-3) .prod-title-en {
+        font-size: 7.2pt !important;
+        line-height: 1.25 !important;
+        -webkit-line-clamp: 2 !important;
+      }
+      body.print-cols-4 .prod-brand-row,
+      body:not(.print-cols-3) .prod-brand-row {
+        font-size: 6.8pt !important;
+      }
+      body.print-cols-4 .cat-segment-banner,
+      body:not(.print-cols-3) .cat-segment-banner {
+        font-size: 8.5pt !important;
+        padding: 4px 8px !important;
+      }
+      body.print-cols-4 .code-badge-left,
+      body:not(.print-cols-3) .code-badge-left {
+        font-size: 6.8pt !important;
+      }
+      body.print-cols-4 .tier-card-badge,
+      body:not(.print-cols-3) .tier-card-badge {
+        font-size: 6.5pt !important;
+        padding: 1px 4px !important;
+      }
+
+      /* 5. 3-COLUMNS MODE (STANDARD / LARGE STYLE) */
+      body.print-cols-3 .packed-magazine-row {
+        gap: 10px !important;
+      }
+      body.print-cols-3 .cat-cards-subgrid {
+        gap: 8px !important;
+      }
+      body.print-cols-3 .magazine-product-card {
+        height: 255px !important;
+        padding: 8px 10px !important;
+      }
+      body.print-cols-3 .prod-img-box {
+        height: 135px !important;
+      }
+      body.print-cols-3 .prod-title-en {
+        font-size: 8.2pt !important;
+      }
+      body.print-cols-3 .cat-segment-banner {
+        font-size: 10pt !important;
+        padding: 5px 8px !important;
       }
     }
       /* 📱 RESPONSIVE PLANOGRAM TIERS PANEL & COMPACT TIERS GRID */
@@ -4511,6 +4679,225 @@
     }
 
     /* Top Clear All Tiers Button Style */
+    
+    /* ============================================================ */
+    /* 🎨 CSS ART PRINT OPTIONS MODAL (3 vs 4 Cards, Magazine Themes) */
+    /* ============================================================ */
+    .custom-print-card {
+      max-width: 480px !important;
+      border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(56, 189, 248, 0.25) !important;
+    }
+
+    .cssart-print-emblem {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 14px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cssart-printer-3d {
+      position: relative;
+      width: 56px;
+      height: 48px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.5);
+      border: 1.5px solid rgba(125, 211, 252, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cssart-printer-tray {
+      position: absolute;
+      top: -8px;
+      width: 32px;
+      height: 12px;
+      background: #ffffff;
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      border: 1px solid #94a3b8;
+    }
+
+    .cssart-printer-slot {
+      width: 36px;
+      height: 4px;
+      background: #082f49;
+      border-radius: 2px;
+      margin-top: 4px;
+    }
+
+    .cssart-paper-feeding {
+      width: 30px;
+      height: 16px;
+      background: #ffffff;
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 3px;
+      box-sizing: border-box;
+      animation: paperFeed 2s ease-in-out infinite;
+    }
+
+    .paper-line {
+      height: 1.5px;
+      background: #0284c7;
+      border-radius: 1px;
+      width: 100%;
+    }
+    .paper-line:nth-child(2) { width: 70%; }
+    .paper-line:nth-child(3) { width: 85%; }
+
+    @keyframes paperFeed {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    .print-option-section {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .print-option-label {
+      font-size: 8.8pt;
+      font-weight: 800;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .print-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .print-choice-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+
+    .print-choice-card:hover {
+      border-color: rgba(56, 189, 248, 0.6);
+      background: rgba(30, 58, 138, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .print-choice-card.active {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border-color: #38bdf8;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+    }
+
+    .choice-visual {
+      flex-shrink: 0;
+      width: 38px;
+      height: 32px;
+      background: rgba(3, 7, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5px;
+      padding: 3px;
+      box-sizing: border-box;
+    }
+
+    .visual-3cols span {
+      flex: 1;
+      height: 80%;
+      background: #38bdf8;
+      border-radius: 2px;
+      opacity: 0.85;
+    }
+
+    .visual-4cols span {
+      flex: 1;
+      height: 80%;
+      background: #fbbf24;
+      border-radius: 2px;
+      opacity: 0.95;
+    }
+
+    .visual-theme-mag {
+      display: flex;
+      gap: 2px;
+    }
+    .visual-theme-mag .swatch-d { flex: 1; height: 100%; background: #38bdf8; border-radius: 2px; }
+    .visual-theme-mag .swatch-g { flex: 1; height: 100%; background: #f59e0b; border-radius: 2px; }
+    .visual-theme-mag .swatch-s { flex: 1; height: 100%; background: #94a3b8; border-radius: 2px; }
+
+    .visual-theme-white .swatch-w {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 2px;
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+
+    .choice-text {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .choice-title {
+      font-size: 8.8pt;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .choice-sub {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .btn-confirm-success {
+      flex: 1.4;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 9.5pt;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.45);
+      font-family: var(--font-family);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-confirm-success:hover {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6);
+    }
+
     .btn-clear-all-tiers {
       background: rgba(239, 68, 68, 0.18) !important;
       color: #fca5a5 !important;
@@ -6264,29 +6651,7 @@
     // 4️⃣ FAST PRINT PROCESS (PRINTS DISPLAYED FILTERED ITEMS)
     // ============================================================
     function startFastPrintProcess() {
-      const cards = document.querySelectorAll('#magazineRowsContainer .magazine-product-card');
-      if (!cards || cards.length === 0) {
-        alert("No items currently displayed to print. Please search or filter products first.");
-        return;
-      }
-
-      const btn = document.getElementById('fastPrintBtn');
-      const originalHTML = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.innerHTML = `<span>⏳</span> Preparing Print (${cards.length} items)...`;
-        btn.style.opacity = '0.7';
-        btn.disabled = true;
-      }
-
-      // Small async timeout allows browser to update UI immediately before printing
-      setTimeout(() => {
-        window.print();
-        if (btn) {
-          btn.innerHTML = originalHTML;
-          btn.style.opacity = '1';
-          btn.disabled = false;
-        }
-      }, 80);
+      openPrintModal('fast');
     }
 
     // ============================================================
@@ -6509,8 +6874,9 @@
       `;
     }
 
-    function renderItemsAsPackedMagazineRows(productsList, forcedTier = null) {
+    function renderItemsAsPackedMagazineRows(productsList, forcedTier = null, customSlots = null) {
       if (!productsList || productsList.length === 0) return '';
+      const maxSlots = customSlots || window.printColumnsMode || 4;
 
       // Sort by Category C/D, then Brand
       const sorted = [...productsList].sort((a, b) => {
@@ -6534,7 +6900,7 @@
 
       const packedRows = [];
       let currentRow = [];
-      let slotsInCurrentRow = 3;
+      let slotsInCurrentRow = maxSlots;
 
       for (let q = 0; q < categoryQueues.length; q++) {
         const catObj = categoryQueues[q];
@@ -6552,7 +6918,7 @@
           if (slotsInCurrentRow === 0) {
             packedRows.push(currentRow);
             currentRow = [];
-            slotsInCurrentRow = 3;
+            slotsInCurrentRow = maxSlots;
           }
         }
       }
@@ -6567,16 +6933,16 @@
 
         rowSegments.forEach(seg => {
           const catCount = seg.items.length;
-          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
+          const flexBasisPercent = ((catCount / maxSlots) * 100).toFixed(2);
           const catColor = getCategoryColor(seg.category);
 
           html += `
-            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
+            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 8px); max-width: calc(${flexBasisPercent}% - 8px);">
               <div class="cat-segment-banner" style="background: ${catColor};">
                 ${seg.category}
               </div>
 
-              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
+              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, minmax(0, 1fr));">
           `;
 
           seg.items.forEach(p => {
@@ -6619,28 +6985,8 @@
       await Promise.all(loadPromises);
     }
 
-    async function printAllActivities() {
-      // ⚡ Crucial: Auto-sync all typed/pasted codes from ALL tiers before printing!
-      syncAllTierCodesFromStore();
-
-      window.selectedActivityTier = 'ALL';
-      setSourceMode('uploaded');
-      updateTierSelectorUI();
-      
-      window.isPrintingAll = true;
-      refreshCatalogDisplay(true);
-      window.isPrintingAll = false;
-
-      showToast("⏳ Loading and preparing high-resolution images for print...", 2500);
-
-      const container = document.getElementById('magazineRowsContainer');
-      if (container) {
-        await ensureAllImagesLoadedBeforePrint(container);
-      }
-
-      setTimeout(() => {
-        window.print();
-      }, 350);
+    function printAllActivities() {
+      openPrintModal('all');
     }
 
     function refreshCatalogDisplay(shouldSyncChecklists = false) {
@@ -8939,6 +9285,92 @@
 
     
   <!-- 🛑 CUSTOM CSS ART CONFIRMATION MODAL -->
+  
+  <!-- 🎨 CUSTOM CSS ART PRINT CONFIGURATION MODAL (3 vs 4 CARDS & MAGAZINE THEMES) -->
+  <div id="customPrintModal" class="custom-confirm-backdrop" style="display:none;" onclick="handlePrintModalBackdropClick(event)">
+    <div class="custom-confirm-card custom-print-card" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+      <!-- 🎨 CSS Art Animated 3D Printer & Sheet Emblem -->
+      <div class="cssart-confirm-emblem cssart-print-emblem">
+        <div class="cssart-printer-3d">
+          <div class="cssart-printer-tray"></div>
+          <div class="cssart-printer-slot"></div>
+          <div class="cssart-paper-feeding">
+            <span class="paper-line"></span>
+            <span class="paper-line"></span>
+            <span class="paper-line"></span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="confirm-modal-title">Print Layout & Magazine Options</h3>
+      <p class="confirm-modal-desc">
+        Select your layout format and styling before generating your A4 document:
+      </p>
+
+      <!-- Option 1: Cards Per Row (3 vs 4) -->
+      <div class="print-option-section">
+        <div class="print-option-label"><span>📐</span> Cards Per Row (تنسيق الصف):</div>
+        <div class="print-choice-grid">
+          <div class="print-choice-card" id="choiceCols3" onclick="selectPrintColumns(3)">
+            <div class="choice-visual visual-3cols">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">3 Cards / Row</div>
+              <div class="choice-sub">Large & Spacious</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card active" id="choiceCols4" onclick="selectPrintColumns(4)">
+            <div class="choice-visual visual-4cols">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">4 Cards / Row ⭐</div>
+              <div class="choice-sub">Aldawaa Magazine Style</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 2: Print Theme Style -->
+      <div class="print-option-section">
+        <div class="print-option-label"><span>🎨</span> Theme & Colors (خلفيات وألوان المجلة):</div>
+        <div class="print-choice-grid">
+          <div class="print-choice-card active" id="choiceThemeMagazine" onclick="selectPrintTheme('magazine')">
+            <div class="choice-visual visual-theme-mag">
+              <span class="swatch-d"></span><span class="swatch-g"></span><span class="swatch-s"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Magazine Colors ⭐</div>
+              <div class="choice-sub">Soft Tiers, No Borders</div>
+            </div>
+          </div>
+
+          <div class="print-choice-card" id="choiceThemeWhite" onclick="selectPrintTheme('white')">
+            <div class="choice-visual visual-theme-white">
+              <span class="swatch-w"></span>
+            </div>
+            <div class="choice-text">
+              <div class="choice-title">Clean White</div>
+              <div class="choice-sub">Minimalist Black & White</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="confirm-modal-actions">
+        <button type="button" class="btn-confirm-cancel" onclick="closePrintModal()">
+          <span>✕</span> Cancel
+        </button>
+        <button type="button" class="btn-confirm-success" onclick="executePrintWithSelectedOptions()">
+          <span class="cssart-printer" style="margin-right:6px;"><span class="cssart-printer-paper"></span><span class="cssart-printer-body"></span></span>
+          <span>Start Print</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="customConfirmModal" class="custom-confirm-backdrop" style="display:none;" onclick="handleConfirmModalBackdropClick(event)">
     <div class="custom-confirm-card" role="dialog" aria-modal="true">
       <!-- 🎨 CSS Art Animated Warning Shield Emblem -->
