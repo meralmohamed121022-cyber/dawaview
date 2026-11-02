@@ -4177,10 +4177,10 @@
         box-shadow: none !important;
       }
 
-      body.has-custom-print-bg .prod-img-box img,
-      body.print-theme-custom-bg .prod-img-box img,
-      body.has-custom-print-bg .magazine-product-card img,
-      body.print-theme-custom-bg .magazine-product-card img {
+      body.has-custom-print-bg:not(.print-seamless-cards) .prod-img-box img,
+      body.print-theme-custom-bg:not(.print-seamless-cards) .prod-img-box img,
+      body.has-custom-print-bg:not(.print-seamless-cards) .magazine-product-card img,
+      body.print-theme-custom-bg:not(.print-seamless-cards) .magazine-product-card img {
         background: transparent !important;
         mix-blend-mode: normal !important;
         object-fit: contain !important;
@@ -4204,6 +4204,25 @@
       .magazine-product-card {
         position: relative !important;
         z-index: 10 !important;
+      }
+
+      /* In Seamless Cutout mode: RESET z-index so mix-blend-mode can blend with background watermark */
+      body.print-seamless-cards .activity-section-block,
+      body.print-seamless-cards .packed-magazine-row,
+      body.print-seamless-cards .cat-group-segment,
+      body.print-seamless-cards .cat-cards-subgrid,
+      body.print-seamless-cards .magazine-product-card,
+      body.print-seamless-cards .prod-img-box {
+        position: relative !important;
+        z-index: auto !important;
+        isolation: auto !important;
+      }
+      body.print-seamless-cards .section-watermark-bg {
+        z-index: 0 !important;
+      }
+      body.print-seamless-cards #printWatermarkBackdrop,
+      body.print-seamless-cards .print-watermark-backdrop {
+        z-index: 0 !important;
       }
 
       /* ============================================================ */
@@ -4284,69 +4303,235 @@
       }
 
       /* ============================================================ */
-      /* ✨ SEAMLESS CUTOUT & BORDERLESS CARDS OPTION (تفريغ الصور)   */
+      /* 💎 OPTION 1: التفريغ الكامل (FULL CUTOUT - NO CARD BORDERS) */
       /* ============================================================ */
-      body.print-seamless-cards .magazine-product-card,
-      body.print-seamless-cards .cat-cards-subgrid .magazine-product-card {
+      body.print-cutout-full .activity-section-block,
+      body.print-cutout-full .activity-section-block[data-tier],
+      body.print-cutout-full.print-theme-magazine .activity-section-block[data-tier],
+      body.print-cutout-full.print-theme-bohemian .activity-section-block[data-tier],
+      body.print-cutout-full .packed-magazine-row,
+      body.print-cutout-full .cat-group-segment,
+      body.print-cutout-full .cat-cards-subgrid {
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      body.print-cutout-full .magazine-product-card,
+      body.print-cutout-full .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-full.print-theme-magazine .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-full.print-theme-bohemian .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-full.has-custom-print-bg .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-full.print-theme-custom-bg .cat-cards-subgrid .magazine-product-card {
         background: transparent !important;
         background-color: transparent !important;
         border: none !important;
         box-shadow: none !important;
         outline: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 2px 4px 6px 4px !important;
+        height: 232px !important;
+        box-sizing: border-box !important;
       }
 
-      body.print-seamless-cards .prod-img-box {
+      body.print-cutout-full .card-top-badges-header {
+        margin-bottom: 0 !important;
+        flex: 0 0 auto !important;
+        width: 100% !important;
+      }
+
+      body.print-cutout-full .prod-img-box,
+      body.print-cutout-full.print-cols-4 .prod-img-box,
+      body.print-cutout-full:not(.print-cols-3) .prod-img-box,
+      body.print-cutout-full.print-theme-bohemian .prod-img-box,
+      body.print-cutout-full.print-theme-magazine .prod-img-box,
+      body.print-cutout-full.print-theme-blush .prod-img-box,
+      body.print-cutout-full.print-theme-mint .prod-img-box,
+      body.print-cutout-full.print-theme-gold .prod-img-box,
+      body.print-cutout-full.print-theme-white .prod-img-box,
+      body.print-cutout-full.has-custom-print-bg .prod-img-box,
+      body.print-cutout-full.print-theme-custom-bg .prod-img-box {
         background: transparent !important;
         background-color: transparent !important;
         border: none !important;
         box-shadow: none !important;
+        outline: none !important;
+        flex: 1 1 auto !important;
+        height: 155px !important;
+        min-height: 145px !important;
+        max-height: 165px !important;
+        margin: 1px 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: visible !important;
+        width: 100% !important;
       }
 
-      body.print-seamless-cards .prod-img-box img,
-      body.print-seamless-cards .magazine-product-card img {
+      body.print-cutout-full.print-cols-3 .prod-img-box {
+        height: 175px !important;
+        min-height: 165px !important;
+        max-height: 185px !important;
+      }
+
+      /* Scaled up Product Image to reach right up to header and down to footer */
+      body.print-cutout-full .prod-img-box img,
+      body.print-cutout-full .magazine-product-card img,
+      body.print-cutout-full.print-theme-bohemian .prod-img-box img,
+      body.print-cutout-full.print-theme-magazine .prod-img-box img,
+      body.print-cutout-full.print-theme-blush .prod-img-box img,
+      body.print-cutout-full.print-theme-mint .prod-img-box img,
+      body.print-cutout-full.print-theme-gold .prod-img-box img,
+      body.print-cutout-full.print-theme-white .prod-img-box img,
+      body.print-cutout-full.has-custom-print-bg .prod-img-box img,
+      body.print-cutout-full.print-theme-custom-bg .prod-img-box img {
         background: transparent !important;
         background-color: transparent !important;
         mix-blend-mode: multiply !important;
-        filter: contrast(106%) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        filter: contrast(108%) brightness(102%) !important;
         border: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        transform: scale(1.22) !important;
+        transform-origin: center center !important;
       }
 
-      body.print-seamless-cards .brand-name {
-        background: rgba(255, 255, 255, 0.88) !important;
+      body.print-cutout-full.print-cols-3 .prod-img-box img {
+        transform: scale(1.26) !important;
+      }
+
+      body.print-cutout-full .card-view-mode,
+      body.print-cutout-full .prod-info-box {
+        flex: 0 0 auto !important;
+        margin-top: 1px !important;
+        width: 100% !important;
+        text-align: center !important;
+      }
+
+      body.print-cutout-full .brand-name {
+        background: rgba(255, 255, 255, 0.90) !important;
         display: inline-block !important;
-        padding: 1px 6px !important;
+        padding: 1.5px 7px !important;
         border-radius: 4px !important;
         color: #0f172a !important;
         font-weight: 800 !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+        margin-bottom: 2px !important;
       }
 
-      body.print-seamless-cards .item-desc {
-        background: rgba(255, 255, 255, 0.88) !important;
+      body.print-cutout-full .item-desc {
+        background: rgba(255, 255, 255, 0.90) !important;
         display: inline-block !important;
-        padding: 2px 6px !important;
+        padding: 2px 7px !important;
         border-radius: 4px !important;
         color: #1e293b !important;
         font-weight: 700 !important;
-        margin-top: 2px !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        margin-top: 1px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
       }
 
-      body.print-seamless-cards .code-badge-tag,
-      body.print-seamless-cards .code-badge-left {
-        background: rgba(255, 255, 255, 0.92) !important;
+      body.print-cutout-full .code-badge-tag,
+      body.print-cutout-full .code-badge-left {
+        background: rgba(255, 255, 255, 0.94) !important;
         color: #0b132b !important;
         font-weight: 800 !important;
         border-radius: 4px !important;
-        padding: 2px 5px !important;
-        border: 1px solid rgba(0, 0, 0, 0.1) !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        padding: 2px 6px !important;
+        border: 1px solid rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
       }
 
-      body.print-seamless-cards .tier-card-badge {
+      body.print-cutout-full .tier-card-badge {
         background: rgba(255, 255, 255, 0.94) !important;
-        border: 1px solid rgba(0, 0, 0, 0.12) !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+        border: 1px solid rgba(0, 0, 0, 0.14) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+      }
+
+      /* ============================================================ */
+      /* 🏷️ OPTION 2: التفريغ البسيط (SUBTLE CUTOUT - FROSTED CARDS) */
+      /* ============================================================ */
+      body.print-cutout-subtle .activity-section-block,
+      body.print-cutout-subtle .activity-section-block[data-tier],
+      body.print-cutout-subtle.print-theme-magazine .activity-section-block[data-tier],
+      body.print-cutout-subtle.print-theme-bohemian .activity-section-block[data-tier] {
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      body.print-cutout-subtle .magazine-product-card,
+      body.print-cutout-subtle .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-subtle.print-theme-magazine .cat-cards-subgrid .magazine-product-card,
+      body.print-cutout-subtle.print-theme-bohemian .cat-cards-subgrid .magazine-product-card {
+        background: rgba(255, 255, 255, 0.88) !important;
+        border: 1.5px solid rgba(0, 35, 91, 0.22) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 4px 6px 8px 6px !important;
+        height: 232px !important;
+        box-sizing: border-box !important;
+      }
+
+      body.print-cutout-subtle .prod-img-box {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        flex: 1 1 auto !important;
+        height: 140px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      body.print-cutout-subtle .prod-img-box img,
+      body.print-cutout-subtle .magazine-product-card img {
+        background: transparent !important;
+        mix-blend-mode: multiply !important;
+        object-fit: contain !important;
+        transform: scale(1.14) !important;
+        border: none !important;
+      }
+
+      /* Stacking context reset for both modes */
+      body.print-cutout-full .activity-section-block,
+      body.print-cutout-full .packed-magazine-row,
+      body.print-cutout-full .cat-group-segment,
+      body.print-cutout-full .cat-cards-subgrid,
+      body.print-cutout-full .magazine-product-card,
+      body.print-cutout-full .prod-img-box,
+      body.print-cutout-subtle .activity-section-block,
+      body.print-cutout-subtle .packed-magazine-row,
+      body.print-cutout-subtle .cat-group-segment,
+      body.print-cutout-subtle .cat-cards-subgrid,
+      body.print-cutout-subtle .magazine-product-card,
+      body.print-cutout-subtle .prod-img-box {
+        position: relative !important;
+        z-index: auto !important;
+        isolation: auto !important;
+      }
+
+      body.print-cutout-full .section-watermark-bg,
+      body.print-cutout-subtle .section-watermark-bg {
+        z-index: 0 !important;
+      }
+      body.print-cutout-full #printWatermarkBackdrop,
+      body.print-cutout-subtle #printWatermarkBackdrop,
+      body.print-cutout-full .print-watermark-backdrop,
+      body.print-cutout-subtle .print-watermark-backdrop {
+        z-index: 0 !important;
       }
 
       /* 4. 4-COLUMNS MODE (ALDAWAA MAGAZINE STYLE) */
@@ -5566,6 +5751,27 @@
       display: grid !important;
       grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)) !important;
       gap: 9px !important;
+    }
+
+    .visual-cutout-full {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      border-radius: 6px;
+      font-size: 13pt;
+      color: #fff;
+    }
+
+    .visual-cutout-subtle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      border-radius: 6px;
+      font-size: 13pt;
+      color: #fff;
+      border: 1px dashed rgba(56, 189, 248, 0.5);
     }
 
     .visual-theme-custom {
@@ -8932,15 +9138,15 @@
     window.printThemeMode = 'bohemian';
     window.printBgScope = 'all'; // 'all', 'page1', 'section'
     window.printBgTargetSection = 'ALL';
-    window.printSeamlessCards = false;
+    window.printCutoutMode = 'full'; // 'full', 'subtle', or 'none'
     window.customSectionBackgrounds = {}; // Map of secKey -> { dataUrl: string, opacity: number, label: string }
 
-    function toggleSeamlessCardsOption() {
-      const cb = document.getElementById('toggleSeamlessCards');
-      if (cb) {
-        cb.checked = !cb.checked;
-        window.printSeamlessCards = cb.checked;
-      }
+    function selectCutoutMode(mode) {
+      window.printCutoutMode = mode;
+      const cardFull = document.getElementById('choiceCutoutFull');
+      const cardSubtle = document.getElementById('choiceCutoutSubtle');
+      if (cardFull) cardFull.classList.toggle('active', mode === 'full');
+      if (cardSubtle) cardSubtle.classList.toggle('active', mode === 'subtle');
     }
 
     // Collect all distinct Category Level A values from database & uploaded items
@@ -9084,8 +9290,7 @@
         renderSectionBgChips();
         renderPrintBgPreview();
 
-        const cb = document.getElementById('toggleSeamlessCards');
-        if (cb) cb.checked = !!window.printSeamlessCards;
+        selectCutoutMode(window.printCutoutMode || 'full');
 
         modal.style.display = 'flex';
       } else {
@@ -9198,6 +9403,9 @@
             label: label
           };
           selectPrintTheme('custom-bg', true);
+          window.printSeamlessCards = true;
+          const seamlessCb = document.getElementById('toggleSeamlessCards');
+          if (seamlessCb) seamlessCb.checked = true;
           renderSectionBgChips();
           renderPrintBgPreview();
           showToast(`📷 تم حفظ صورة خلفية مخصصة لـ (${label})`, 3000);
@@ -9307,14 +9515,19 @@
         'print-theme-gold',
         'print-theme-custom-bg',
         'has-custom-print-bg',
-        'print-seamless-cards'
+        'print-seamless-cards',
+        'print-cutout-full',
+        'print-cutout-subtle'
       );
       document.body.classList.add('print-cols-' + cols);
       document.body.classList.add('print-theme-' + theme);
 
-      // ✨ Apply Seamless Cutout if checked
-      if (window.printSeamlessCards) {
-        document.body.classList.add('print-seamless-cards');
+      // ✨ Apply selected Cutout Mode
+      const cutoutMode = window.printCutoutMode || 'full';
+      if (cutoutMode === 'full') {
+        document.body.classList.add('print-cutout-full', 'print-seamless-cards');
+      } else if (cutoutMode === 'subtle') {
+        document.body.classList.add('print-cutout-subtle');
       }
 
       // Clean up previous section watermarks
@@ -9415,6 +9628,11 @@
         });
       }
 
+      // 🎨 Run Instant Canvas Chroma-Key Cutout for true transparent PNGs
+      if (window.printSeamlessCards) {
+        await applyCanvasCutoutToProductImgs();
+      }
+
       const themeLabels = {
         'custom-bg': 'خلفية صورتك المخصصة',
         'blush': 'Aldawaa Blush Rose 🌸',
@@ -9457,8 +9675,57 @@
       }, 350);
     }
 
+    // 🎨 Client-side Canvas Chroma Key Cutout: Converts near-white pixels directly into pure Alpha transparency
+    async function applyCanvasCutoutToProductImgs() {
+      const imgs = Array.from(document.querySelectorAll('#magazineRowsContainer .prod-img-box img'));
+      for (const img of imgs) {
+        try {
+          if (!img.complete || img.naturalWidth === 0) continue;
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(img, 0, 0);
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+          let changed = false;
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i + 1], b = d[i + 2];
+            // If near white (r,g,b > 230)
+            if (r > 230 && g > 230 && b > 230) {
+              d[i + 3] = 0; // 100% transparent
+              changed = true;
+            } else if (r > 212 && g > 212 && b > 212) {
+              // Smooth feathering
+              const factor = Math.min(255 - r, 255 - g, 255 - b) / 18;
+              d[i + 3] = Math.max(0, Math.min(255, Math.round(d[i + 3] * factor)));
+              changed = true;
+            }
+          }
+          if (changed) {
+            ctx.putImageData(imgData, 0, 0);
+            if (!img.getAttribute('data-orig-src')) {
+              img.setAttribute('data-orig-src', img.src);
+            }
+            img.src = canvas.toDataURL('image/png');
+          }
+        } catch (e) {
+          // If CORS tainted, silent fallback to CSS multiply
+        }
+      }
+    }
+
+    function restoreOriginalProductImgs() {
+      const imgs = document.querySelectorAll('#magazineRowsContainer .prod-img-box img[data-orig-src]');
+      imgs.forEach(img => {
+        img.src = img.getAttribute('data-orig-src');
+        img.removeAttribute('data-orig-src');
+      });
+    }
+
     // Clean up print classes & watermarks on afterprint
     window.addEventListener('afterprint', () => {
+      restoreOriginalProductImgs();
       document.body.classList.remove(
         'print-cols-3',
         'print-cols-4',
@@ -9470,7 +9737,9 @@
         'print-theme-gold',
         'print-theme-custom-bg',
         'has-custom-print-bg',
-        'print-seamless-cards'
+        'print-seamless-cards',
+        'print-cutout-full',
+        'print-cutout-subtle'
       );
       const watermarkEl = document.getElementById('printWatermarkBackdrop');
       if (watermarkEl) watermarkEl.style.display = 'none';
@@ -10970,24 +11239,28 @@
           </div>
         </div>
 
-        <!-- Option 3: Seamless Magazine Cutout (تفريغ الصور وإزالة حدود الكروت) -->
+        <!-- Option 3: Cutout Modes (التفريغ الكامل vs التفريغ البسيط) -->
         <div class="print-option-section">
-          <div class="seamless-toggle-card" onclick="toggleSeamlessCardsOption()">
-            <div class="seamless-toggle-left">
-              <div class="seamless-icon">✨</div>
-              <div class="seamless-text-group">
-                <div class="seamless-title">
-                  تفريغ صور المنتجات وإزالة حواف الكروت
-                  <span class="seamless-badge-hot">Magazine Cutout</span>
-                </div>
-                <div class="seamless-sub">
-                  إخفاء الحواف البيضاء للصور وحواف الكارت لتندمج مع الخلفية كالمجلات العالمية
-                </div>
+          <div class="print-option-label"><span>✨</span> نمط تفريغ الكروت والصور (Cutout & Card Styling):</div>
+          <div class="print-choice-grid">
+            <div class="print-choice-card active" id="choiceCutoutFull" onclick="selectCutoutMode('full')">
+              <div class="choice-visual visual-cutout-full">
+                <span>✨</span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">التفريغ الكامل ⭐</div>
+                <div class="choice-sub">تفريغ تام للصور بدون أي حواف للكارت</div>
               </div>
             </div>
-            <div class="toggle-switch-container" onclick="event.stopPropagation()">
-              <input type="checkbox" id="toggleSeamlessCards" onchange="window.printSeamlessCards = this.checked">
-              <label for="toggleSeamlessCards" class="toggle-slider"></label>
+
+            <div class="print-choice-card" id="choiceCutoutSubtle" onclick="selectCutoutMode('subtle')">
+              <div class="choice-visual visual-cutout-subtle">
+                <span>🏷️</span>
+              </div>
+              <div class="choice-text">
+                <div class="choice-title">التفريغ البسيط</div>
+                <div class="choice-sub">حواف الكروت باينة كقواعد زجاجية والخلفية ظاهرة</div>
+              </div>
             </div>
           </div>
         </div>
