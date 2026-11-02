@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Aldawaa Master View - Individual Master Catalog & GS1 Scanner</title>
 
+  <!-- 📱 PWA & Mobile Web App Meta Tags & Custom Logo -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Aldawaa Master">
+  <meta name="application-name" content="Aldawaa Master">
+  <meta name="theme-color" content="#00235B">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+
   <!-- Google Fonts: Inter, Montserrat, Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,15 +38,26 @@
 
   <style>
     :root {
-      --bg-dark: #0a0f1d;
-      --card-dark: #131d31;
-      --primary: #00c853;
-      --primary-hover: #00e676;
-      --accent: #ffd600;
+      /* 🌟 MOTIONSITES AESTHETIC PALETTE: ORANGE, DEEP NAVY BLUE, SHINY GOLD & PURE WHITE */
+      --theme-orange: #ff6b00;
+      --theme-orange-glow: rgba(255, 107, 0, 0.35);
+      --theme-navy-deep: #030712;
+      --theme-navy-dark: #07152b;
+      --theme-navy-panel: #0d1e38;
+      --theme-gold-shiny: #f59e0b;
+      --theme-gold-bright: #fbbf24;
+      --theme-gold-glow: rgba(245, 158, 11, 0.35);
+      --theme-white: #ffffff;
+      
+      --bg-dark: #030712;
+      --card-dark: #0c182c;
+      --primary: #ff6b00;
+      --primary-hover: #f97316;
+      --accent: #fbbf24;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --font-family: 'Inter', 'Outfit', sans-serif;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --font-family: 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     * {
@@ -45,7 +67,11 @@
     }
 
     html, body {
-      background-color: var(--bg-dark);
+      background: radial-gradient(circle at 50% -10%, rgba(255, 107, 0, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 10% 25%, rgba(0, 35, 91, 0.7) 0%, transparent 60%),
+                  radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+                  #030712 !important;
+      background-attachment: fixed !important;
       color: var(--text-main);
       font-family: var(--font-family);
       min-height: 100vh;
@@ -823,14 +849,13 @@
 
     /* Card Badges Header Row (Dedicated row completely above image) */
     .card-top-badges-header {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      min-height: 24px;
-      margin-bottom: 6px;
-      z-index: 10;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      min-height: auto !important;
+      margin-bottom: 7px !important;
+      z-index: 10 !important;
     }
 
     .code-badge-tag {
@@ -2343,6 +2368,18 @@
         overflow-x: hidden !important;
       }
 
+      .activity-tier-banner {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-shadow: none !important;
+        margin-bottom: 12px !important;
+        page-break-after: avoid !important;
+        border-radius: 8px !important;
+      }
+      .activity-tier-banner[style*="display: none"] {
+        display: none !important;
+      }
+
       .magazine-print-header {
         flex-direction: column !important;
         gap: 10px !important;
@@ -2387,11 +2424,11 @@
         padding: 6px 10px !important;
       }
 
-      /* Cards Stacked Vertically on Mobile (تحت بعض) */
+      /* Default on Medium Screens (600px - 992px): 4 Cards Side-by-Side */
       .cat-cards-subgrid {
         display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 8px !important;
         width: 100% !important;
         box-sizing: border-box !important;
       }
@@ -2400,13 +2437,13 @@
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
-        min-height: 220px !important;
-        padding: 10px 8px !important;
+        min-height: 245px !important;
+        padding: 8px 6px 12px 6px !important;
         box-sizing: border-box !important;
       }
 
       .prod-img-box {
-        height: 140px !important;
+        height: 120px !important;
       }
 
       /* 📷 7. Modals on Mobile */
@@ -2468,13 +2505,1186 @@
       }
     }
 
-@media print {
+    /* ============================================================ */
+    /* 🎯 PLANOGRAM ACTIVITY TIERS & PWA SHORTCUT STYLES */
+    /* ============================================================ */
+    .btn-install-shortcut {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff !important;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-family: var(--font-ar), system-ui;
+      font-size: 8pt;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-install-shortcut:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-install-shortcut.ready-to-install {
+      animation: pulseGlowGreen 2s infinite;
+    }
+
+    @keyframes pulseGlowGreen {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+      50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    }
+
+    /* 3D Luxury Icons & CSS Art for Tiers */
+    .tier-3d-wrapper {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .tier-3d-header-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .tier-card-header:hover .tier-3d-header-img {
+      transform: scale(1.15) rotate(2deg);
+      filter: drop-shadow(0 4px 10px rgba(56, 189, 248, 0.6)) brightness(1.15);
+    }
+
+    .tier-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .tier-card-header:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .tier-card.active-parent-card .tier-card-header {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.35) 0%, rgba(14, 165, 233, 0.2) 100%) !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+
+    .tier-gold.active-parent-card .tier-card-header {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.2) 100%) !important;
+      border-color: #fbbf24 !important;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    }
+
+    .tier-silver.active-parent-card .tier-card-header {
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.35) 0%, rgba(100, 116, 139, 0.2) 100%) !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 0 12px rgba(203, 213, 225, 0.4);
+    }
+
+    .tier-out.active-parent-card .tier-card-header {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.35) 0%, rgba(185, 28, 28, 0.2) 100%) !important;
+      border-color: #f87171 !important;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .tier-all-badge {
+      font-size: 6.5pt;
+      font-weight: 800;
+      padding: 1.5px 6px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tier-card.active-parent-card .tier-all-badge {
+      background: #38bdf8;
+      color: #04101e;
+      font-weight: 900;
+    }
+    .tier-gold.active-parent-card .tier-all-badge {
+      background: #fbbf24;
+      color: #3b1d03;
+      font-weight: 900;
+    }
+    .tier-silver.active-parent-card .tier-all-badge {
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 900;
+    }
+    .tier-out.active-parent-card .tier-all-badge {
+      background: #f87171;
+      color: #450a0a;
+      font-weight: 900;
+    }
+
+    .btn-tier-show-all {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-family: var(--font-ar), system-ui;
+      font-size: 7.5pt;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(147, 197, 253, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-tier-show-all:hover {
+      background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+      transform: translateY(-1px);
+    }
+
+    /* 3D Banner Icon */
+    .tier-3d-banner-icon-container {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .tier-3d-banner-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+      animation: diamondGleam 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes diamondGleam {
+      0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 4px 10px rgba(0,0,0,0.45)) brightness(1); }
+      50% { transform: scale(1.08) rotate(2deg); filter: drop-shadow(0 6px 16px rgba(56, 189, 248, 0.8)) brightness(1.2); }
+      100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 4px 10px rgba(0,0,0,0.45)) brightness(1); }
+    }
+
+    /* ============================================================ */
+    /* 🎨 CSS ART: UPGRADE (الطالع), DOWNGRADE (النازل), OUT (الاكس) */
+    /* ============================================================ */
+    .cssart-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      position: relative;
+      vertical-align: middle;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* ⬆️ UPGRADE (الطالع): Glossy Emerald & Gold Arrow pointing UP */
+    .cssart-up {
+      background: linear-gradient(135deg, #10b981 0%, #059669 60%, #047857 100%);
+      border: 1px solid #6ee7b7;
+    }
+    .cssart-up::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 4.5px solid transparent;
+      border-right: 4.5px solid transparent;
+      border-bottom: 6.5px solid #ffffff;
+      filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.4));
+    }
+
+    /* ⬇️ DOWNGRADE (النازل): Glossy Dark Yellow / Amber Chevron pointing DOWN */
+    .cssart-down {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 60%, #b45309 100%);
+      border: 1px solid #fde68a;
+    }
+    .cssart-down::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 4.5px solid transparent;
+      border-right: 4.5px solid transparent;
+      border-top: 6.5px solid #ffffff;
+      filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.4));
+    }
+
+    /* ❌ OUT / CLOSE (الاكس): Beveled Ruby Red & Bright Orange Cross */
+    .cssart-out {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 60%, #991b1b 100%);
+      border: 1px solid #fca5a5;
+    }
+    .cssart-out::before,
+    .cssart-out::after {
+      content: '';
+      position: absolute;
+      width: 9px;
+      height: 2.2px;
+      background: #ffffff;
+      border-radius: 2px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.4);
+    }
+    .cssart-out::before {
+      transform: rotate(45deg);
+    }
+    .cssart-out::after {
+      transform: rotate(-45deg);
+    }
+
+    /* ✨ ALL / STAR: Glossy Gold Star badge */
+    .cssart-all {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      border: 1px solid #fde68a;
+    }
+    .cssart-all::after {
+      content: '★';
+      color: #ffffff;
+      font-size: 10px;
+      line-height: 1;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+    }
+
+    /* Card Badge Sizing */
+    .tier-card-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      background: rgba(11, 19, 43, 0.08) !important;
+      border: 1.5px solid #d97706 !important;
+      color: #0b132b !important;
+      border-radius: 6px !important;
+      font-size: 6.8pt !important;
+      font-weight: 800 !important;
+      padding: 2px 7px 2px 5px !important;
+      letter-spacing: 0.3px !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .tier-card-badge .cssart-badge {
+      width: 14px;
+      height: 14px;
+      border-radius: 3.5px;
+    }
+    .tier-card-badge .cssart-up::after {
+      border-left-width: 3.5px;
+      border-right-width: 3.5px;
+      border-bottom-width: 5px;
+    }
+    .tier-card-badge .cssart-down::after {
+      border-left-width: 3.5px;
+      border-right-width: 3.5px;
+      border-top-width: 5px;
+    }
+    .tier-card-badge .cssart-out::before,
+    .tier-card-badge .cssart-out::after {
+      width: 7px;
+      height: 1.8px;
+    }
+
+    /* ============================================================ */
+    /* 🌟 THEME PALETTE: ORANGE, DEEP NAVY BLUE, SHINY GOLD & WHITE */
+    /* ============================================================ */
+    .planogram-tiers-panel {
+      background: linear-gradient(145deg, #0b132b 0%, #162447 100%) !important;
+      border: 2px solid rgba(249, 115, 22, 0.45) !important;
+      box-shadow: 0 10px 30px rgba(11, 19, 43, 0.6), 0 0 25px rgba(249, 115, 22, 0.12) !important;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .tiers-title {
+      font-size: 10.5pt !important;
+      font-weight: 900 !important;
+      color: #ffffff !important;
+      letter-spacing: 0.3px;
+    }
+
+    .tiers-subtitle {
+      font-size: 8pt !important;
+      color: #fbbf24 !important; /* Shiny glossy gold subtitle */
+      margin-top: 3px !important;
+      line-height: 1.4 !important;
+    }
+
+    /* 🖨️ زر طباعة كل الأنشطة */
+    .btn-tier-print-all {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 60%, #b45309 100%);
+      border: 1.5px solid #fde68a;
+      color: #ffffff;
+      font-size: 8pt;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: var(--font-family);
+    }
+    .btn-tier-print-all:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 22px rgba(217, 119, 6, 0.7);
+    }
+
+    /* 🌐 زر عرض كل الأنشطة */
+    .btn-tier-show-all {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+      border: 1.5px solid #fb923c !important;
+      color: #ffffff !important;
+      font-size: 8pt;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);
+      transition: all 0.2s ease;
+      font-family: var(--font-family);
+    }
+    .btn-tier-show-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.55);
+    }
+
+    /* Tier Cards in Panel */
+    .tier-card {
+      background: #0d1b2a !important;
+      border-radius: 12px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+    }
+    .tier-diamond {
+      border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+    }
+    .tier-diamond.active-card {
+      border: 2px solid #38bdf8 !important;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4) !important;
+    }
+    .tier-gold {
+      border: 1.5px solid #d97706 !important;
+    }
+    .tier-gold.active-card {
+      border: 2px solid #fbbf24 !important;
+      box-shadow: 0 0 20px rgba(217, 119, 6, 0.5) !important;
+    }
+    .tier-silver {
+      border: 1.5px solid #94a3b8 !important;
+    }
+    .tier-silver.active-card {
+      border: 2px solid #e2e8f0 !important;
+      box-shadow: 0 0 20px rgba(226, 232, 240, 0.4) !important;
+    }
+    .tier-out {
+      border: 1.5px solid #ea580c !important;
+    }
+    .tier-out.active-card {
+      border: 2px solid #f97316 !important;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.45) !important;
+    }
+
+    .btn-tier-action {
+      background: #0b132b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      font-size: 7.2pt;
+      font-weight: 800;
+      padding: 5px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-tier-action:hover {
+      background: #1e293b;
+      border-color: #fbbf24;
+      color: #ffffff;
+    }
+    .btn-tier-action.active {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+      border-color: #fb923c !important;
+      color: #ffffff !important;
+      box-shadow: 0 3px 10px rgba(234, 88, 12, 0.5) !important;
+    }
+
+    /* Apply button style */
+    .btn-apply-manual {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 60%, #b45309 100%) !important;
+      color: #ffffff !important;
+      font-weight: 900 !important;
+      border: 1.5px solid #fde68a !important;
+      box-shadow: 0 4px 18px rgba(217, 119, 6, 0.45) !important;
+    }
+
+    /* Activity Section Block */
+    .activity-section-block {
+      margin-bottom: 28px;
+      width: 100%;
+    }
+
+    .tier-count-chip {
+      background: rgba(11, 19, 43, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      font-size: 7.5pt;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-right: 4px;
+    }
+
+    /* ============================================================ */
+    /* 🎬 MOTIONSITES CINEMATIC UI: LIQUID GLASS, SPOTLIGHT & AMBIENT DEPTH */
+    /* ============================================================ */
+    :root {
+      --motion-glass-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(11, 19, 43, 0.96) 100%);
+      --motion-glass-border: 1.5px solid rgba(249, 115, 22, 0.55);
+      --motion-glass-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(249, 115, 22, 0.2);
+    }
+
+    body {
+      background: radial-gradient(ellipse 90% 60% at 50% -10%, #1e293b 0%, #0b132b 50%, #030712 100%) fixed !important;
+      color: #f8fafc !important;
+    }
+
+    /* MotionSites Top Bar */
+    .top-action-bar {
+      background: rgba(11, 19, 43, 0.8) !important;
+      backdrop-filter: blur(20px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+      border-bottom: 2px solid rgba(251, 191, 36, 0.35) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* MotionSites Liquid Glass Panels */
+    .planogram-tiers-panel {
+      background: var(--motion-glass-bg) !important;
+      backdrop-filter: blur(28px) saturate(200%) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+      border: var(--motion-glass-border) !important;
+      border-radius: 18px !important;
+      padding: 18px 20px !important;
+      margin-bottom: 18px !important;
+      box-shadow: var(--motion-glass-shadow) !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient Liquid Sheen Across Panel Top */
+    .planogram-tiers-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, 0.9) 30%, rgba(251, 191, 36, 1) 70%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .tiers-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tiers-title {
+      font-size: 11.5pt !important;
+      font-weight: 900 !important;
+      color: #ffffff !important;
+      letter-spacing: 0.3px !important;
+      font-family: 'Outfit', 'Montserrat', var(--font-family) !important;
+    }
+
+    .tiers-subtitle {
+      font-size: 8.5pt !important;
+      color: #fbbf24 !important; /* Shiny glossy gold */
+      margin-top: 3px !important;
+      line-height: 1.45 !important;
+      letter-spacing: 0.2px !important;
+    }
+
+    /* MotionSites Cinematic Tier Cards */
+    .tier-card {
+      background: rgba(13, 27, 42, 0.8) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border-radius: 14px !important;
+      padding: 12px 10px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+    }
+    .tier-card:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    /* Spotlight Glows for Active Cards */
+    .tier-diamond {
+      border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+    }
+    .tier-diamond:hover, .tier-diamond.active-card {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .tier-gold {
+      border: 1.5px solid rgba(217, 119, 6, 0.5) !important;
+    }
+    .tier-gold:hover, .tier-gold.active-card {
+      border-color: #fbbf24 !important;
+      box-shadow: 0 10px 30px rgba(217, 119, 6, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .tier-silver {
+      border: 1.5px solid rgba(148, 163, 184, 0.4) !important;
+    }
+    .tier-silver:hover, .tier-silver.active-card {
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 10px 30px rgba(226, 232, 240, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .tier-out {
+      border: 1.5px solid rgba(234, 88, 12, 0.5) !important;
+    }
+    .tier-out:hover, .tier-out.active-card {
+      border-color: #f97316 !important;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    /* Single action button for OUT card */
+    .btn-tier-action-single {
+      width: 100% !important;
+      padding: 8px 12px !important;
+      font-size: 8pt !important;
+      letter-spacing: 0.5px !important;
+      font-weight: 900 !important;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.35) 100%) !important;
+      border: 1px solid rgba(239, 68, 68, 0.5) !important;
+      color: #fca5a5 !important;
+    }
+    .btn-tier-action-single:hover, .btn-tier-action-single.active {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.5) !important;
+    }
+
+    /* MotionSites Activity Tier Banners */
+    .activity-tier-banner {
+      backdrop-filter: blur(18px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+      border-radius: 14px !important;
+      padding: 12px 18px !important;
+      margin-bottom: 16px !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* 🏷️ FIXED TWO-ROW CARD HEADER FOR CLEAN MOBILE DISPLAY (NO OVERLAP EVER) */
+    .card-top-badges-header {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      margin-bottom: 8px !important;
+      z-index: 10 !important;
+    }
+
+    .card-header-top-row {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+
+    .card-header-tier-tags {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-end !important;
+      max-width: 65% !important;
+      overflow: hidden !important;
+    }
+
+    .card-header-actions-row {
+      width: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+    }
+
+    .card-header-actions-row .btn-card-gtin,
+    .card-header-actions-row .btn-card-edit {
+      flex: 1 1 50% !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 3px 6px !important;
+      font-size: 7.2pt !important;
+      font-weight: 800 !important;
+      border-radius: 6px !important;
+      height: 22px !important;
+      white-space: nowrap !important;
+    }
+
+    .tier-card-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      background: rgba(11, 19, 43, 0.08) !important;
+      border: 1.5px solid #d97706 !important;
+      color: #0b132b !important;
+      border-radius: 6px !important;
+      font-size: 6.5pt !important;
+      font-weight: 800 !important;
+      padding: 2px 6px 2px 4px !important;
+      letter-spacing: 0.2px !important;
+      white-space: nowrap !important;
+      max-width: 100% !important;
+      text-overflow: ellipsis !important;
+      overflow: hidden !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .code-badge-tag {
+      font-family: monospace !important;
+      font-size: 7.5pt !important;
+      font-weight: 900 !important;
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+      padding: 2px 6px !important;
+      border-radius: 5px !important;
+      white-space: nowrap !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+
+    /* Magazine Product Card: Cinematic White Card */
+    .magazine-product-card {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-radius: 14px !important;
+      padding: 10px 10px 12px 10px !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+      border: 1px solid rgba(226, 232, 240, 0.8) !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .magazine-product-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16) !important;
+    }
+
+    /* Planogram Tiers Panel Base */
+    .planogram-tiers-panel {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .tiers-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tiers-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tiers-icon {
+      font-size: 16pt;
+    }
+
+    .tiers-title {
+      font-size: 9.5pt;
+      font-weight: 800;
+      color: #38bdf8;
+      margin: 0;
+      font-family: var(--font-en), system-ui;
+    }
+
+    .tiers-subtitle {
+      font-size: 7.5pt;
+      color: #94a3b8;
+      margin: 2px 0 0 0;
+      font-family: var(--font-ar), system-ui;
+    }
+
+    .btn-clear-tier {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-ar), system-ui;
+    }
+
+    .btn-clear-tier:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #ffffff;
+    }
+
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 650px) {
+      .tiers-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+      }
+    }
+
+    .tier-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 8px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .tier-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .tier-badge-icon {
+      font-size: 11pt;
+    }
+
+    .tier-card-name {
+      font-size: 8pt;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      font-family: var(--font-en), system-ui;
+    }
+
+    .tier-diamond .tier-card-name { color: #38bdf8; }
+    .tier-gold .tier-card-name { color: #fbbf24; }
+    .tier-silver .tier-card-name { color: #cbd5e1; }
+    .tier-out .tier-card-name { color: #f87171; }
+
+    .tier-card.active-card {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    }
+    .tier-diamond.active-card { border-color: #38bdf8; background: rgba(2, 132, 199, 0.2); }
+    .tier-gold.active-card { border-color: #f59e0b; background: rgba(245, 158, 11, 0.2); }
+    .tier-silver.active-card { border-color: #cbd5e1; background: rgba(148, 163, 184, 0.2); }
+    .tier-out.active-card { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); }
+
+    .tier-card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .btn-tier-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 4px 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      font-family: var(--font-en), system-ui;
+    }
+
+    .btn-tier-action:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .btn-tier-action.active {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+      border-color: #38bdf8 !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.5) !important;
+    }
+
+    .tier-gold .btn-tier-action.active {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+      border-color: #fbbf24 !important;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5) !important;
+    }
+
+    .tier-silver .btn-tier-action.active {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 2px 8px rgba(100, 116, 139, 0.5) !important;
+    }
+
+    .tier-out .btn-tier-action.active {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+      border-color: #f87171 !important;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5) !important;
+    }
+
+    .tier-active-status-bar {
+      margin-top: 8px;
+      padding: 5px 8px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 8px;
+      font-size: 7.5pt;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      direction: rtl;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* 🏷️ Activity Tier Subheader Banner (Under Supervisor Header) */
+    .activity-tier-banner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      border-radius: 12px;
+      margin: 0 0 16px 0;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      animation: fadeInZoom 0.2s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tier-banner-main-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .tier-banner-badge-icon {
+      font-size: 20pt;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .tier-banner-text-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tier-banner-activity-label {
+      font-size: 6.8pt;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: 0.85;
+      font-family: var(--font-en), system-ui;
+    }
+
+    .tier-banner-name {
+      font-size: 13pt;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      font-family: var(--font-en), system-ui;
+    }
+
+    .tier-banner-action-pill {
+      font-size: 8pt;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      font-family: var(--font-en), system-ui;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    /* Tier Banner Themes */
+    .activity-tier-banner.tier-theme-diamond {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #082f49 100%) !important;
+      border: 2px solid #38bdf8 !important;
+      color: #ffffff !important;
+    }
+
+    .activity-tier-banner.tier-theme-gold {
+      background: linear-gradient(135deg, #b45309 0%, #d97706 40%, #451a03 100%) !important;
+      border: 2px solid #fbbf24 !important;
+      color: #ffffff !important;
+    }
+
+    .activity-tier-banner.tier-theme-silver {
+      background: linear-gradient(135deg, #475569 0%, #64748b 40%, #0f172a 100%) !important;
+      border: 2px solid #cbd5e1 !important;
+      color: #ffffff !important;
+    }
+
+    .activity-tier-banner.tier-theme-out {
+      background: linear-gradient(135deg, #991b1b 0%, #dc2626 40%, #450a0a 100%) !important;
+      border: 2px solid #f87171 !important;
+      color: #ffffff !important;
+    }
+
+    .tier-card-badge {
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid #0284c7;
+      color: #0284c7;
+      border-radius: 4px;
+      font-size: 6.5pt;
+      font-weight: 800;
+      padding: 1px 4px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: var(--font-en), system-ui;
+    }
+
+    /* 📱 MOBILE PHONES (< 600px): Exactly 2 Cards Side-by-Side (كارتين جنب بعض) */
+    @media screen and (max-width: 599px) {
+      .cat-cards-subgrid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .magazine-product-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 235px !important;
+        padding: 8px 6px 10px 6px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+      }
+
+      .card-top-badges-header {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+        min-height: auto !important;
+        margin-bottom: 5px !important;
+        z-index: 10 !important;
+      }
+
+      .card-header-top-row {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 2px !important;
+      }
+
+      .code-badge-tag {
+        font-size: 6.5pt !important;
+        padding: 1.5px 4px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .card-header-tier-tags {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 2px !important;
+        max-width: 62% !important;
+        overflow: hidden !important;
+      }
+
+      .tier-card-badge {
+        font-size: 6pt !important;
+        padding: 1px 4px !important;
+        gap: 2px !important;
+        max-width: 100% !important;
+        line-height: 1.1 !important;
+      }
+
+      .tier-card-badge .cssart-badge {
+        width: 10px !important;
+        height: 10px !important;
+      }
+
+      .card-header-actions-row {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+      }
+
+      .card-header-actions-row .btn-card-gtin,
+      .card-header-actions-row .btn-card-edit {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+        font-size: 6.5pt !important;
+        padding: 2px 3px !important;
+        height: 20px !important;
+      }
+
+      .prod-img-box {
+        height: 110px !important;
+        margin-bottom: 4px !important;
+      }
+
+      .brand-name {
+        font-size: 7.5pt !important;
+        line-height: 1.1 !important;
+        margin-bottom: 2px !important;
+      }
+
+      .item-desc {
+        font-size: 7pt !important;
+        line-height: 1.15 !important;
+        max-height: 2.3em !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+      }
+
+      .item-mfg {
+        font-size: 6pt !important;
+      }
+    }
+
+    /* 📱 FOLDABLE PHONES (UNFOLDED) & TABLETS (600px - 1024px): 4 Cards Side-by-Side (أربعة كروت جنب بعض) */
+    @media screen and (min-width: 600px) and (max-width: 1024px) {
+      .cat-cards-subgrid {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .magazine-product-card {
+        width: 100% !important;
+        min-height: 245px !important;
+        padding: 8px 6px 12px 6px !important;
+        box-sizing: border-box !important;
+      }
+
+      .prod-img-box {
+        height: 120px !important;
+      }
+
+      .code-badge-tag {
+        font-size: 7pt !important;
+      }
+
+      .brand-name {
+        font-size: 8pt !important;
+      }
+
+      .item-desc {
+        font-size: 7.5pt !important;
+      }
+    }
+
+    @media print {
       * {
         -webkit-transition: none !important;
         transition: none !important;
         animation: none !important;
         box-shadow: none !important;
         text-shadow: none !important;
+      }
+
+      .activity-section-block {
+        margin-bottom: 22px !important;
+        page-break-inside: auto !important;
+      }
+
+      .activity-section-block .activity-tier-banner {
+        display: flex !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        margin-top: 14px !important;
+        margin-bottom: 10px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
       body {
@@ -2564,6 +3774,12 @@
       </div>
     </div>
 
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button type="button" class="btn-install-shortcut" id="btnInstallPwaApp" onclick="triggerPwaInstallPrompt()" title="Install as Shortcut App on Mobile / Desktop">
+        <span>📲</span> Install App
+      </button>
+    </div>
+
     <div class="stats-info-box">
       <div class="stat-badge">
         <span class="val" id="totalDbBadge">0</span>
@@ -2581,6 +3797,110 @@
   <!-- ============================================================ -->
   <section class="input-section-wrapper" id="dragDropInputSection">
     <div class="input-glass-card">
+      <!-- 🎯 PLANOGRAM ACTIVITY TIER SELECTOR BOXES (WITH 3D LUXURY ICONS & PER-TIER MEMORY) -->
+      <div class="planogram-tiers-panel">
+        <div class="tiers-panel-header">
+          <div class="tiers-title-group">
+            <span class="tiers-icon">🎯</span>
+            <div>
+              <h4 class="tiers-title">Planogram Activity Tiers</h4>
+              <p class="tiers-subtitle">Select a tier (Diamond, Gold, Silver, Out) or Upgrade/Downgrade to view, organize, and print your codes:</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-tier-print-all" onclick="printAllActivities()" title="Print all populated activity tiers in sequential order">
+              🖨️ Print All Activities
+            </button>
+            <button type="button" class="btn-tier-show-all" onclick="selectActivityTier('ALL')" title="Display all populated tiers sequentially">
+              🌐 Show All Activities
+            </button>
+            <button type="button" class="btn-clear-tier" onclick="clearCurrentTierCodes()" title="Clear codes for currently active tier only">
+              🗑️ Clear Tier Codes
+            </button>
+            <button type="button" class="btn-clear-tier" onclick="selectActivityTier('NONE')" title="Unselect tier (standard unassigned view)">
+              <span class="cssart-badge cssart-out" style="width:13px;height:13px;border-radius:3px;"></span> No Tier
+            </button>
+          </div>
+        </div>
+
+        <div class="tiers-grid">
+          <!-- 1. DIAMOND (NO DOWNGRADE) -->
+          <div class="tier-card tier-diamond" id="tierCard-DIAMOND">
+            <div class="tier-card-header" onclick="selectActivityTier('DIAMOND')" title="Select DIAMOND (NEW)">
+              <div class="tier-3d-wrapper">
+                <img src="diamond_3d.png" class="tier-3d-header-img" alt="Diamond" onerror="this.outerHTML='💎'" />
+              </div>
+              <span class="tier-card-name">DIAMOND</span>
+              <span class="tier-all-badge" title="New into Diamond">NEW</span>
+            </div>
+            <div class="tier-card-actions">
+              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-DIAMOND_UPGRADE" onclick="selectActivityTier('DIAMOND UPGRADE')">
+                <span class="cssart-badge cssart-up"></span> Upgrade
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. GOLD -->
+          <div class="tier-card tier-gold" id="tierCard-GOLD">
+            <div class="tier-card-header" onclick="selectActivityTier('GOLD')" title="Select GOLD (NEW)">
+              <div class="tier-3d-wrapper">
+                <img src="gold_3d.svg" class="tier-3d-header-img" alt="Gold" onerror="this.outerHTML='🥇'" />
+              </div>
+              <span class="tier-card-name">GOLD</span>
+              <span class="tier-all-badge" title="New into Gold">NEW</span>
+            </div>
+            <div class="tier-card-actions">
+              <button type="button" class="btn-tier-action" id="btnTier-GOLD_UPGRADE" onclick="selectActivityTier('GOLD UPGRADE')">
+                <span class="cssart-badge cssart-up"></span> Upgrade
+              </button>
+              <button type="button" class="btn-tier-action" id="btnTier-GOLD_DOWNGRADE" onclick="selectActivityTier('GOLD DOWNGRADE')">
+                <span class="cssart-badge cssart-down"></span> Downgrade
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. SILVER -->
+          <div class="tier-card tier-silver" id="tierCard-SILVER">
+            <div class="tier-card-header" onclick="selectActivityTier('SILVER')" title="Select SILVER (NEW)">
+              <div class="tier-3d-wrapper">
+                <img src="silver_3d.svg" class="tier-3d-header-img" alt="Silver" onerror="this.outerHTML='🥈'" />
+              </div>
+              <span class="tier-card-name">SILVER</span>
+              <span class="tier-all-badge" title="New into Silver">NEW</span>
+            </div>
+            <div class="tier-card-actions">
+              <button type="button" class="btn-tier-action" id="btnTier-SILVER_UPGRADE" onclick="selectActivityTier('SILVER UPGRADE')">
+                <span class="cssart-badge cssart-up"></span> Upgrade
+              </button>
+              <button type="button" class="btn-tier-action" id="btnTier-SILVER_DOWNGRADE" onclick="selectActivityTier('SILVER DOWNGRADE')">
+                <span class="cssart-badge cssart-down"></span> Downgrade
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. OUT (SIMPLIFIED: NO UPGRADE / NO DOWNGRADE) -->
+          <div class="tier-card tier-out" id="tierCard-OUT" onclick="selectActivityTier('OUT')" title="Click to activate and view OUT (Out of Planogram) items">
+            <div class="tier-card-header">
+              <div class="tier-3d-wrapper">
+                <img src="out_3d.svg" class="tier-3d-header-img" alt="Out" onerror="this.outerHTML='🚪'" />
+              </div>
+              <span class="tier-card-name">OUT</span>
+              <span class="tier-all-badge" title="Out of Planogram">OUT</span>
+            </div>
+            <div class="tier-card-actions">
+              <button type="button" class="btn-tier-action btn-tier-action-single" id="btnTier-OUT" onclick="event.stopPropagation(); selectActivityTier('OUT')">
+                <span class="cssart-badge cssart-out"></span> OUT OF PLANOGRAM
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier-active-status-bar" id="tierActiveStatusBar">
+          <span class="status-dot"></span>
+          <span id="tierStatusText">Active Tier: <strong>ALL ACTIVITIES (Sequential Display & Print)</strong></span>
+        </div>
+      </div>
+
       <div class="input-tabs-header">
         <button class="tab-btn active" onclick="switchInputTab('file')" id="tabBtnFile">
           <span>📁</span> Upload File (PDF / Excel / CSV / JSON / Text)
@@ -2846,6 +4166,23 @@
       <a href="https://monosystem.vercel.app/" target="_blank" class="website-link-badge">
         MONOSYSTEM.VERCEL.APP
       </a>
+    </div>
+
+    <!-- 🎯 PLANOGRAM ACTIVITY TIER SUBHEADER BANNER (Appears in View & Print with 3D Luxury Icons) -->
+    <div class="activity-tier-banner" id="activityTierBanner" style="display: none;">
+      <div class="tier-banner-decor-left"></div>
+      <div class="tier-banner-main-content">
+        <div class="tier-3d-banner-icon-container" id="tierBannerIconContainer">
+          <img id="tierBanner3dImg" class="tier-3d-banner-img" src="diamond_3d.png" alt="Activity Icon" onerror="this.style.display='none'; document.getElementById('tierBannerIconFallback').style.display='inline';" />
+          <span class="tier-banner-badge-icon" id="tierBannerIconFallback" style="display: none;">💎</span>
+        </div>
+        <div class="tier-banner-text-box">
+          <div class="tier-banner-activity-label">PLANOGRAM ACTIVITY</div>
+          <div class="tier-banner-name" id="tierBannerName">DIAMOND UPGRADE</div>
+        </div>
+        <span class="tier-banner-action-pill" id="tierBannerActionPill">UPGRADE ⬆️</span>
+      </div>
+      <div class="tier-banner-decor-right"></div>
     </div>
 
     <!-- Empty State Box -->
@@ -4155,7 +5492,328 @@
       refreshCatalogDisplay(true); // true = sync dynamic checklists
     }
 
+    
+    // ============================================================
+    // 🎨 ACTIVITY SECTION BANNER & PACKED ROWS RENDERERS
+    // ============================================================
+    const ACTIVITY_TIERS_DISPLAY_ORDER = [
+      { key: 'DIAMOND', label: 'DIAMOND (NEW)', icon: 'diamond_3d.png', theme: 'diamond', type: 'NEW' },
+      { key: 'DIAMOND UPGRADE', label: 'DIAMOND UPGRADE', icon: 'diamond_3d.png', theme: 'diamond', type: 'UPGRADE' },
+      { key: 'GOLD', label: 'GOLD (NEW)', icon: 'gold_3d.svg', theme: 'gold', type: 'NEW' },
+      { key: 'GOLD UPGRADE', label: 'GOLD UPGRADE', icon: 'gold_3d.svg', theme: 'gold', type: 'UPGRADE' },
+      { key: 'GOLD DOWNGRADE', label: 'GOLD DOWNGRADE', icon: 'gold_3d.svg', theme: 'gold', type: 'DOWNGRADE' },
+      { key: 'SILVER', label: 'SILVER (NEW)', icon: 'silver_3d.svg', theme: 'silver', type: 'NEW' },
+      { key: 'SILVER UPGRADE', label: 'SILVER UPGRADE', icon: 'silver_3d.svg', theme: 'silver', type: 'UPGRADE' },
+      { key: 'SILVER DOWNGRADE', label: 'SILVER DOWNGRADE', icon: 'silver_3d.svg', theme: 'silver', type: 'DOWNGRADE' },
+      { key: 'OUT', label: 'OUT OF PLANOGRAM', icon: 'out_3d.svg', theme: 'out', type: 'OUT' },
+      { key: 'OUT OF PLANOGRAM', label: 'OUT OF PLANOGRAM', icon: 'out_3d.svg', theme: 'out', type: 'OUT' }
+    ];
+
+    function buildActivitySectionBannerHTML(tierDef, itemsCount) {
+      let actionText = "ACTIVITY";
+      let artClass = "cssart-up";
+      if (tierDef.type === 'UPGRADE') {
+        actionText = "UPGRADE ⬆";
+        artClass = "cssart-up";
+      } else if (tierDef.type === 'DOWNGRADE') {
+        actionText = "DOWNGRADE ⬇";
+        artClass = "cssart-down";
+      } else if (tierDef.type === 'NEW' || tierDef.type === 'FROM_OUT') {
+        actionText = "NEW ✨";
+        artClass = "cssart-all";
+      } else if (tierDef.type === 'OUT') {
+        actionText = "OUT ❌";
+        artClass = "cssart-out";
+      } else {
+        actionText = "ACTIVITY";
+        artClass = "cssart-all";
+      }
+
+      return `
+        <div class="activity-tier-banner tier-theme-${tierDef.theme}">
+          <div class="tier-banner-decor-left"></div>
+          <div class="tier-banner-main-content">
+            <div class="tier-3d-banner-icon-container">
+              <img class="tier-3d-banner-img" src="${tierDef.icon}" alt="${tierDef.label}" onerror="this.outerHTML='✨'" />
+            </div>
+            <div class="tier-banner-text-group">
+              <span class="tier-banner-pretitle">PLANOGRAM ACTIVITY</span>
+              <h3 class="tier-banner-title">${tierDef.label}</h3>
+            </div>
+            <div class="tier-banner-action-pill">
+              <span class="cssart-badge ${artClass}"></span>
+              <span>${actionText}</span>
+              <span class="tier-count-chip">${itemsCount} Items</span>
+            </div>
+          </div>
+          <div class="tier-banner-decor-right"></div>
+        </div>
+      `;
+    }
+
+    function renderSingleProductCardHTML(p) {
+      let imgSrc = p.image_url;
+      if (!imgSrc || imgSrc === 'No Image' || imgSrc === '1') {
+        if (window.repairedImages && window.repairedImages[p.Code] && window.repairedImages[p.Code] !== 'FAILED') {
+          imgSrc = window.repairedImages[p.Code];
+        } else if (window.repairedImages && window.repairedImages[p.Code] === 'FAILED') {
+          imgSrc = getBrandPlaceholderSVG(p.Brand);
+        } else if (/^\d{5,7}$/.test(p.Code)) {
+          imgSrc = `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
+        } else {
+          imgSrc = getBrandPlaceholderSVG(p.Brand);
+        }
+      }
+      const isOwnB = isProductOwnBrand(p);
+      const ownBadge = isOwnB ? `<span class="own-brand-tag">⭐ Own Brand</span>` : '';
+      
+      const pTier = (window.productTierMap && window.productTierMap.get(p.Code)) || p.activityTier || (window.selectedActivityTier || "");
+      let tierBadge = '';
+      if (pTier) {
+        let artClass = 'cssart-up';
+        let displayLabel = pTier;
+
+        if (pTier.includes('DOWNGRADE')) {
+          artClass = 'cssart-down';
+        } else if (pTier.includes('PLANOGRAM') || pTier === 'OUT') {
+          artClass = 'cssart-out';
+          displayLabel = 'OUT OF PLANOGRAM';
+        } else if (pTier === 'DIAMOND' || pTier === 'GOLD' || pTier === 'SILVER') {
+          artClass = 'cssart-all';
+          displayLabel = pTier + ' (NEW)';
+        } else if (!pTier.includes('UPGRADE')) {
+          artClass = 'cssart-all';
+          displayLabel = pTier + ' (NEW)';
+        }
+
+        tierBadge = `<span class="tier-card-badge" title="Activity: ${displayLabel}"><span class="cssart-badge ${artClass}"></span> ${displayLabel}</span>`;
+      }
+
+      const mfgLine = p.Manufacture ? `<div class="item-mfg" title="Manufacture: ${p.Manufacture}">🏭 ${p.Manufacture}</div>` : '';
+
+      const isCustom = window.customLocalProductsMap && window.customLocalProductsMap.has(p.Code);
+      const isMissingFromMaster = !window.masterProductsMap.has(p.Code);
+      const editBtnClass = (isMissingFromMaster || isCustom) ? 'btn-card-edit highlight-edit' : 'btn-card-edit';
+      const editBtnTitle = isCustom ? 'Custom Data Saved Locally (Click to Edit)' : (isMissingFromMaster ? 'New Item - Click to Add Name, Brand & Image' : 'Edit / Customize Details');
+      const customIndicator = isCustom ? `<span class="custom-local-tag" title="Saved Locally">💾 Custom</span>` : '';
+
+      const isPlaceholderImg = !imgSrc || imgSrc.startsWith('data:image/svg+xml') || imgSrc === 'No Image' || imgSrc === '1' || imgSrc.includes('data:image/svg');
+
+      return `
+        <div class="magazine-product-card" id="card-${p.Code}" data-code="${p.Code}">
+          <!-- 🏷️ Clean Two-Row Top Header: Row 1 = Code & Tier Badge; Row 2 = GTIN & Edit Buttons -->
+          <div class="card-top-badges-header">
+            <div class="card-header-top-row">
+              <span class="code-badge-tag">CODE: ${p.Code}</span>
+              <div class="card-header-tier-tags">
+                ${tierBadge}
+                ${customIndicator}
+                ${ownBadge}
+              </div>
+            </div>
+            <div class="card-header-actions-row">
+              <button type="button" class="btn-card-gtin" onclick="event.stopPropagation(); openGtinModal('${p.Code}')" title="View GTIN & Barcode">
+                <span>📊</span> GTIN
+              </button>
+              <button type="button" class="${editBtnClass}" onclick="event.stopPropagation(); toggleCardInlineEdit('${p.Code}')" title="${editBtnTitle}">
+                <span>✏️</span> ${isCustom ? 'Custom' : 'Edit'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Pure White Seamless Image with Interactive Zoom Lightbox & Quick Direct Upload -->
+          <div class="prod-img-box ${isPlaceholderImg ? 'is-missing' : 'has-image'}" 
+               id="imgBox-${p.Code}"
+               ondragover="handleCardDragOver(event)" 
+               ondragleave="handleCardDragLeave(event)" 
+               ondrop="handleCardDropImage(event, '${p.Code}')"
+               onclick="openImageZoomModal(document.getElementById('cardImg-${p.Code}') ? document.getElementById('cardImg-${p.Code}').src : '${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" 
+               title="Click to zoom image (or drag & drop photo here)">
+            <img id="cardImg-${p.Code}"
+                 src="${imgSrc}"
+                 data-code="${p.Code}"
+                 data-brand="${escapeAttr(p.Brand || 'GENERIC')}"
+                 alt="${p.Code}"
+                 onerror="handleProductImageError('${p.Code}', this, '${escapeAttr(p.Brand || 'GENERIC')}')"
+                 loading="lazy" />
+            <div class="zoom-hover-hint">🔍 Zoom</div>
+
+            <!-- Quick In-Card Direct Upload / Link Overlay -->
+            <div class="card-img-quick-tools" onclick="event.stopPropagation()">
+              <label class="btn-card-quick-upload" title="Upload image directly from your device">
+                <span>📷</span> ${isPlaceholderImg ? 'Upload' : 'Change'}
+                <input type="file" accept="image/*" style="display:none;" onchange="handleCardDirectFileUpload('${p.Code}', this)" />
+              </label>
+              <button type="button" class="btn-card-quick-url" onclick="handleCardPromptImageUrl('${p.Code}')" title="Paste direct image URL">
+                <span>🔗</span> URL
+              </button>
+            </div>
+          </div>
+
+          <!-- Normal Card View Mode -->
+          <div class="card-view-mode" id="cardView-${p.Code}" style="width: 100%;">
+            <div class="prod-info-box">
+              <div class="brand-name" onclick="toggleCardInlineEdit('${p.Code}')" title="Click to edit Brand">${p.Brand || 'GENERIC'}</div>
+              <div class="item-desc" onclick="toggleCardInlineEdit('${p.Code}')" title="Click to edit Item Description">${p["Item Description"] || ''}</div>
+              ${mfgLine}
+            </div>
+            ${isMissingFromMaster ? `
+              <div class="card-missing-prompt" onclick="toggleCardInlineEdit('${p.Code}')" title="Click to edit Name, Brand & Image">
+                <span>✏️ New Item - Click to Add Details</span>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Direct In-Card Inline Editor Mode -->
+          <div class="card-edit-mode" id="cardEdit-${p.Code}" style="display: none;" onclick="event.stopPropagation()">
+            <div class="card-edit-header">
+              <span>✏️ Edit Item Details</span>
+              <span style="font-family: monospace; font-size: 7.5pt; color: #0284c7;">#${p.Code}</span>
+            </div>
+
+            <div class="card-edit-field">
+              <label>Item Description:</label>
+              <input type="text" id="inlineDesc-${p.Code}" class="card-inline-input" value="${escapeAttr(p['Item Description'] || '')}" placeholder="Item name (e.g. AERIUS 5MG 27TAB)..." />
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+              <div class="card-edit-field">
+                <label>Brand:</label>
+                <input type="text" id="inlineBrand-${p.Code}" class="card-inline-input" value="${escapeAttr((p.Brand && p.Brand !== 'GENERIC') ? p.Brand : '')}" placeholder="Brand name..." style="text-transform: uppercase;" />
+              </div>
+              <div class="card-edit-field">
+                <label>Category:</label>
+                <input type="text" id="inlineCat-${p.Code}" list="categoryDatalist" class="card-inline-input" value="${escapeAttr(p['Category Level C'] || p['Category Level D'] || '')}" placeholder="Category..." style="text-transform: uppercase;" />
+              </div>
+            </div>
+
+            <div class="card-edit-actions">
+              <button type="button" class="btn-card-save" onclick="saveCardInlineEdit('${p.Code}')">
+                💾 Save Item
+              </button>
+              <button type="button" class="btn-card-cancel" onclick="toggleCardInlineEdit('${p.Code}')">
+                ✕ Cancel
+              </button>
+            </div>
+
+            <div class="card-edit-extra-links">
+              <a href="javascript:void(0)" onclick="openProductEditModal('${p.Code}')">⚙️ Advanced (Price / Barcode)</a>
+              ${isCustom ? `<a href="javascript:void(0)" onclick="deleteCustomProductFromCard('${p.Code}')" style="color: #ef4444;">🗑️ Reset to Default</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderItemsAsPackedMagazineRows(productsList) {
+      if (!productsList || productsList.length === 0) return '';
+
+      // Sort by Category C/D, then Brand
+      const sorted = [...productsList].sort((a, b) => {
+        const catA = (a["Category Level C"] || a["Category Level D"] || a["Category Level B"] || "").toUpperCase();
+        const catB = (b["Category Level C"] || b["Category Level D"] || b["Category Level B"] || "").toUpperCase();
+        if (catA !== catB) return catA.localeCompare(catB);
+        return (a.Brand || "").localeCompare(b.Brand || "");
+      });
+
+      const categoryQueues = [];
+      let currentQueue = null;
+
+      sorted.forEach(prod => {
+        const catName = prod["Category Level C"] || prod["Category Level D"] || prod["Category Level B"] || "GENERAL PRODUCTS";
+        if (!currentQueue || currentQueue.category !== catName) {
+          currentQueue = { category: catName, items: [] };
+          categoryQueues.push(currentQueue);
+        }
+        currentQueue.items.push(prod);
+      });
+
+      const packedRows = [];
+      let currentRow = [];
+      let slotsInCurrentRow = 3;
+
+      for (let q = 0; q < categoryQueues.length; q++) {
+        const catObj = categoryQueues[q];
+        while (catObj.items.length > 0) {
+          const takeCount = Math.min(catObj.items.length, slotsInCurrentRow);
+          const takenItems = catObj.items.splice(0, takeCount);
+
+          currentRow.push({
+            category: catObj.category,
+            items: takenItems
+          });
+
+          slotsInCurrentRow -= takeCount;
+
+          if (slotsInCurrentRow === 0) {
+            packedRows.push(currentRow);
+            currentRow = [];
+            slotsInCurrentRow = 3;
+          }
+        }
+      }
+
+      if (currentRow.length > 0) {
+        packedRows.push(currentRow);
+      }
+
+      let html = '';
+      packedRows.forEach(rowSegments => {
+        html += `<div class="packed-magazine-row">`;
+
+        rowSegments.forEach(seg => {
+          const catCount = seg.items.length;
+          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
+          const catColor = getCategoryColor(seg.category);
+
+          html += `
+            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
+              <div class="cat-segment-banner" style="background: ${catColor};">
+                ${seg.category}
+              </div>
+
+              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
+          `;
+
+          seg.items.forEach(p => {
+            html += renderSingleProductCardHTML(p);
+          });
+
+          html += `
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+      });
+
+      return html;
+    }
+
+    // 🖨️ طباعة جميع الأنشطة المحددة بالترتيب المطلوب مع تجاهل الأنشطة الفارغة
+    function printAllActivities() {
+      // ⚡ Crucial: Auto-sync all typed/pasted codes from ALL tiers before printing!
+      syncAllTierCodesFromStore();
+
+      window.selectedActivityTier = 'ALL';
+      setSourceMode('uploaded');
+      updateTierSelectorUI();
+      
+      window.isPrintingAll = true;
+      refreshCatalogDisplay(true);
+      window.isPrintingAll = false;
+
+      showToast("⏳ Preparing and printing all activity tiers...");
+      setTimeout(() => {
+        window.print();
+      }, 400);
+    }
+
     function refreshCatalogDisplay(shouldSyncChecklists = false) {
+      // ⚡ Auto-sync all tier codes from memory & textarea
+      syncAllTierCodesFromStore();
+
       const container = document.getElementById('magazineRowsContainer');
       const placeholder = document.getElementById('emptyStatePlaceholder');
       const totalLoadedBadge = document.getElementById('totalLoadedBadge');
@@ -4169,8 +5827,27 @@
       // Source items pool selection
       let sourceProducts = [];
       if (window.displayMode === 'uploaded' && window.accumulatedProductCodes.size > 0) {
-        if (totalLoadedBadge) totalLoadedBadge.innerText = `${window.accumulatedProductCodes.size} (Uploaded)`;
-        sourceProducts = Array.from(window.accumulatedProductCodes).map(code => resolveProductRecord(code)).filter(Boolean);
+        let codesPool = Array.from(window.accumulatedProductCodes);
+
+        // 🎯 Filter by selected activity tier if a specific tier is active!
+        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
+          const selected = window.selectedActivityTier.toUpperCase();
+          codesPool = codesPool.filter(code => {
+            const itemTier = (window.productTierMap.get(code) || resolveProductRecord(code)?.activityTier || '').toUpperCase();
+            if (!itemTier) return false;
+            // Specific tier matching: clicking DIAMOND matches only DIAMOND (NEW)!
+            if (selected === 'OUT' || selected === 'OUT OF PLANOGRAM') {
+              return itemTier === 'OUT' || itemTier === 'OUT OF PLANOGRAM';
+            }
+            return itemTier === selected;
+          });
+        }
+
+        if (totalLoadedBadge) {
+          const tierTag = (window.selectedActivityTier && window.selectedActivityTier !== 'ALL') ? ` (${window.selectedActivityTier})` : ' (Uploaded)';
+          totalLoadedBadge.innerText = `${codesPool.length}${tierTag}`;
+        }
+        sourceProducts = codesPool.map(code => resolveProductRecord(code)).filter(Boolean);
       } else {
         if (totalLoadedBadge) totalLoadedBadge.innerText = window.masterProductsDB.length.toLocaleString();
         sourceProducts = window.masterProductsDB;
@@ -4178,7 +5855,13 @@
 
       if (!sourceProducts || sourceProducts.length === 0) {
         placeholder.style.display = 'block';
-        placeholder.querySelector('h3').innerText = 'Database is loading, please wait a few seconds...';
+        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
+          placeholder.querySelector('h3').innerText = `No products found for activity: (${window.selectedActivityTier})`;
+          placeholder.querySelector('p').innerText = 'Type or paste item codes in the box above to add them to this tier.';
+        } else {
+          placeholder.querySelector('h3').innerText = 'No Products Displayed';
+          placeholder.querySelector('p').innerText = 'Use the search bar, filter by category/brand, upload a file, or enter codes manually.';
+        }
         container.innerHTML = '';
         if (activeVisibleCount) activeVisibleCount.innerText = '0';
         return;
@@ -4270,225 +5953,80 @@
       }
 
       placeholder.style.display = 'none';
+      updateMagazineTierBanner(activeProducts);
 
-      // Sort by Category C/D, then Brand
-      activeProducts.sort((a, b) => {
-        const catA = (a["Category Level C"] || a["Category Level D"] || a["Category Level B"] || "").toUpperCase();
-        const catB = (b["Category Level C"] || b["Category Level D"] || b["Category Level B"] || "").toUpperCase();
-        if (catA !== catB) return catA.localeCompare(catB);
-        return (a.Brand || "").localeCompare(b.Brand || "");
-      });
+      // 🎯 GROUP AND RENDER BY PLANOGRAM TIERS (ONLY TIERS WITH CODES ARE DISPLAYED)
+      const topStaticBanner = document.getElementById('activityTierBanner');
+      if (topStaticBanner) topStaticBanner.style.display = 'none';
 
-      const itemsToRender = activeProducts.slice(0, window.renderLimit);
-
-      // Pack rows with 3 cards per row exactly
-      const categoryQueues = [];
-      let currentQueue = null;
-
-      itemsToRender.forEach(prod => {
-        const catName = prod["Category Level C"] || prod["Category Level D"] || prod["Category Level B"] || "GENERAL PRODUCTS";
-        if (!currentQueue || currentQueue.category !== catName) {
-          currentQueue = { category: catName, items: [] };
-          categoryQueues.push(currentQueue);
-        }
-        currentQueue.items.push(prod);
-      });
-
-      const packedRows = [];
-      let currentRow = [];
-      let slotsInCurrentRow = 3;
-
-      for (let q = 0; q < categoryQueues.length; q++) {
-        const catObj = categoryQueues[q];
-        while (catObj.items.length > 0) {
-          const takeCount = Math.min(catObj.items.length, slotsInCurrentRow);
-          const takenItems = catObj.items.splice(0, takeCount);
-
-          currentRow.push({
-            category: catObj.category,
-            items: takenItems
-          });
-
-          slotsInCurrentRow -= takeCount;
-
-          if (slotsInCurrentRow === 0) {
-            packedRows.push(currentRow);
-            currentRow = [];
-            slotsInCurrentRow = 3;
-          }
-        }
-      }
-
-      if (currentRow.length > 0) {
-        packedRows.push(currentRow);
-      }
-
-      // Build HTML for rows and cards
       let fullRowsHTML = '';
+      const handledCodes = new Set();
+      let displayedSectionsCount = 0;
 
-      packedRows.forEach(rowSegments => {
-        fullRowsHTML += `<div class="packed-magazine-row">`;
+      for (const tierDef of ACTIVITY_TIERS_DISPLAY_ORDER) {
+        // If user chose a specific tier or parent tier:
+        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
+          const selUpper = window.selectedActivityTier.toUpperCase();
+          const isOutMatch = (selUpper === 'OUT' || selUpper === 'OUT OF PLANOGRAM') && (tierDef.key === 'OUT' || tierDef.key === 'OUT OF PLANOGRAM');
+          const isExactMatch = tierDef.key === selUpper;
+          if (!isOutMatch && !isExactMatch) continue;
+        }
 
-        rowSegments.forEach(seg => {
-          const catCount = seg.items.length;
-          const flexBasisPercent = ((catCount / 3) * 100).toFixed(2);
-          const catColor = getCategoryColor(seg.category);
-
-          fullRowsHTML += `
-            <div class="cat-group-segment" style="flex: 0 0 calc(${flexBasisPercent}% - 10px);">
-              <div class="cat-segment-banner" style="background: ${catColor};">
-                ${seg.category}
-              </div>
-
-              <div class="cat-cards-subgrid" style="grid-template-columns: repeat(${catCount}, 1fr);">
-          `;
-
-          seg.items.forEach(p => {
-            let imgSrc = p.image_url;
-            if (!imgSrc || imgSrc === 'No Image' || imgSrc === '1') {
-              if (window.repairedImages && window.repairedImages[p.Code] && window.repairedImages[p.Code] !== 'FAILED') {
-                imgSrc = window.repairedImages[p.Code];
-              } else if (window.repairedImages && window.repairedImages[p.Code] === 'FAILED') {
-                imgSrc = getBrandPlaceholderSVG(p.Brand);
-              } else if (/^\d{5,7}$/.test(p.Code)) {
-                imgSrc = `https://cdn.aldawaa.com/media/catalog/product/${p.Code[0]}/${p.Code[1]}/${p.Code}.jpg`;
-              } else {
-                imgSrc = getBrandPlaceholderSVG(p.Brand);
-              }
-            }
-            const isOwnB = isProductOwnBrand(p);
-            const ownBadge = isOwnB ? `<span class="own-brand-tag">⭐ Own Brand</span>` : '<span style="flex:1;"></span>';
-            const mfgLine = p.Manufacture ? `<div class="item-mfg" title="Manufacture: ${p.Manufacture}">🏭 ${p.Manufacture}</div>` : '';
-
-            const isCustom = window.customLocalProductsMap && window.customLocalProductsMap.has(p.Code);
-            const isMissingFromMaster = !window.masterProductsMap.has(p.Code);
-            const editBtnClass = (isMissingFromMaster || isCustom) ? 'btn-card-edit highlight-edit' : 'btn-card-edit';
-            const editBtnTitle = isCustom ? 'Custom Data Saved Locally (Click to Edit)' : (isMissingFromMaster ? 'New Item - Click to Add Name, Brand & Image' : 'Edit / Customize Details');
-            const customIndicator = isCustom ? `<span class="custom-local-tag" title="Saved Locally">💾 Custom</span>` : '';
-
-            const isPlaceholderImg = !imgSrc || imgSrc.startsWith('data:image/svg+xml') || imgSrc === 'No Image' || imgSrc === '1' || imgSrc.includes('data:image/svg');
-
-            fullRowsHTML += `
-              <div class="magazine-product-card" id="card-${p.Code}" data-code="${p.Code}">
-                <!-- Dedicated Badges Row (Non-overlapping with GTIN Button) -->
-                <div class="card-top-badges-header">
-                  <div class="code-badge-group">
-                    <span class="code-badge-tag">CODE: ${p.Code}</span>
-                    <button type="button" class="btn-card-gtin" onclick="event.stopPropagation(); openGtinModal('${p.Code}')" title="View GTIN & Scannable Barcode">
-                      <span>📊</span> GTIN
-                    </button>
-                    <button type="button" class="${editBtnClass}" onclick="event.stopPropagation(); toggleCardInlineEdit('${p.Code}')" title="${editBtnTitle}">
-                      <span>✏️</span> ${isCustom ? 'Custom' : 'Edit'}
-                    </button>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:6px;">
-                    ${customIndicator}
-                    ${ownBadge}
-                  </div>
-                </div>
-
-                <!-- Pure White Seamless Image with Interactive Zoom Lightbox & Quick Direct Upload -->
-                <div class="prod-img-box ${isPlaceholderImg ? 'is-missing' : 'has-image'}" 
-                     id="imgBox-${p.Code}"
-                     ondragover="handleCardDragOver(event)" 
-                     ondragleave="handleCardDragLeave(event)" 
-                     ondrop="handleCardDropImage(event, '${p.Code}')"
-                     onclick="openImageZoomModal(document.getElementById('cardImg-${p.Code}') ? document.getElementById('cardImg-${p.Code}').src : '${imgSrc}', '${p.Code}', '${escapeAttr(p.Brand || '')}', '${escapeAttr(p['Item Description'] || '')}')" 
-                     title="Click to zoom image (or drag & drop photo here)">
-                  <img id="cardImg-${p.Code}"
-                       src="${imgSrc}"
-                       data-code="${p.Code}"
-                       data-brand="${escapeAttr(p.Brand || 'GENERIC')}"
-                       alt="${p.Code}"
-                       onerror="handleProductImageError('${p.Code}', this, '${escapeAttr(p.Brand || 'GENERIC')}')"
-                       loading="lazy" />
-                  <div class="zoom-hover-hint">🔍 Zoom</div>
-
-                  <!-- Quick In-Card Direct Upload / Link Overlay -->
-                  <div class="card-img-quick-tools" onclick="event.stopPropagation()">
-                    <label class="btn-card-quick-upload" title="اختر صورة مباشرة من جهازك أو هاتفك">
-                      <span>📷</span> ${isPlaceholderImg ? 'رفع صورة' : 'تغيير صورة'}
-                      <input type="file" accept="image/*" style="display:none;" onchange="handleCardDirectFileUpload('${p.Code}', this)" />
-                    </label>
-                    <button type="button" class="btn-card-quick-url" onclick="handleCardPromptImageUrl('${p.Code}')" title="أو الصق رابط صورة مباشر">
-                      <span>🔗</span> رابط
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Normal Card View Mode -->
-                <div class="card-view-mode" id="cardView-${p.Code}" style="width: 100%;">
-                  <div class="prod-info-box">
-                    <div class="brand-name" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل البراند">${p.Brand || 'GENERIC'}</div>
-                    <div class="item-desc" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل اسم الصنف">${p["Item Description"] || ''}</div>
-                    ${mfgLine}
-                  </div>
-                  ${isMissingFromMaster ? `
-                    <div class="card-missing-prompt" onclick="toggleCardInlineEdit('${p.Code}')" title="اضغط لتعديل الاسم والبراند والصورة">
-                      <span>✏️ صنف غير مسجل - اضغط لتعبئة البيانات</span>
-                    </div>
-                  ` : ''}
-                </div>
-
-                <!-- Direct In-Card Inline Editor Mode -->
-                <div class="card-edit-mode" id="cardEdit-${p.Code}" style="display: none;" onclick="event.stopPropagation()">
-                  <div class="card-edit-header">
-                    <span>✏️ تعديل بيانات الكارت</span>
-                    <span style="font-family: monospace; font-size: 7.5pt; color: #0284c7;">#${p.Code}</span>
-                  </div>
-
-                  <div class="card-edit-field">
-                    <label>اسم الصنف (Description):</label>
-                    <input type="text" id="inlineDesc-${p.Code}" class="card-inline-input" value="${escapeAttr(p['Item Description'] || '')}" placeholder="اسم الصنف (مثل AERIUS 5MG 27TAB)..." />
-                  </div>
-
-                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-                    <div class="card-edit-field">
-                      <label>البراند (Brand):</label>
-                      <input type="text" id="inlineBrand-${p.Code}" class="card-inline-input" value="${escapeAttr((p.Brand && p.Brand !== 'GENERIC') ? p.Brand : '')}" placeholder="البراند..." style="text-transform: uppercase;" />
-                    </div>
-                    <div class="card-edit-field">
-                      <label>القسم (Category):</label>
-                      <input type="text" id="inlineCat-${p.Code}" list="categoryDatalist" class="card-inline-input" value="${escapeAttr(p['Category Level C'] || p['Category Level D'] || '')}" placeholder="القسم..." style="text-transform: uppercase;" />
-                    </div>
-                  </div>
-
-                  <div class="card-edit-actions">
-                    <button type="button" class="btn-card-save" onclick="saveCardInlineEdit('${p.Code}')">
-                      💾 حفظ الكارت
-                    </button>
-                    <button type="button" class="btn-card-cancel" onclick="toggleCardInlineEdit('${p.Code}')">
-                      ✕ إلغاء
-                    </button>
-                  </div>
-
-                  <div class="card-edit-extra-links">
-                    <a href="javascript:void(0)" onclick="openProductEditModal('${p.Code}')">⚙️ نافذة متقدمة (سعر / باركود)</a>
-                    ${isCustom ? `<a href="javascript:void(0)" onclick="deleteCustomProductFromCard('${p.Code}')" style="color: #ef4444;">🗑️ استعادة الافتراضي</a>` : ''}
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-
-          fullRowsHTML += `
-              </div>
-            </div>
-          `;
+        const tierItems = activeProducts.filter(p => {
+          const pTier = ((window.productTierMap && window.productTierMap.get(p.Code)) || p.activityTier || '').toUpperCase();
+          return pTier === tierDef.key;
         });
 
-        fullRowsHTML += `</div>`;
-      });
+        // 🎯 CRITICAL USER RULE: لو حاجة فيهم منضافش ليها أكواد متتعرضتش أبداً!
+        if (tierItems.length === 0) continue;
 
-      if (totalMatchingCount > window.renderLimit) {
-        const remaining = totalMatchingCount - window.renderLimit;
+        tierItems.forEach(p => handledCodes.add(p.Code));
+        displayedSectionsCount++;
+
         fullRowsHTML += `
-          <div style="display: flex; justify-content: center; align-items: center; margin: 30px 0; width: 100%;">
-            <button type="button" class="btn-fast-print" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); font-size: 11pt; padding: 12px 28px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);" onclick="loadMoreCatalogItems()">
-              📥 Load More (+150 Items) - ${remaining.toLocaleString()} Remaining
-            </button>
+          <div class="activity-section-block" data-tier="${tierDef.key}">
+            ${buildActivitySectionBannerHTML(tierDef, tierItems.length)}
+            ${renderItemsAsPackedMagazineRows(tierItems)}
           </div>
         `;
+      }
+
+      // Check remaining items (unassigned items or Master DB items when in ALL mode)
+      const remainingItems = activeProducts.filter(p => !handledCodes.has(p.Code));
+      if (remainingItems.length > 0 && (!window.selectedActivityTier || window.selectedActivityTier === 'ALL')) {
+        const itemsToRender = (window.displayMode === 'uploaded' || window.isPrintingAll) ? remainingItems : remainingItems.slice(0, window.renderLimit);
+        fullRowsHTML += `
+          <div class="activity-section-block" data-tier="GENERAL">
+            ${buildActivitySectionBannerHTML({ key: 'GENERAL', label: 'GENERAL ITEMS', icon: 'favicon.svg', theme: 'other', type: 'OTHER' }, itemsToRender.length)}
+            ${renderItemsAsPackedMagazineRows(itemsToRender)}
+          </div>
+        `;
+        displayedSectionsCount++;
+
+        if (remainingItems.length > window.renderLimit && window.displayMode !== 'uploaded') {
+          const rem = remainingItems.length - window.renderLimit;
+          fullRowsHTML += `
+            <div style="display: flex; justify-content: center; align-items: center; margin: 30px 0; width: 100%;">
+              <button type="button" class="btn-fast-print" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); font-size: 11pt; padding: 12px 28px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);" onclick="loadMoreCatalogItems()">
+                📥 Load More (+150 Items) - ${rem.toLocaleString()} Remaining
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      if (displayedSectionsCount === 0) {
+        placeholder.style.display = 'block';
+        if (window.selectedActivityTier && window.selectedActivityTier !== 'ALL' && window.selectedActivityTier !== 'NONE') {
+          placeholder.querySelector('h3').innerText = `No products to display for (${window.selectedActivityTier})`;
+          placeholder.querySelector('p').innerText = 'Type or paste product codes in the box above and click Apply Codes to assign them to this activity.';
+        } else {
+          placeholder.querySelector('h3').innerText = 'No products to display';
+          placeholder.querySelector('p').innerText = 'Enter or upload item codes to display them here.';
+        }
+        container.innerHTML = '';
+        if (activeVisibleCount) activeVisibleCount.innerText = '0';
+        return;
       }
 
       container.innerHTML = fullRowsHTML;
@@ -4553,7 +6091,14 @@
           return;
         }
 
-        validCodes.forEach(c => window.accumulatedProductCodes.add(c));
+        validCodes.forEach(c => {
+          window.accumulatedProductCodes.add(c);
+          if (window.selectedActivityTier) {
+            window.productTierMap.set(c, window.selectedActivityTier);
+            const up = window.uploadedProductsMap.get(c);
+            if (up) up.activityTier = window.selectedActivityTier;
+          }
+        });
         setSourceMode('uploaded');
         alert(`Successfully added ${validCodes.length} codes to your list!`);
       } catch (err) {
@@ -4717,15 +6262,46 @@
     }
 
     function applyManualCodes() {
-      const text = document.getElementById('manualCodesTextarea').value;
+      const textarea = document.getElementById('manualCodesTextarea');
+      const text = textarea ? textarea.value : '';
       const matches = text.match(/\b\d{4,8}\b/g) || [];
       if (matches.length === 0) {
-        alert("Please enter or paste valid product codes.");
+        alert("Please enter or paste valid item codes first.");
         return;
       }
-      matches.forEach(c => window.accumulatedProductCodes.add(String(c).trim()));
+
+      const currentTier = window.selectedActivityTier || 'NONE';
+
+      // Save into tierDataStore
+      if (!window.tierDataStore[currentTier]) {
+        window.tierDataStore[currentTier] = { text: '', codes: [] };
+      }
+      window.tierDataStore[currentTier].text = text;
+
+      matches.forEach(c => {
+        const clean = String(c).trim();
+        window.accumulatedProductCodes.add(clean);
+        if (!window.tierDataStore[currentTier].codes.includes(clean)) {
+          window.tierDataStore[currentTier].codes.push(clean);
+        }
+        if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+          window.productTierMap.set(clean, currentTier);
+          const up = window.uploadedProductsMap.get(clean);
+          if (up) up.activityTier = currentTier;
+          const custom = window.customLocalProductsMap && window.customLocalProductsMap.get(clean);
+          if (custom) custom.activityTier = currentTier;
+          const master = window.masterProductsMap && window.masterProductsMap.get(clean);
+          if (master) master.activityTier = currentTier;
+        }
+      });
+
+      savePlanogramTierStore();
+
+      // DO NOT clear textarea! Keep user codes visible so they never lose them!
       setSourceMode('uploaded');
-      document.getElementById('manualCodesTextarea').value = '';
+      refreshCatalogDisplay(true);
+
+      showToast(`✅ Saved ${matches.length} codes to ${currentTier}`);
     }
 
     function showAllDatabaseItems() {
@@ -4857,6 +6433,315 @@
     }
 
     // ============================================================
+    // 🎯 PLANOGRAM ACTIVITY TIERS CONTROLLER & PER-TIER MEMORY
+    // ============================================================
+    window.selectedActivityTier = "ALL"; // default: ALL
+    window.productTierMap = new Map();
+
+    // Data store holding text and codes per tier
+    window.tierDataStore = {
+      'DIAMOND UPGRADE': { text: '', codes: [] },
+      'DIAMOND DOWNGRADE': { text: '', codes: [] },
+      'DIAMOND': { text: '', codes: [] },
+      'GOLD UPGRADE': { text: '', codes: [] },
+      'GOLD DOWNGRADE': { text: '', codes: [] },
+      'GOLD': { text: '', codes: [] },
+      'SILVER UPGRADE': { text: '', codes: [] },
+      'SILVER DOWNGRADE': { text: '', codes: [] },
+      'SILVER': { text: '', codes: [] },
+      'OUT UPGRADE': { text: '', codes: [] },
+      'OUT OF PLANOGRAM': { text: '', codes: [] },
+      'OUT': { text: '', codes: [] },
+      'ALL': { text: '', codes: [] },
+      'NONE': { text: '', codes: [] }
+    };
+
+    // Load persisted tier data from localStorage
+    function loadPlanogramTierStore() {
+      try {
+        const saved = localStorage.getItem('aldawaa_planogram_tiers_store_v2');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          Object.assign(window.tierDataStore, parsed);
+        }
+        // ⚡ Immediately re-sync all codes from text and arrays into accumulated codes and tier maps!
+        syncAllTierCodesFromStore();
+      } catch (err) {
+        console.warn('Could not load planogram tier store:', err);
+      }
+    }
+
+    function savePlanogramTierStore() {
+      try {
+        localStorage.setItem('aldawaa_planogram_tiers_store_v2', JSON.stringify(window.tierDataStore));
+      } catch (err) {
+        console.warn('Could not save planogram tier store:', err);
+      }
+    }
+
+    // Call load on script execution
+    loadPlanogramTierStore();
+
+    
+    // ============================================================
+    // ⚡ CENTRAL AUTO-SYNC ENGINE FOR ALL PLANOGRAM TIERS
+    // Automatically extracts and links codes from ALL tabs/textareas
+    // ============================================================
+    function syncAllTierCodesFromStore() {
+      // 1. If textarea is currently open, capture its live content to current tier
+      const textarea = document.getElementById('manualCodesTextarea');
+      const currentTier = window.selectedActivityTier;
+      if (textarea && currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+        if (!window.tierDataStore[currentTier]) window.tierDataStore[currentTier] = { text: '', codes: [] };
+        window.tierDataStore[currentTier].text = textarea.value;
+      }
+
+      // 2. Loop through ALL tiers in tierDataStore and sync their codes
+      let totalFound = 0;
+      Object.keys(window.tierDataStore).forEach(tierName => {
+        const tierObj = window.tierDataStore[tierName];
+        if (!tierObj || !tierObj.text) return;
+
+        const matches = tierObj.text.match(/\b\d{4,8}\b/g) || [];
+        tierObj.codes = Array.from(new Set(matches.map(c => String(c).trim())));
+
+        if (tierName !== 'ALL' && tierName !== 'NONE') {
+          tierObj.codes.forEach(code => {
+            window.accumulatedProductCodes.add(code);
+            window.productTierMap.set(code, tierName);
+
+            // Keep in-memory records in sync
+            const up = window.uploadedProductsMap && window.uploadedProductsMap.get(code);
+            if (up) up.activityTier = tierName;
+            const custom = window.customLocalProductsMap && window.customLocalProductsMap.get(code);
+            if (custom) custom.activityTier = tierName;
+            const master = window.masterProductsMap && window.masterProductsMap.get(code);
+            if (master) master.activityTier = tierName;
+
+            totalFound++;
+          });
+        }
+      });
+
+      // Update badge counts immediately
+      const upSpan = document.getElementById('uploadedCountSpan');
+      if (upSpan) upSpan.innerText = window.accumulatedProductCodes.size;
+
+      const totalBadge = document.getElementById('totalLoadedBadge');
+      if (totalBadge && window.displayMode === 'uploaded') {
+        const activeT = window.selectedActivityTier;
+        if (activeT && activeT !== 'ALL' && activeT !== 'NONE') {
+          const count = window.tierDataStore[activeT]?.codes?.length || 0;
+          totalBadge.innerText = `${count} (${activeT})`;
+        } else {
+          totalBadge.innerText = `${window.accumulatedProductCodes.size} (Uploaded)`;
+        }
+      }
+
+      savePlanogramTierStore();
+      return totalFound;
+    }
+
+    function selectActivityTier(tierName) {
+      // ⚡ Auto-sync all current codes before switching!
+      syncAllTierCodesFromStore();
+
+      const textarea = document.getElementById('manualCodesTextarea');
+      const prevTier = window.selectedActivityTier || 'NONE';
+
+      // 1. Save currently open text to previous tier
+      if (textarea && prevTier && prevTier !== 'ALL') {
+        if (!window.tierDataStore[prevTier]) window.tierDataStore[prevTier] = { text: '', codes: [] };
+        window.tierDataStore[prevTier].text = textarea.value;
+      }
+
+      // 2. Switch tier
+      if (tierName === 'NONE') {
+        window.selectedActivityTier = '';
+      } else if (window.selectedActivityTier === tierName && tierName !== 'ALL') {
+        window.selectedActivityTier = 'ALL';
+      } else {
+        window.selectedActivityTier = tierName;
+      }
+
+      // 3. Restore text for newly selected tier into manualCodesTextarea
+      // ⚡ STRICT INDEPENDENCE: Each tier retains only its own text and NEVER overwrites other sub-tiers!
+      const newTier = window.selectedActivityTier;
+      if (textarea) {
+        if (!newTier || newTier === 'ALL') {
+          textarea.value = window.tierDataStore['ALL']?.text || '';
+        } else {
+          textarea.value = window.tierDataStore[newTier]?.text || '';
+        }
+      }
+
+      savePlanogramTierStore();
+      updateTierSelectorUI();
+      updateMagazineTierBanner();
+
+      // Trigger catalog refresh so ONLY cards matching this tier appear!
+      refreshCatalogDisplay(true);
+
+      showToast(window.selectedActivityTier && window.selectedActivityTier !== 'ALL'
+        ? `🎯 Active Tier: ${window.selectedActivityTier}`
+          : '🌐 Showing All Activity Tiers in Planogram Order'
+      );
+    }
+
+    function updateTierSelectorUI() {
+      document.querySelectorAll('.btn-tier-action').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tier-card').forEach(c => {
+        c.classList.remove('active-card');
+        c.classList.remove('active-parent-card');
+      });
+
+      const statusText = document.getElementById('tierStatusText');
+      const current = window.selectedActivityTier;
+
+      if (current && current !== 'ALL') {
+        const btnId = 'btnTier-' + current.replace(/\s+/g, '_');
+        const activeBtn = document.getElementById(btnId);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        const mainTier = current.split(' ')[0];
+        const activeCard = document.getElementById('tierCard-' + mainTier);
+        if (activeCard) {
+          activeCard.classList.add('active-card');
+          if (current === mainTier) {
+            activeCard.classList.add('active-parent-card');
+          }
+        }
+
+        let displayCurrent = current;
+        if (current === 'DIAMOND' || current === 'GOLD' || current === 'SILVER') {
+          displayCurrent = current + ' (NEW)';
+        } else if (current === 'OUT' || current === 'OUT OF PLANOGRAM') {
+          displayCurrent = 'OUT OF PLANOGRAM';
+        }
+
+        if (statusText) {
+          statusText.innerHTML = `Active Tier: <strong style="color: #fbbf24;">${displayCurrent}</strong> (Auto-syncs, filters, and prints codes for this tier)`;
+        }
+      } else {
+        if (statusText) {
+          statusText.innerHTML = `Active Tier: <strong style="color: #fbbf24;">ALL ACTIVITIES</strong> • Populated tiers displayed sequentially in planogram order`;
+        }
+      }
+    }
+
+    function clearCurrentTierCodes() {
+      const currentTier = window.selectedActivityTier;
+      if (!currentTier || currentTier === 'ALL') {
+        alert("Please select a specific tier first to clear its codes.");
+        return;
+      }
+
+      if (!confirm(`Are you sure you want to clear all codes for ${currentTier}?`)) return;
+
+      const codesToDelete = window.tierDataStore[currentTier]?.codes || [];
+      codesToDelete.forEach(code => {
+        window.accumulatedProductCodes.delete(code);
+        window.productTierMap.delete(code);
+      });
+
+      if (window.tierDataStore[currentTier]) {
+        window.tierDataStore[currentTier] = { text: '', codes: [] };
+      }
+
+      const textarea = document.getElementById('manualCodesTextarea');
+      if (textarea) textarea.value = '';
+
+      savePlanogramTierStore();
+      refreshCatalogDisplay(true);
+      showToast(`🗑️ Cleared codes for tier: ${currentTier}`);
+    }
+
+    function updateMagazineTierBanner(items = null) {
+      const banner = document.getElementById('activityTierBanner');
+      if (!banner) return;
+
+      let activeTier = window.selectedActivityTier;
+
+      if (!activeTier || activeTier === 'ALL') {
+        // If ALL, check if items in list have any tier to display summary
+        banner.style.display = 'none';
+        banner.className = 'activity-tier-banner';
+        return;
+      }
+
+      const tierUpper = activeTier.toUpperCase();
+      let iconImg = "diamond_3d.png";
+      let tierTheme = "diamond";
+      let actionText = "ACTIVITY";
+
+      if (tierUpper.startsWith('DIAMOND')) {
+        iconImg = "diamond_3d.png";
+        tierTheme = "diamond";
+      } else if (tierUpper.startsWith('GOLD')) {
+        iconImg = "gold_3d.svg";
+        tierTheme = "gold";
+      } else if (tierUpper.startsWith('SILVER')) {
+        iconImg = "silver_3d.svg";
+        tierTheme = "silver";
+      } else if (tierUpper.startsWith('OUT')) {
+        iconImg = "out_3d.svg";
+        tierTheme = "out";
+      }
+
+      if (tierUpper.includes('UPGRADE')) {
+        actionText = "UPGRADE ⬆️";
+      } else if (tierUpper.includes('DOWNGRADE')) {
+        actionText = "DOWNGRADE ⬇️";
+      } else if (tierUpper.includes('PLANOGRAM') || tierUpper === 'OUT') {
+        actionText = "OUT ❌";
+      } else {
+        actionText = "ALL " + tierUpper;
+      }
+
+      const imgEl = document.getElementById('tierBanner3dImg');
+      const nameEl = document.getElementById('tierBannerName');
+      const pillEl = document.getElementById('tierBannerActionPill');
+
+      if (imgEl) {
+        imgEl.src = iconImg;
+        imgEl.style.display = 'inline-block';
+      }
+      if (nameEl) nameEl.innerText = activeTier;
+      if (pillEl) pillEl.innerText = actionText;
+
+      banner.className = `activity-tier-banner tier-theme-${tierTheme}`;
+      banner.style.display = 'flex';
+    }
+
+    // PWA Install Prompt Handler
+    let deferredPwaPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      const btn = document.getElementById('btnInstallPwaApp');
+      if (btn) btn.classList.add('ready-to-install');
+    });
+
+    function triggerPwaInstallPrompt() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        deferredPwaPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            showToast("🎉 App shortcut installed successfully!");
+          }
+          deferredPwaPrompt = null;
+        });
+      } else {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          alert("📱 To install on iOS:\n1. Tap the Share button (⎋) in browser.\n2. Tap 'Add to Home Screen' (➕).");
+        } else {
+          alert("📱 To install as App Shortcut:\n1. Open browser menu (⋮).\n2. Select 'Install App' or 'Add to Home Screen'.");
+        }
+      }
+    }
+
+    // ============================================================
     // 🏷️ IN-CARD DIRECT EDITING & QUICK IMAGE UPLOAD SYSTEM
     // ============================================================
     function showToast(message, duration = 3000) {
@@ -4881,7 +6766,7 @@
       const file = input.files[0];
 
       try {
-        showToast(`⏳ جاري ضغط وحفظ صورة الصنف #${clean}...`, 1800);
+        showToast(`⏳ Compressing and saving image for #${clean}...`, 1800);
         const base64 = await compressImageFile(file, 600, 600, 0.85);
 
         // 1. Update memory
@@ -4913,9 +6798,9 @@
           boxEl.classList.add('has-image');
         }
 
-        showToast(`📸 تم حفظ وتحديث صورة الصنف #${clean} بنجاح!`);
+        showToast(`📸 Image updated for item #${clean}!`);
       } catch (err) {
-        alert("فشل تحميل الصورة: " + err.message);
+        alert("Failed to load image: " + err.message);
       } finally {
         input.value = "";
       }
@@ -4925,7 +6810,7 @@
       const clean = String(code).trim();
       const existing = resolveProductRecord(clean);
       const currentUrl = (existing?.image_url && !existing.image_url.startsWith('data:') && !existing.image_url.includes('cdn.aldawaa.com')) ? existing.image_url : "";
-      const input = prompt(`أدخل رابط صورة مباشر للصنف CODE #${clean}:`, currentUrl);
+      const input = prompt(`Enter direct image URL for CODE #${clean}:`, currentUrl);
       if (input === null) return;
       const url = input.trim();
       if (!url) return;
@@ -4953,7 +6838,7 @@
         boxEl.classList.remove('is-missing');
         boxEl.classList.add('has-image');
       }
-      showToast(`🔗 تم تحديث رابط صورة الصنف #${clean}!`);
+      showToast(`🔗 Image URL updated for #${clean}!`);
     }
 
     function handleCardDragOver(e) {
@@ -4978,7 +6863,7 @@
         const file = e.dataTransfer.files[0];
         if (file.type.startsWith('image/')) {
           try {
-            showToast(`⏳ جاري معالجة الصورة المسحوبة #${clean}...`, 1800);
+            showToast(`⏳ Processing dragged image for #${clean}...`, 1800);
             const base64 = await compressImageFile(file, 600, 600, 0.85);
             window.repairedImages[clean] = base64;
             const existing = resolveProductRecord(clean) || { Code: clean };
@@ -5001,9 +6886,9 @@
               boxEl.classList.remove('is-missing');
               boxEl.classList.add('has-image');
             }
-            showToast(`✅ تم حفظ الصورة بنجاح على الكارت #${clean}!`);
+            showToast(`✅ Image saved on card #${clean}!`);
           } catch (err) {
-            alert("خطأ أثناء قراءة الصورة: " + err.message);
+            alert("Error reading image: " + err.message);
           }
           return;
         }
@@ -5033,7 +6918,7 @@
           boxEl.classList.remove('is-missing');
           boxEl.classList.add('has-image');
         }
-        showToast(`✅ تم تطبيق رابط الصورة بنجاح على الكارت #${clean}!`);
+        showToast(`✅ Image URL applied on card #${clean}!`);
       }
     }
 
@@ -5101,7 +6986,7 @@
       toggleCardInlineEdit(clean);
 
       if (oldCat && newCat && oldCat !== newCat) {
-        showToast(`✅ تم حفظ الصنف #${clean} ونقله لقسم: ${newCat}`);
+        showToast(`✅ Saved item #${clean} to category: ${newCat}`);
         refreshCatalogDisplay(true);
       } else {
         const brandDisplay = document.querySelector(`#cardView-${clean} .brand-name`);
@@ -5119,17 +7004,17 @@
         const missingPrompt = document.querySelector(`#cardView-${clean} .card-missing-prompt`);
         if (missingPrompt) missingPrompt.style.display = 'none';
 
-        showToast(`✅ تم حفظ بيانات الكارت #${clean} بنجاح محلياً!`);
+        showToast(`✅ Card #${clean} data saved locally!`);
       }
     }
 
     function deleteCustomProductFromCard(code) {
       const clean = String(code).trim();
-      if (confirm(`هل أنت متأكد من حذف التعديلات المحفوظة محلياً للصنف CODE #${clean} واستعادة البيانات الافتراضية؟`)) {
+      if (confirm(`Are you sure you want to reset custom local data for CODE #${clean} and restore defaults?`)) {
         window.customLocalProductsMap.delete(clean);
         delete window.repairedImages[clean];
         saveCustomLocalProductsToStorage();
-        showToast(`🗑️ تم استعادة البيانات الافتراضية للصنف #${clean}`);
+        showToast(`🗑️ Default data restored for item #${clean}`);
         refreshCatalogDisplay(true);
       }
     }
@@ -5150,7 +7035,7 @@
         const modal = document.getElementById('productEditModal');
         if (!modal) {
           console.error("productEditModal element not found in DOM!");
-          alert("تعذر فتح النافذة: العنصر غير موجود");
+          alert("Could not open modal: item not found");
           return;
         }
 
@@ -5874,6 +7759,34 @@
 
 
     window.addEventListener('DOMContentLoaded', () => {
+    // ⚡ Real-Time Auto-Sync on Textarea Input
+    const textareaEl = document.getElementById('manualCodesTextarea');
+    if (textareaEl) {
+      textareaEl.addEventListener('input', () => {
+        const currentTier = window.selectedActivityTier || 'NONE';
+        if (currentTier && currentTier !== 'ALL' && currentTier !== 'NONE') {
+          if (!window.tierDataStore[currentTier]) window.tierDataStore[currentTier] = { text: '', codes: [] };
+          window.tierDataStore[currentTier].text = textareaEl.value;
+
+          const matches = textareaEl.value.match(/\b\d{4,8}\b/g) || [];
+          window.tierDataStore[currentTier].codes = Array.from(new Set(matches.map(c => String(c).trim())));
+
+          matches.forEach(c => {
+            const clean = String(c).trim();
+            window.accumulatedProductCodes.add(clean);
+            window.productTierMap.set(clean, currentTier);
+          });
+
+          // Update header count badge immediately
+          const totalBadge = document.getElementById('totalLoadedBadge');
+          if (totalBadge && window.displayMode === 'uploaded') {
+            totalBadge.innerText = `${window.tierDataStore[currentTier].codes.length} (${currentTier})`;
+          }
+          const upSpan = document.getElementById('uploadedCountSpan');
+          if (upSpan) upSpan.innerText = window.accumulatedProductCodes.size;
+        }
+      });
+    }
       initMasterDatabase();
     });
   </script>
@@ -6002,9 +7915,9 @@
         <!-- Arabic Name -->
         <div style="margin-bottom: 14px;">
           <label style="display: block; font-size: 8.5pt; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">
-            Arabic Name (أسم المنتج):
+            Secondary / Arabic Name:
           </label>
-          <input type="text" id="editArabicName" dir="rtl" class="gtin-text-input" placeholder="مثال: ايريوس 5 مجم 27 قرص" style="width: 100%; text-align: right;" />
+          <input type="text" id="editArabicName" dir="rtl" class="gtin-text-input" placeholder="e.g. Aerius 5mg 27 Tablets" style="width: 100%; text-align: right;" />
         </div>
 
         <!-- Two Column: Brand & Category -->
@@ -6018,7 +7931,7 @@
           </div>
           <div>
             <label style="display: block; font-size: 8.5pt; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">
-              Category (القسم):
+              Category:
             </label>
             <input type="text" id="editCategory" list="categoryDatalist" class="gtin-text-input" placeholder="e.g. ALLERGY&COLD" style="width: 100%; text-transform: uppercase;" />
             <datalist id="categoryDatalist"></datalist>
@@ -6092,7 +8005,7 @@
         <div style="display: flex; gap: 8px; margin-left: auto;">
           <button type="button" class="btn-done-gtin" onclick="closeProductEditModal()" style="background: rgba(255,255,255,0.08); color: #cbd5e1;">Cancel</button>
           <button type="button" class="btn-print-barcode" onclick="saveProductEditModal()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-            💾 Save Details (حفظ محلياً)
+            💾 Save Details Locally
           </button>
         </div>
       </div>
@@ -6108,7 +8021,7 @@
         <div class="gtin-header-title">
           <span style="font-size: 18pt;">💾</span>
           <div>
-            <h3 style="color: #a78bfa;">Custom Saved Products (الأصناف المضافة محلياً)</h3>
+            <h3 style="color: #a78bfa;">Custom Saved Products (Stored Locally)</h3>
             <span class="gtin-product-subtitle">Items saved in your browser's local storage</span>
           </div>
         </div>
